@@ -6,17 +6,12 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const query = searchQuery.toLowerCase().trim();
   const filteredProducts = products.filter((product) => {
-    if (query.length) {
-      // Check if it is a string of numbers
-      if (/^\d+$/.test(query)) {
-        return product.article.includes(query);
-      } else {
-        return product.name.toLowerCase().includes(query);
-      }
+    if (!query) {
+      return true;
     }
+    const normalizedName = product.name.toLowerCase();
 
-    // If the search query is empty return all the products
-    return true;
+    return product.article.includes(query) || normalizedName.includes(query);
   });
 
   return (

@@ -1,6 +1,7 @@
 import { products } from "./entities/product/products.mock";
 import { ProductList } from "./entities/product/ProductList";
 import { useState } from "react";
+import { SearchInput } from "./features/product-search/SearchInput";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,15 +18,7 @@ function App() {
   return (
     <main>
       <h1>Products</h1>
-      <search>
-        <input
-          id="product-search"
-          type="search"
-          placeholder="Search by name or article number"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </search>
+      <SearchInput value={searchQuery} onChange={setSearchQuery} />
 
       {filteredProducts.length > 0 ? (
         <ProductList products={filteredProducts} />

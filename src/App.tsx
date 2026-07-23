@@ -27,7 +27,11 @@ function App() {
         />
       </search>
 
-      <ProductList products={filteredProducts} />
+      {filteredProducts.length > 0 ? (
+        <ProductList products={filteredProducts} />
+      ) : (
+        <p>No products found</p>
+      )}
     </main>
   );
 }

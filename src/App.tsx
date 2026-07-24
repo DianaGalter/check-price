@@ -17,14 +17,18 @@ function App() {
       normalizedName.includes(normalizedQuery)
     );
   });
+  const productsCount = filteredProducts.length;
 
   return (
     <main>
       <h1>Products</h1>
       <SearchInput value={searchQuery} onChange={setSearchQuery} />
 
-      {filteredProducts.length > 0 ? (
-        <ProductList products={filteredProducts} />
+      {productsCount > 0 ? (
+        <>
+          <p>Found {productsCount} products</p>
+          <ProductList products={filteredProducts} />
+        </>
       ) : (
         <p>No products found</p>
       )}

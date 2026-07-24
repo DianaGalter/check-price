@@ -5,14 +5,17 @@ import { SearchInput } from "./features/product-search/SearchInput";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
-  const query = searchQuery.toLowerCase().trim();
+  const normalizedQuery = searchQuery.trim().toLowerCase();
   const filteredProducts = products.filter((product) => {
-    if (!query) {
+    if (!normalizedQuery) {
       return true;
     }
     const normalizedName = product.name.toLowerCase();
 
-    return product.article.includes(query) || normalizedName.includes(query);
+    return (
+      product.article.includes(normalizedQuery) ||
+      normalizedName.includes(normalizedQuery)
+    );
   });
 
   return (

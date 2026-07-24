@@ -9,7 +9,8 @@ export const SearchInput = ({ value, onChange }: SearchInputProps) => {
       <input
         id="product-search"
         type="search"
-        placeholder="Search by name or article number"
+        aria-label="Search products"
+        placeholder="Name or article number"
         value={value}
         onChange={(event) => onChange(event.target.value)}
       />

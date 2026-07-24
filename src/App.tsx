@@ -3,20 +3,27 @@ import { ProductList } from "./entities/product/ProductList";
 import { useState } from "react";
 import { SearchInput } from "./features/product-search/SearchInput";
 
+const normalizeText = (value: string) =>
+  value.trim().toLowerCase().replace(/\s+/g, " ");
+
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
-  const normalizedQuery = searchQuery.trim().toLowerCase();
-  const filteredProducts = products.filter((product) => {
-    if (!normalizedQuery) {
-      return true;
-    }
-    const normalizedName = product.name.toLowerCase();
 
-    return (
-      product.article.includes(normalizedQuery) ||
-      normalizedName.includes(normalizedQuery)
-    );
-  });
+  const normalizedQuery = normalizeText(searchQuery);
+
+  let filteredProducts = products;
+
+  if (normalizedQuery) {
+    filteredProducts = products.filter((product) => {
+      const normalizedName = normalizeText(product.name);
+
+      return (
+        product.article.includes(normalizedQuery) ||
+        normalizedName.includes(normalizedQuery)
+      );
+    });
+  }
+
   const productsCount = filteredProducts.length;
 
   return (

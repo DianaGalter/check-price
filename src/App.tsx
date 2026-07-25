@@ -1,28 +1,13 @@
 import { products } from "./entities/product/products.mock";
+import { filterProducts } from "./features/product-search/filterProducts";
 import { ProductList } from "./entities/product/ProductList";
 import { useState } from "react";
 import { SearchInput } from "./features/product-search/SearchInput";
 
-const normalizeText = (value: string) =>
-  value.trim().toLowerCase().replace(/\s+/g, " ");
-
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const normalizedQuery = normalizeText(searchQuery);
-
-  let filteredProducts = products;
-
-  if (normalizedQuery) {
-    filteredProducts = products.filter((product) => {
-      const normalizedName = normalizeText(product.name);
-
-      return (
-        product.article.includes(normalizedQuery) ||
-        normalizedName.includes(normalizedQuery)
-      );
-    });
-  }
+  const filteredProducts = filterProducts(products, searchQuery);
 
   const productsCount = filteredProducts.length;
 

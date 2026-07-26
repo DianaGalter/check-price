@@ -7,6 +7,8 @@ import { SearchInput } from "./features/product-search/SearchInput";
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+
   const filteredProducts = filterProducts(products, searchQuery);
 
   const productsCount = filteredProducts.length;

@@ -1,7 +1,7 @@
 import { products } from "./entities/product/products.mock";
 import { filterProducts } from "./features/product-search/filterProducts";
 import { ProductList } from "./entities/product/ProductList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchInput } from "./features/product-search/SearchInput";
 
 function App() {
@@ -9,7 +9,15 @@ function App() {
 
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
 
-  const filteredProducts = filterProducts(products, searchQuery);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const filteredProducts = filterProducts(products, debouncedSearchQuery);
 
   const productsCount = filteredProducts.length;
 

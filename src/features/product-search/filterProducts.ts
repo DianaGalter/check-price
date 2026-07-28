@@ -10,7 +10,7 @@ export const filterProducts = (
   const normalizedQuery = normalizeText(searchQuery);
 
   if (!normalizedQuery) {
-    return productList;
+    return [];
   }
 
   return productList.filter((product) => {

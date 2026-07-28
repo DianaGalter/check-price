@@ -18,22 +18,23 @@ function App() {
   }, [searchQuery]);
 
   const filteredProducts = filterProducts(products, debouncedSearchQuery);
-
   const productsCount = filteredProducts.length;
+  const hasSearchQuery = Boolean(debouncedSearchQuery.trim());
 
   return (
     <main>
       <h1>Products</h1>
       <SearchInput value={searchQuery} onChange={setSearchQuery} />
 
-      {productsCount > 0 ? (
-        <>
-          <p>Found {productsCount} products</p>
-          <ProductList products={filteredProducts} />
-        </>
-      ) : (
-        <p>No products found</p>
-      )}
+      {hasSearchQuery &&
+        (productsCount > 0 ? (
+          <>
+            <p>Found {productsCount} products</p>
+            <ProductList products={filteredProducts} />
+          </>
+        ) : (
+          <p>No products found</p>
+        ))}
     </main>
   );
 }

@@ -1,8 +1,6 @@
-import { products } from "./entities/product/products.mock";
-import { filterProducts } from "./features/product-search/filterProducts";
-import { ProductList } from "./entities/product/ProductList";
+import { products, ProductList } from "./entities/product";
+import { filterProducts, SearchInput } from "./features/product-search";
 import { useState } from "react";
-import { SearchInput } from "./features/product-search/SearchInput";
 import { useDebounce } from "./shared/hooks/useDebounce";
 
 function App() {

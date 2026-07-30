@@ -1,7 +1,7 @@
 import { products, ProductList } from "./entities/product";
 import { filterProducts, SearchInput } from "./features/product-search";
 import { useState } from "react";
-import { useDebounce } from "./shared/hooks/useDebounce";
+import { useDebounce } from "./shared/hooks";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");

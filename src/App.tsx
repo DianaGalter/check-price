@@ -1,5 +1,9 @@
 import { products, ProductList } from "./entities/product";
-import { filterProducts, SearchInput } from "./features/product-search";
+import {
+  filterProducts,
+  SearchInput,
+  EmptyState,
+} from "./features/product-search";
 import { useState } from "react";
 import { useDebounce } from "./shared/hooks";
 import { Header } from "./widgets/header";
@@ -17,7 +21,7 @@ function App() {
     <>
       <Header />
       <main>
-        <h1>Products</h1>
+        {!hasSearchQuery && <EmptyState />}
         <SearchInput value={searchQuery} onChange={setSearchQuery} />
 
         {hasSearchQuery &&

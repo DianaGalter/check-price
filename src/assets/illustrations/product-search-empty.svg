@@ -1,0 +1,21 @@
+<svg width="240" height="180" viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#D8DEE8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Shoe -->
+    <path d="M38 112C55 111 67 104 79 94C88 86 96 76 106 70C113 66 120 65 127 69C134 73 137 80 144 84C151 88 160 89 172 89C179 89 184 94 184 101C184 109 177 115 168 117C139 124 93 126 54 123C45 122 39 119 38 112Z"/>
+    <path d="M58 109C76 109 94 104 111 96"/>
+    <path d="M76 96L91 104"/>
+    <path d="M88 86L103 96"/>
+    <path d="M101 77L116 88"/>
+    <path d="M45 119C72 123 119 123 166 114"/>
+    <path d="M117 69C124 78 132 85 144 89"/>
+
+    <!-- Price tag -->
+    <path d="M165 65L191 70L207 93L190 112L165 101L158 79L165 65Z"/>
+    <circle cx="184" cy="79" r="3"/>
+    <path d="M187 98L198 87"/>
+  </g>
+
+  <!-- Magnifying glass -->
+  <circle cx="122" cy="82" r="34" stroke="#2F7DE1" stroke-width="8"/>
+  <path d="M146 106L172 132" stroke="#2F7DE1" stroke-width="10" stroke-linecap="round"/>
+</svg>

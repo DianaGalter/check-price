@@ -1,9 +1,12 @@
+import emptySearchIllustration from "../../assets/illustrations/product-search-empty.svg";
+
 export const EmptyState = () => {
   return (
     <>
-      {/* Illustration */}
+      <img src={emptySearchIllustration} alt="" />
 
-      <p>Find product</p>
+      <h2>Найдите товар</h2>
+      <p>Введите название товара или артикул</p>
     </>
   );
 };

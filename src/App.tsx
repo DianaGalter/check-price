@@ -21,18 +21,18 @@ function App() {
     <>
       <Header />
       <main>
-        {!hasSearchQuery && <EmptyState />}
         <SearchInput value={searchQuery} onChange={setSearchQuery} />
 
-        {hasSearchQuery &&
-          (productsCount > 0 ? (
-            <>
-              <p>Found {productsCount} products</p>
-              <ProductList products={filteredProducts} />
-            </>
-          ) : (
-            <p>No products found</p>
-          ))}
+        {!hasSearchQuery ? (
+          <EmptyState />
+        ) : productsCount > 0 ? (
+          <>
+            <p>Found {productsCount} products</p>
+            <ProductList products={filteredProducts} />
+          </>
+        ) : (
+          <p>No products found</p>
+        )}
       </main>
     </>
   );

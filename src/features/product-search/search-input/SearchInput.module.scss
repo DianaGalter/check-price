@@ -1,0 +1,83 @@
+.search {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  min-height: 48px;
+  padding: 0 12px;
+
+  border: 1px solid #d9dde5;
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.search:has(.clearButton) {
+  grid-template-columns: 24px 1fr 32px;
+}
+
+.search:focus-within {
+  border-color: #2f7de1;
+  box-shadow: 0 0 0 3px rgb(47 125 225 / 15%);
+}
+
+.searchIcon {
+  width: 20px;
+  height: 20px;
+
+  fill: none;
+  stroke: #7a8494;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.input {
+  min-width: 0;
+  padding: 0;
+
+  border: 0;
+  outline: 0;
+  background: transparent;
+
+  color: #111827;
+}
+
+.input::placeholder {
+  color: #8b95a5;
+}
+
+.input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.clearButton {
+  display: grid;
+  place-items: center;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  border-radius: 50%;
+  color: #7a8494;
+}
+
+.clearButton:hover {
+  background-color: #f1f3f6;
+}
+
+.clearButton:focus-visible {
+  outline: 2px solid #2f7de1;
+  outline-offset: 2px;
+}
+
+.clearButton svg {
+  width: 18px;
+  height: 18px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}

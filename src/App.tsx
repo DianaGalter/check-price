@@ -8,6 +8,8 @@ import { useState } from "react";
 import { useDebounce } from "./shared/hooks";
 import { Header } from "./widgets/header";
 
+import styles from "./App.module.scss";
+
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -20,7 +22,7 @@ function App() {
   return (
     <>
       <Header />
-      <main>
+      <main className={styles.main}>
         <SearchInput value={searchQuery} onChange={setSearchQuery} />
 
         {!hasSearchQuery ? (

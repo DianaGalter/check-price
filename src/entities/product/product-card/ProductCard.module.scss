@@ -1,0 +1,81 @@
+.card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 16px;
+
+  padding: 16px;
+
+  border: 1px solid #e3e7ee;
+  border-radius: 16px;
+  background-color: #ffffff;
+}
+
+.imageContainer {
+  width: 72px;
+  height: 72px;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+  background-color: #f4f6f8;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.color,
+.article {
+  margin-top: 4px;
+
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.price {
+  margin-top: 8px;
+
+  color: #2f7de1;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.chevron {
+  width: 20px;
+  height: 20px;
+
+  fill: none;
+  stroke: #8b95a5;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

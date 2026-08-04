@@ -1,2 +1,2 @@
-export { ProductList } from "./ProductList";
+export { ProductList } from "./product-list";
 export { products } from "./products.mock";

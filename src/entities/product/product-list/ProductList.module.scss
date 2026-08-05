@@ -1,3 +1,20 @@
 .list {
   border-top: 1px solid #e5e7eb;
 }
+
+.item {
+  position: relative;
+}
+
+.item:not(:last-child)::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 88px;
+
+  height: 1px;
+
+  background-color: #e5e7eb;
+
+  content: "";
+}

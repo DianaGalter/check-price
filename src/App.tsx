@@ -9,6 +9,7 @@ import { useDebounce } from "./shared/hooks";
 import { Header } from "./widgets/header";
 
 import styles from "./App.module.scss";
+import { Footer } from "./widgets/footer";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,23 +21,37 @@ function App() {
   const hasSearchQuery = Boolean(debouncedSearchQuery.trim());
 
   return (
-    <>
+    <div className={styles.app}>
       <Header />
-      <main className={styles.main}>
+
+      <div className={styles.searchSection}>
         <SearchInput value={searchQuery} onChange={setSearchQuery} />
 
+        {hasSearchQuery && productsCount > 0 && (
+          <p className={styles.resultsCount}>
+            Найдено товаров: {productsCount}
+          </p>
+        )}
+      </div>
+
+      <main className={styles.main}>
         {!hasSearchQuery ? (
           <EmptyState />
         ) : productsCount > 0 ? (
-          <>
-            <p>Found {productsCount} products</p>
-            <ProductList products={filteredProducts} />
-          </>
+          <ProductList products={filteredProducts} />
         ) : (
-          <p>No products found</p>
+          <p className={styles.noResults}>Товары не найдены</p>
         )}
       </main>
-    </>
+
+      <Footer
+        hint={
+          hasSearchQuery
+            ? "Можно искать по названию товара или части артикула"
+            : undefined
+        }
+      />
+    </div>
   );
 }
 

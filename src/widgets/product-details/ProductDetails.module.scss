@@ -106,3 +106,48 @@
   color: #2f7de1;
   font-weight: 600;
 }
+
+.iconButton {
+  display: grid;
+  place-items: center;
+
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+.headerIcon,
+.detailIcon,
+.chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.headerIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.detailIcon {
+  width: 20px;
+  height: 20px;
+
+  color: #8b95a5;
+}
+
+.currencyIcon {
+  color: #8b95a5;
+  font-size: 20px;
+  line-height: 1;
+  text-align: center;
+}
+
+.chevron {
+  width: 20px;
+  height: 20px;
+
+  color: #8b95a5;
+}

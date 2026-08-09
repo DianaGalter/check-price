@@ -3,9 +3,10 @@ import styles from "./ProductDetails.module.scss";
 
 interface ProductDetailsProps {
   product: Product;
+  onClose: () => void;
 }
 
-export const ProductDetails = ({ product }: ProductDetailsProps) => {
+export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   const { name, article, price, color, image } = product;
 
   return (
@@ -15,6 +16,7 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
           className={styles.iconButton}
           type="button"
           aria-label="Вернуться к списку"
+          onClick={onClose}
         >
           <svg
             className={styles.headerIcon}

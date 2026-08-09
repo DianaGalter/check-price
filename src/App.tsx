@@ -10,9 +10,12 @@ import { Header } from "./widgets/header";
 
 import styles from "./App.module.scss";
 import { Footer } from "./widgets/footer";
+import { ProductDetails } from "./widgets/product-details";
+import type { Product } from "./entities/product/product";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -38,11 +41,21 @@ function App() {
         {!hasSearchQuery ? (
           <EmptyState />
         ) : productsCount > 0 ? (
-          <ProductList products={filteredProducts} />
+          <ProductList
+            products={filteredProducts}
+            onProductSelect={setSelectedProduct}
+          />
         ) : (
           <p className={styles.noResults}>Товары не найдены</p>
         )}
       </main>
+
+      {selectedProduct && (
+        <ProductDetails
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
 
       <Footer
         hint={

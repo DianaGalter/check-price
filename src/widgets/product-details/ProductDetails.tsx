@@ -50,25 +50,10 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
         )}
       </div>
 
-      <h2 className={styles.title}>{name}</h2>
+      <div className={styles.content}>
+        <h2 className={styles.title}>{name}</h2>
 
-      <section className={styles.details} aria-label="Информация о товаре">
-        <div className={styles.detailRow}>
-          <span aria-hidden="true">
-            <svg
-              className={styles.detailIcon}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M4 5h9l7 7-8 8-8-8V5Z" />
-              <circle cx="9" cy="10" r="1.5" />
-            </svg>
-          </span>
-          <span className={styles.label}>Артикул</span>
-          <span className={styles.value}>{article}</span>
-        </div>
-
-        {color && (
+        <section className={styles.details} aria-label="Информация о товаре">
           <div className={styles.detailRow}>
             <span aria-hidden="true">
               <svg
@@ -76,77 +61,94 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <path d="M12 3a9 9 0 1 0 0 18h1.5a2.5 2.5 0 0 0 0-5H12" />
-                <circle cx="8" cy="10" r="1" />
-                <circle cx="11" cy="7" r="1" />
-                <circle cx="15" cy="8" r="1" />
+                <path d="M4 5h9l7 7-8 8-8-8V5Z" />
+                <circle cx="9" cy="10" r="1.5" />
               </svg>
             </span>
-            <span className={styles.label}>Цвет</span>
-            <span className={styles.value}>{color}</span>
+            <span className={styles.label}>Артикул</span>
+            <span className={styles.value}>{article}</span>
           </div>
-        )}
 
-        <div className={styles.detailRow}>
-          <span aria-hidden="true">
-            <svg className={styles.detailIcon} viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="8" />
+          {color && (
+            <div className={styles.detailRow}>
+              <span aria-hidden="true">
+                <svg
+                  className={styles.detailIcon}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3a9 9 0 1 0 0 18h1.5a2.5 2.5 0 0 0 0-5H12" />
+                  <circle cx="8" cy="10" r="1" />
+                  <circle cx="11" cy="7" r="1" />
+                  <circle cx="15" cy="8" r="1" />
+                </svg>
+              </span>
+              <span className={styles.label}>Цвет</span>
+              <span className={styles.value}>{color}</span>
+            </div>
+          )}
 
-              <path d="M9 8v8" />
-              <path d="M13 8v6" />
-              <path d="M9 8h4" />
+          <div className={styles.detailRow}>
+            <span aria-hidden="true">
+              <svg className={styles.detailIcon} viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8" />
 
-              <path d="M11 10v6" />
-              <path d="M11 16h4" />
-              <path d="M15 8v8" />
-            </svg>
-          </span>
-          <span className={styles.label}>Цена</span>
-          <span className={`${styles.value} ${styles.price}`}>
-            ₪{price.toFixed(2)}
-          </span>
-        </div>
+                <path d="M9 8v8" />
+                <path d="M13 8v6" />
+                <path d="M9 8h4" />
 
-        <button className={styles.barcodeRow} type="button">
-          <span aria-hidden="true">
-            <svg
-              className={styles.detailIcon}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              {/* левый верхний */}
-              <path d="M4 8V4h4" />
+                <path d="M11 10v6" />
+                <path d="M11 16h4" />
+                <path d="M15 8v8" />
+              </svg>
+            </span>
+            <span className={styles.label}>Цена</span>
+            <span className={`${styles.value} ${styles.price}`}>
+              ₪{price.toFixed(2)}
+            </span>
+          </div>
 
-              {/* правый верхний */}
-              <path d="M16 4h4v4" />
+          <button className={styles.barcodeRow} type="button">
+            <span aria-hidden="true">
+              <svg
+                className={styles.detailIcon}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                {/* левый верхний */}
+                <path d="M4 8V4h4" />
 
-              {/* левый нижний */}
-              <path d="M4 16v4h4" />
+                {/* правый верхний */}
+                <path d="M16 4h4v4" />
 
-              {/* правый нижний */}
-              <path d="M20 16v4h-4" />
+                {/* левый нижний */}
+                <path d="M4 16v4h4" />
 
-              {/* штрихи */}
-              <path d="M7 7v10" />
-              <path d="M9 7v10" />
-              <path d="M11 7v10" />
-              <path d="M13 7v10" />
-              <path d="M15 7v10" />
-              <path d="M17 7v10" />
-            </svg>
-          </span>
-          <span className={styles.label}>Штрихкод</span>
-          <span aria-hidden="true">
-            <svg
-              className={styles.chevron}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="m9 6 6 6-6 6" />
-            </svg>
-          </span>
-        </button>
-      </section>
+                {/* правый нижний */}
+                <path d="M20 16v4h-4" />
+
+                {/* штрихи */}
+                <path d="M7 7v10" />
+                <path d="M9 7v10" />
+                <path d="M11 7v10" />
+                <path d="M13 7v10" />
+                <path d="M15 7v10" />
+                <path d="M17 7v10" />
+              </svg>
+            </span>
+            <span className={styles.label}>Штрихкод</span>
+            <span aria-hidden="true">
+              <svg
+                className={styles.chevron}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="m9 6 6 6-6 6" />
+              </svg>
+            </span>
+          </button>
+        </section>
+      </div>
     </section>
   );
 };

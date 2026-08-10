@@ -20,7 +20,8 @@
   align-items: center;
   justify-content: space-between;
 
-  min-height: 64px;
+  flex-shrink: 0;
+  height: 64px;
 }
 
 .header button {
@@ -121,6 +122,29 @@
   width: 40px;
   height: 40px;
   padding: 0;
+
+  color: #111827;
+  border-radius: 50%;
+}
+
+.iconButton:active {
+  background-color: #f1f3f6;
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid #2f7de1;
+  outline-offset: 2px;
+}
+
+.headerIcon {
+  width: 26px;
+  height: 26px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .headerIcon,
@@ -131,11 +155,6 @@
   stroke-width: 1;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-.headerIcon {
-  width: 24px;
-  height: 24px;
 }
 
 .detailIcon {

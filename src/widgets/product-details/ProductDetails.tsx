@@ -10,7 +10,13 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   const { name, article, price, color, image } = product;
 
   return (
-    <section className={styles.panel}>
+    <section
+      className={styles.panel}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="product-details-title"
+    >
+      {/* Header */}
       <header className={styles.header}>
         <button
           className={styles.iconButton}
@@ -43,6 +49,7 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
         </button>
       </header>
 
+      {/* Product image */}
       <div className={styles.imageContainer}>
         {image ? (
           <img className={styles.image} src={image} alt={name} />
@@ -51,102 +58,102 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
         )}
       </div>
 
+      {/* Product information */}
       <div className={styles.content}>
-        <h2 className={styles.title}>{name}</h2>
+        <h2 id="product-details-title" className={styles.title}>
+          {name}
+        </h2>
 
         <section className={styles.details} aria-label="Информация о товаре">
+          {/* Article */}
           <div className={styles.detailRow}>
-            <span aria-hidden="true">
+            <svg
+              className={styles.detailIcon}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M4 5h9l7 7-8 8-8-8V5Z" />
+              <circle cx="9" cy="10" r="1.5" />
+            </svg>
+
+            <span className={styles.label}>Артикул</span>
+            <span className={styles.value}>{article}</span>
+          </div>
+
+          {/* Color */}
+          {color && (
+            <div className={styles.detailRow}>
               <svg
                 className={styles.detailIcon}
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <path d="M4 5h9l7 7-8 8-8-8V5Z" />
-                <circle cx="9" cy="10" r="1.5" />
+                <path d="M12 3a9 9 0 1 0 0 18h1.5a2.5 2.5 0 0 0 0-5H12" />
+                <circle cx="8" cy="10" r="1" />
+                <circle cx="11" cy="7" r="1" />
+                <circle cx="15" cy="8" r="1" />
               </svg>
-            </span>
-            <span className={styles.label}>Артикул</span>
-            <span className={styles.value}>{article}</span>
-          </div>
 
-          {color && (
-            <div className={styles.detailRow}>
-              <span aria-hidden="true">
-                <svg
-                  className={styles.detailIcon}
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path d="M12 3a9 9 0 1 0 0 18h1.5a2.5 2.5 0 0 0 0-5H12" />
-                  <circle cx="8" cy="10" r="1" />
-                  <circle cx="11" cy="7" r="1" />
-                  <circle cx="15" cy="8" r="1" />
-                </svg>
-              </span>
               <span className={styles.label}>Цвет</span>
               <span className={styles.value}>{color}</span>
             </div>
           )}
 
+          {/* Price */}
           <div className={styles.detailRow}>
-            <span aria-hidden="true">
-              <svg className={styles.detailIcon} viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="8" />
+            <svg
+              className={styles.detailIcon}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="8" />
 
-                <path d="M9 8v8" />
-                <path d="M13 8v6" />
-                <path d="M9 8h4" />
+              <path d="M9 8v8" />
+              <path d="M13 8v6" />
+              <path d="M9 8h4" />
 
-                <path d="M11 10v6" />
-                <path d="M11 16h4" />
-                <path d="M15 8v8" />
-              </svg>
-            </span>
+              <path d="M11 10v6" />
+              <path d="M11 16h4" />
+              <path d="M15 8v8" />
+            </svg>
+
             <span className={styles.label}>Цена</span>
             <span className={`${styles.value} ${styles.price}`}>
               ₪{price.toFixed(2)}
             </span>
           </div>
 
+          {/* Barcode */}
           <button className={styles.barcodeRow} type="button">
-            <span aria-hidden="true">
-              <svg
-                className={styles.detailIcon}
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                {/* левый верхний */}
-                <path d="M4 8V4h4" />
+            <svg
+              className={styles.detailIcon}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              {/* Scanner corners */}
+              <path d="M4 8V4h4" />
+              <path d="M16 4h4v4" />
+              <path d="M4 16v4h4" />
+              <path d="M20 16v4h-4" />
 
-                {/* правый верхний */}
-                <path d="M16 4h4v4" />
+              {/* Barcode lines */}
+              <path d="M7 7v10" />
+              <path d="M9 7v10" />
+              <path d="M11 7v10" />
+              <path d="M13 7v10" />
+              <path d="M15 7v10" />
+              <path d="M17 7v10" />
+            </svg>
 
-                {/* левый нижний */}
-                <path d="M4 16v4h4" />
-
-                {/* правый нижний */}
-                <path d="M20 16v4h-4" />
-
-                {/* штрихи */}
-                <path d="M7 7v10" />
-                <path d="M9 7v10" />
-                <path d="M11 7v10" />
-                <path d="M13 7v10" />
-                <path d="M15 7v10" />
-                <path d="M17 7v10" />
-              </svg>
-            </span>
             <span className={styles.label}>Штрихкод</span>
-            <span aria-hidden="true">
-              <svg
-                className={styles.chevron}
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="m9 6 6 6-6 6" />
-              </svg>
-            </span>
+
+            <svg
+              className={styles.chevron}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="m9 6 6 6-6 6" />
+            </svg>
           </button>
         </section>
       </div>

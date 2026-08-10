@@ -7,7 +7,6 @@
   flex-direction: column;
 
   min-width: 320px;
-  min-height: 100dvh;
   padding: 0 20px 24px;
 
   overflow-y: auto;
@@ -17,102 +16,11 @@
 
 .header {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
 
-  flex-shrink: 0;
   height: 64px;
-}
-
-.header button {
-  display: grid;
-  place-items: center;
-
-  width: 40px;
-  height: 40px;
-  padding: 0;
-}
-
-.imageContainer {
-  display: grid;
-  place-items: center;
-
-  width: 100%;
-  min-height: 280px;
-}
-
-.image {
-  width: 100%;
-  max-width: 420px;
-  max-height: 280px;
-
-  object-fit: contain;
-}
-
-.imagePlaceholder {
-  width: 100%;
-  max-width: 420px;
-  height: 280px;
-
-  border-radius: 16px;
-  background-color: #f4f6f8;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.title {
-
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.25;
-}
-
-.details {
-  display: flex;
-  flex-direction: column;
-}
-
-.detailRow,
-.barcodeRow {
-  display: grid;
-  grid-template-columns: 24px 96px minmax(0, 1fr);
-  align-items: center;
-  gap: 12px;
-
-  min-height: 48px;
-
-  padding: 0;
-}
-
-.details > *:not(:last-child) {
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.barcodeRow {
-  width: 100%;
-  text-align: left;
-}
-
-.label {
-  color: #6b7280;
-  font-size: 14px;
-}
-
-.value {
-  min-width: 0;
-
-  font-size: 14px;
-  text-align: right;
-}
-
-.price {
-  color: #2f7de1;
-  font-weight: 600;
 }
 
 .iconButton {
@@ -147,33 +55,107 @@
   stroke-linejoin: round;
 }
 
-.headerIcon,
+.imageContainer {
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  min-height: 260px;
+  margin-top: 8px;
+  padding: 16px 0;
+}
+
+.image {
+  width: 100%;
+  max-width: 420px;
+  max-height: 240px;
+
+  object-fit: contain;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  max-width: 420px;
+  height: 240px;
+
+  border-radius: 16px;
+  background-color: #f4f6f8;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+.title {
+  overflow-wrap: anywhere;
+
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.details > *:not(:last-child) {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.detailRow,
+.barcodeRow {
+  display: grid;
+  grid-template-columns: 24px 96px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+
+  min-height: 48px;
+}
+
+.barcodeRow {
+  width: 100%;
+  padding: 0;
+
+  color: inherit;
+  text-align: left;
+}
+
+.label {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.value {
+  min-width: 0;
+
+  color: #111827;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: right;
+}
+
+.price {
+  color: #2f7de1;
+  font-size: 16px;
+  font-weight: 600;
+}
+
 .detailIcon,
 .chevron {
+  width: 20px;
+  height: 20px;
+
+  color: #8b95a5;
+
   fill: none;
   stroke: currentColor;
-  stroke-width: 1;
+  stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.detailIcon {
-  width: 20px;
-  height: 20px;
-
-  color: #8b95a5;
-}
-
-.currencyIcon {
-  color: #8b95a5;
-  font-size: 20px;
-  line-height: 1;
-  text-align: center;
-}
-
 .chevron {
-  width: 20px;
-  height: 20px;
-
-  color: #8b95a5;
+  justify-self: end;
 }

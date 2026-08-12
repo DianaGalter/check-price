@@ -1,3 +1,4 @@
+import { getProductImage } from "../../../shared/lib/getProductImage";
 import type { Product } from "../product";
 import styles from "./ProductCard.module.scss";
 
@@ -7,7 +8,8 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, onClick }: ProductCardProps) => {
-  const { name, article, price, color, image } = product;
+  const { name, article, price, color } = product;
+  const image = getProductImage(article);
 
   return (
     <article className={styles.card}>

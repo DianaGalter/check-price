@@ -4,5 +4,4 @@ export interface Product {
     price: number;
     color?: string;
     colorCode?: string;
-    image?: string;
 }

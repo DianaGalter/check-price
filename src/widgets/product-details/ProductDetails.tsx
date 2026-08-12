@@ -1,4 +1,5 @@
 import type { Product } from "../../entities/product/product";
+import { getProductImage } from "../../shared/lib/getProductImage";
 import styles from "./ProductDetails.module.scss";
 
 interface ProductDetailsProps {
@@ -7,7 +8,8 @@ interface ProductDetailsProps {
 }
 
 export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
-  const { name, article, price, color, image } = product;
+  const { name, article, price, color } = product;
+  const image = getProductImage(article);
 
   return (
     <section

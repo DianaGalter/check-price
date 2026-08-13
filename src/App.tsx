@@ -12,10 +12,12 @@ import styles from "./App.module.scss";
 import { Footer } from "./widgets/footer";
 import { ProductDetails } from "./widgets/product-details";
 import type { Product } from "./entities/product/product";
+import { SettingsPanel } from "./widgets/settings-panel";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -25,7 +27,11 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Header />
+      <Header onMenuClick={() => setIsSettingsOpen(true)} />
+
+      {isSettingsOpen && (
+        <SettingsPanel onClose={() => setIsSettingsOpen(false)} />
+      )}
 
       <div className={styles.searchSection}>
         <SearchInput value={searchQuery} onChange={setSearchQuery} />

@@ -1,10 +1,16 @@
 import styles from "./SettingsPanel.module.scss";
 
 interface SettingsPanelProps {
+  theme: "light" | "dark";
+  onThemeChange: (theme: "light" | "dark") => void;
   onClose: () => void;
 }
 
-export const SettingsPanel = ({ onClose }: SettingsPanelProps) => {
+export const SettingsPanel = ({
+  onClose,
+  theme,
+  onThemeChange,
+}: SettingsPanelProps) => {
   return (
     <div className={styles.overlay}>
       <button
@@ -32,7 +38,31 @@ export const SettingsPanel = ({ onClose }: SettingsPanelProps) => {
         </header>
 
         <div className={styles.content}>
-          {/* Theme */}
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>Тема</h3>
+
+            <div className={styles.options}>
+              <button
+                className={`${styles.option} ${
+                  theme === "light" ? styles.optionActive : ""
+                }`}
+                type="button"
+                onClick={() => onThemeChange("light")}
+              >
+                Светлая
+              </button>
+
+              <button
+                className={`${styles.option} ${
+                  theme === "dark" ? styles.optionActive : ""
+                }`}
+                type="button"
+                onClick={() => onThemeChange("dark")}
+              >
+                Тёмная
+              </button>
+            </div>
+          </section>
           {/* Language */}
           {/* About */}
         </div>

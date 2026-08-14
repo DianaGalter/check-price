@@ -21,7 +21,9 @@
   width: min(320px, 85vw);
   height: 100%;
 
-  background-color: #ffffff;
+  color: var(--color-text);
+  background-color: var(--color-background);
+
 }
 
 .header {
@@ -62,4 +64,37 @@
 
 .content {
   padding: 16px 20px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.options {
+  display: flex;
+  gap: 8px;
+}
+
+.option {
+  padding: 8px 14px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+
+  color: #111827;
+  background-color: #ffffff;
+}
+
+.optionActive {
+  border-color: #2f7de1;
+  color: #2f7de1;
+  background-color: #eef5ff;
 }

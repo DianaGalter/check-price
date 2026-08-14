@@ -1,23 +1,33 @@
+import { useEffect, useState } from "react";
+
 import { products, ProductList } from "./entities/product";
+import type { Product } from "./entities/product/product";
+
 import {
+  EmptyState,
   filterProducts,
   SearchInput,
-  EmptyState,
 } from "./features/product-search";
-import { useState } from "react";
 import { useDebounce } from "./shared/hooks";
+
+import { Footer } from "./widgets/footer";
 import { Header } from "./widgets/header";
+import { ProductDetails } from "./widgets/product-details";
+import { SettingsPanel } from "./widgets/settings-panel";
 
 import styles from "./App.module.scss";
-import { Footer } from "./widgets/footer";
-import { ProductDetails } from "./widgets/product-details";
-import type { Product } from "./entities/product/product";
-import { SettingsPanel } from "./widgets/settings-panel";
+
+type Theme = "light" | "dark";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>("light");
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -30,7 +40,11 @@ function App() {
       <Header onMenuClick={() => setIsSettingsOpen(true)} />
 
       {isSettingsOpen && (
-        <SettingsPanel onClose={() => setIsSettingsOpen(false)} />
+        <SettingsPanel
+          theme={theme}
+          onThemeChange={setTheme}
+          onClose={() => setIsSettingsOpen(false)}
+        />
       )}
 
       <div className={styles.searchSection}>

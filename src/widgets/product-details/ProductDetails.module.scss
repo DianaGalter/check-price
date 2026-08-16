@@ -11,8 +11,8 @@
 
   overflow-y: auto;
 
-  color: var(--color-text);
-  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
 
 }
 
@@ -33,7 +33,7 @@
   height: 40px;
   padding: 0;
 
-  color: #111827;
+  color: var( --color-text-primary);
   border-radius: 50%;
 }
 
@@ -81,7 +81,7 @@
   height: 240px;
 
   border-radius: 16px;
-  background-color: #f4f6f8;
+  background-color: var(--color-bg-secondary);
 }
 
 .content {
@@ -131,7 +131,7 @@
 .value {
   min-width: 0;
 
-  color: #111827;
+  color: var( --color-text-primary);
   font-size: 15px;
   font-weight: 500;
   line-height: 1.3;

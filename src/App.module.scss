@@ -5,7 +5,7 @@
   height: 100dvh;
   overflow: hidden;
 
-  background-color: #ffffff;
+  background-color: var(--color-bg-primary);
 }
 
 .searchSection {
@@ -18,7 +18,7 @@
   margin: 0 auto;
   padding: 12px 20px 8px;
 
-  background-color: #ffffff;
+  background-color: var(--color-bg-primary);
 }
 
 .resultsCount {

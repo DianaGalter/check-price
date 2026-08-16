@@ -10,7 +10,7 @@
 
   border: 1px solid #d9dde5;
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--color-bg-primary);
 }
 
 .search:has(.clearButton) {

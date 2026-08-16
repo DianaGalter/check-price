@@ -9,8 +9,6 @@
     Arial,
     sans-serif;
 
-  --color-text: #111827;
-
   line-height: 1.5;
   font-weight: 400;
 
@@ -51,6 +49,7 @@ body {
 #root {
   min-height: 100vh;
 }
+
 [data-theme="dark"] {
   
   /* Backgrounds */

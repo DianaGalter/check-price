@@ -22,7 +22,7 @@
 }
 
 .resultsCount {
-  color: #6b7280;
+  color: var( --color-text-secondary);
   font-size: 14px;
   line-height: 1.4;
 }
@@ -47,6 +47,6 @@
   min-height: 100%;
   place-items: center;
 
-  color: #6b7280;
+  color: var( --color-text-secondary);
   text-align: center;
 }

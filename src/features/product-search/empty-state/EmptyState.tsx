@@ -1,5 +1,5 @@
 import styles from "./EmptyState.module.scss";
-import emptySearchIllustration from "../../../assets/illustrations/product-search-empty.svg";
+import emptySearchIllustration from "../../../assets/illustrations/product-search-empty.png";
 
 export const EmptyState = () => {
   return (

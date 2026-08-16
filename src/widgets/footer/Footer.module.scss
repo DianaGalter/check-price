@@ -6,11 +6,11 @@
   height: 64px;
   padding: 0 20px;
 
-  background-color: #f8f9fb;
+  background-color: var(--color-bg-footer);
 }
 
 .hint {
-  color: #6b7280;
+  color: var( --color-text-secondary);
   font-size: 14px;
   line-height: 1.4;
   text-align: center;

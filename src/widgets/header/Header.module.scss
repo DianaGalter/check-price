@@ -12,6 +12,7 @@
   font-weight: 600;
   line-height: 1.2;
   text-align: center;
+  color: var(--color-text-primary);
 }
 
 .button {
@@ -28,7 +29,7 @@
   height: 24px;
 
   fill: none;
-  stroke: currentColor;
+  stroke: var( --color-icon);
   stroke-width: 1.75;
   stroke-linecap: round;
 }

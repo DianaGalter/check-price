@@ -16,10 +16,11 @@
 .title {
   font-size: 32px;
   font-weight: 700;
+  color: var(--color-text-primary);
 }
 
 .description {
   max-width: 260px;
-  color: #6b7280;
+  color: var( --color-text-secondary);
   text-align: center;
 }

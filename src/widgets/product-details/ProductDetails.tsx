@@ -8,7 +8,7 @@ interface ProductDetailsProps {
 }
 
 export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
-  const { name, size, article, price, color, colorCode } = product;
+  const { name, size, article, price, color, colorCode, volume } = product;
   const productName = `${name} ${size} ${color}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
   const image = getProductImage(productArticle);
@@ -110,7 +110,7 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
               {/* svg icon */}
 
               <span className={styles.label}>Объём</span>
-              <span className={styles.value}>{color} л</span>
+              <span className={styles.value}>{volume} л</span>
             </div>
           )}
 

@@ -8,8 +8,10 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, onClick }: ProductCardProps) => {
-  const { name, article, price, color } = product;
-  const image = getProductImage(article);
+  const { name, size, article, price, color, colorCode } = product;
+  const productName = `${name} ${size}`;
+  const productArticle = colorCode ? `${article}${colorCode}` : article;
+  const image = getProductImage(productArticle);
 
   return (
     <article className={styles.card}>
@@ -17,23 +19,23 @@ export const ProductCard = ({ product, onClick }: ProductCardProps) => {
         className={styles.cardButton}
         type="button"
         onClick={onClick}
-        aria-label={`Открыть ${name}`}
+        aria-label={`Открыть ${productName}  ${color}`}
       >
         <div className={styles.imageContainer}>
           {image ? (
-            <img className={styles.image} src={image} alt={name} />
+            <img className={styles.image} src={image} alt={productName} />
           ) : (
             <div className={styles.imagePlaceholder} aria-hidden="true" />
           )}
         </div>
 
         <div className={styles.content}>
-          <h2 className={styles.name}>{name}</h2>
+          <h2 className={styles.name}>{productName}</h2>
 
           {color && <p className={styles.color}>{color}</p>}
 
-          <p className={styles.article}>Артикул: {article}</p>
-          <p className={styles.price}>₪{price.toFixed(2)}</p>
+          <p className={styles.article}>Артикул: {productArticle}</p>
+          <p className={styles.price}>₪{price}</p>
         </div>
 
         <svg className={styles.chevron} viewBox="0 0 24 24" aria-hidden="true">

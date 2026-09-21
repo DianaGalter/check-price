@@ -8,8 +8,10 @@ interface ProductDetailsProps {
 }
 
 export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
-  const { name, article, price, color } = product;
-  const image = getProductImage(article);
+  const { name, size, article, price, color, colorCode } = product;
+  const productName = `${name} ${size} ${color}`;
+  const productArticle = colorCode ? `${article}${colorCode}` : article;
+  const image = getProductImage(productArticle);
 
   return (
     <section
@@ -54,7 +56,7 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
       {/* Product image */}
       <div className={styles.imageContainer}>
         {image ? (
-          <img className={styles.image} src={image} alt={name} />
+          <img className={styles.image} src={image} alt={productName} />
         ) : (
           <div className={styles.imagePlaceholder} aria-hidden="true" />
         )}
@@ -63,7 +65,7 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
       {/* Product information */}
       <div className={styles.content}>
         <h2 id="product-details-title" className={styles.title}>
-          {name}
+          {productName}
         </h2>
 
         <section className={styles.details} aria-label="Информация о товаре">
@@ -79,25 +81,36 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
             </svg>
 
             <span className={styles.label}>Артикул</span>
-            <span className={styles.value}>{article}</span>
+            <span className={styles.value}>{productArticle}</span>
           </div>
 
-          {/* Color */}
+          {/* Dimensions */}
           {color && (
             <div className={styles.detailRow}>
-              <svg
-                className={styles.detailIcon}
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M12 3a9 9 0 1 0 0 18h1.5a2.5 2.5 0 0 0 0-5H12" />
-                <circle cx="8" cy="10" r="1" />
-                <circle cx="11" cy="7" r="1" />
-                <circle cx="15" cy="8" r="1" />
-              </svg>
+              {/* svg icon */}
 
-              <span className={styles.label}>Цвет</span>
-              <span className={styles.value}>{color}</span>
+              <span className={styles.label}>Размеры</span>
+              <span className={styles.value}>{color} см</span>
+            </div>
+          )}
+
+          {/* Weight */}
+          {color && (
+            <div className={styles.detailRow}>
+              {/* svg icon */}
+
+              <span className={styles.label}>Вес</span>
+              <span className={styles.value}>{color} кг</span>
+            </div>
+          )}
+
+          {/* Volume */}
+          {color && (
+            <div className={styles.detailRow}>
+              {/* svg icon */}
+
+              <span className={styles.label}>Объём</span>
+              <span className={styles.value}>{color} л</span>
             </div>
           )}
 
@@ -119,10 +132,16 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
               <path d="M15 8v8" />
             </svg>
 
-            <span className={styles.label}>Цена</span>
-            <span className={`${styles.value} ${styles.price}`}>
-              ₪{price.toFixed(2)}
-            </span>
+            <span className={styles.label}>Цена чемодана</span>
+            <span className={`${styles.value} ${styles.price}`}>₪{price}</span>
+          </div>
+
+          {/* setPrice */}
+          <div className={styles.detailRow}>
+            {/* svg icon */}
+
+            <span className={styles.label}>Цена сета</span>
+            <span className={`${styles.value} ${styles.price}`}>₪{price}</span>
           </div>
 
           {/* Barcode */}

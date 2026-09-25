@@ -23,6 +23,7 @@
   --color-bg-primary: #ffffff;
   --color-bg-secondary: #f4f6f8;
   --color-bg-footer: #f3f4f6;
+  --color-discount-bg: #f3f8fe;
 
   /* Text */
   --color-text-primary: #111827;
@@ -42,6 +43,7 @@
   --color-overlay: rgb(17 24 39 / 35%);
 }
 
+
 body {
   min-width: 320px;
 }
@@ -56,6 +58,7 @@ body {
   --color-bg-primary: #17191c;
   --color-bg-secondary: #22252a;
   --color-bg-footer: #1e2125;
+  --color-discount-bg: #1c2530;
 
   /* Text */
   --color-text-primary: #f3f4f6;

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import type { Product } from "../../entities/product/product";
 import { getProductDimensions } from "../../shared/lib/getProductDimensions";
+import { getProductPrice, type Store } from "../../shared/lib/getProductPrice";
 import { getProductImage } from "../../shared/lib/getProductImage";
 import styles from "./ProductDetails.module.scss";
 import {
+  setPrice as regularSetPrice,
   columbiaSetPrice as colSetPrice,
   shvilimSetPrice as shvilSetPrice,
 } from "../../entities/product";
@@ -31,11 +33,23 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   const productName = `${name} ${size} ${color}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
   const image = getProductImage(productArticle);
-  const [isColumbia, setIsColumbia] = useState(true);
 
-  const currentSetPrice = isColumbia ? colSetPrice[name] : shvilSetPrice[name];
+  const [store, setStore] = useState<Store>("columbia");
+  const [hasClub, setHasClub] = useState(false);
 
-  const setPrice =
+  const currentPrice = hasClub
+    ? getProductPrice(product, store)
+    : Number(price);
+
+  const currentSetPrice = hasClub
+    ? store === "columbia"
+      ? colSetPrice[name]
+      : shvilSetPrice[name]
+    : regularSetPrice[name];
+
+  const formattedPrice = currentPrice.toFixed(2);
+
+  const formattedSetPrice =
     currentSetPrice !== undefined ? currentSetPrice.toFixed(2) : null;
 
   return (
@@ -66,12 +80,16 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
         <button
           className={styles.storeButton}
           type="button"
-          onClick={() => setIsColumbia((current) => !current)}
+          onClick={() =>
+            setStore((current) =>
+              current === "columbia" ? "shvilim" : "columbia",
+            )
+          }
           aria-label={`Переключить магазин. Сейчас ${
-            isColumbia ? "Columbia" : "Швилим"
+            store === "columbia" ? "Columbia" : "Швилим"
           }`}
         >
-          {isColumbia ? "Columbia" : "Швилим"}
+          {store === "columbia" ? "Columbia" : "Швилим"}
         </button>
       </header>
 
@@ -177,11 +195,13 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
             </svg>
 
             <span className={styles.label}>Цена чемодана</span>
-            <span className={`${styles.value} ${styles.price}`}>₪{price}</span>
+            <span className={`${styles.value} ${styles.price}`}>
+              ₪{formattedPrice}
+            </span>
           </div>
 
           {/* setPrice */}
-          {setPrice && (
+          {formattedSetPrice && (
             <div className={styles.detailRow}>
               <svg
                 className={styles.detailIcon}
@@ -201,25 +221,24 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
 
               <span className={styles.label}>Цена сета</span>
               <span className={`${styles.value} ${styles.price}`}>
-                ₪{setPrice}
+                ₪{formattedSetPrice}
               </span>
             </div>
           )}
 
           {/* Barcode */}
-          <button className={styles.barcodeRow} type="button">
+          {/* {<button className={styles.barcodeRow} type="button">
             <svg
               className={styles.detailIcon}
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
-              {/* Scanner corners */}
+
               <path d="M4 8V4h4" />
               <path d="M16 4h4v4" />
               <path d="M4 16v4h4" />
               <path d="M20 16v4h-4" />
 
-              {/* Barcode lines */}
               <path d="M7 7v10" />
               <path d="M9 7v10" />
               <path d="M11 7v10" />
@@ -237,7 +256,39 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
             >
               <path d="m9 6 6 6-6 6" />
             </svg>
-          </button>
+          </button> */}
+
+          <div className={styles.discountSection}>
+            <svg
+              className={styles.discountIcon}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M4 8l4 4 4-7 4 7 4-4-2 11H6L4 8Z" />
+            </svg>
+
+            <div className={styles.discountInfo}>
+              <span className={styles.discountTitle}>С муадоном</span>
+              <span className={styles.discountDescription}>
+                {store === "columbia"
+                  ? "Скидка 30% на чемодан"
+                  : 'Скидка 50% на 20" и 24"'}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              className={`${styles.switch} ${
+                hasClub ? styles.switchActive : ""
+              }`}
+              role="switch"
+              aria-checked={hasClub}
+              aria-label="Скидка с муадоном"
+              onClick={() => setHasClub((current) => !current)}
+            >
+              <span className={styles.switchThumb} />
+            </button>
+          </div>
         </section>
       </div>
     </section>

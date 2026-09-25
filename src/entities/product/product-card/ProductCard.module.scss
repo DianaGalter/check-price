@@ -54,13 +54,13 @@
 
 .color,
 .article {
-  color: var( --color-text-secondary);
+  color: var(--color-text-secondary);
   font-size: 14px;
   line-height: 1.3;
 }
 
 .price {
-  color: var( --color-accent);
+  color: var(--color-accent);
   font-size: 14px;
   font-weight: 600;
   line-height: 1.3;
@@ -71,7 +71,7 @@
   height: 20px;
 
   fill: none;
-  stroke: var( --color-icon);
+  stroke: var(--color-icon);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;

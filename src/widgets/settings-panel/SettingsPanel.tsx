@@ -42,7 +42,7 @@ export const SettingsPanel = ({
             <h3 className={styles.sectionTitle}>Тема</h3>
 
             <div className={styles.options}>
-              <button
+              {/* <button
                 className={`${styles.option} ${
                   theme === "light" ? styles.optionActive : ""
                 }`}
@@ -60,7 +60,7 @@ export const SettingsPanel = ({
                 onClick={() => onThemeChange("dark")}
               >
                 Тёмная
-              </button>
+              </button> */}
             </div>
           </section>
           {/* Language */}

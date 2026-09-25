@@ -104,13 +104,13 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
       </header>
 
       {/* Product image */}
-      <div className={styles.imageContainer}>
+      {/* <div className={styles.imageContainer}>
         {image ? (
           <img className={styles.image} src={image} alt={productName} />
         ) : (
           <div className={styles.imagePlaceholder} aria-hidden="true" />
         )}
-      </div>
+      </div> */}
 
       {/* Product information */}
       <div className={styles.content}>

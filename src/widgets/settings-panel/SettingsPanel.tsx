@@ -6,11 +6,7 @@ interface SettingsPanelProps {
   onClose: () => void;
 }
 
-export const SettingsPanel = ({
-  onClose,
-  theme,
-  onThemeChange,
-}: SettingsPanelProps) => {
+export const SettingsPanel = ({ onClose }: SettingsPanelProps) => {
   return (
     <div className={styles.overlay}>
       <button

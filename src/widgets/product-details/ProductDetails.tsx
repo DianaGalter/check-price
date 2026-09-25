@@ -33,11 +33,10 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   const image = getProductImage(productArticle);
   const [isColumbia, setIsColumbia] = useState(true);
 
-  const hasSet = !specialPrice;
+  const currentSetPrice = isColumbia ? colSetPrice[name] : shvilSetPrice[name];
 
-  const setPrice = hasSet
-    ? (isColumbia ? colSetPrice[name] : shvilSetPrice[name]).toFixed(2)
-    : null;
+  const setPrice =
+    currentSetPrice !== undefined ? currentSetPrice.toFixed(2) : null;
 
   return (
     <section
@@ -65,17 +64,14 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
         </button>
 
         <button
-          className={styles.iconButton}
+          className={styles.storeButton}
           type="button"
-          aria-label="Добавить в избранное"
+          onClick={() => setIsColumbia((current) => !current)}
+          aria-label={`Переключить магазин. Сейчас ${
+            isColumbia ? "Columbia" : "Швилим"
+          }`}
         >
-          <svg
-            className={styles.headerIcon}
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2-4.5-4.4 6.2-.9L12 3Z" />
-          </svg>
+          {isColumbia ? "Columbia" : "Швилим"}
         </button>
       </header>
 

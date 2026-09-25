@@ -2,7 +2,6 @@ import { useState } from "react";
 import type { Product } from "../../entities/product/product";
 import { getProductDimensions } from "../../shared/lib/getProductDimensions";
 import { getProductPrice, type Store } from "../../shared/lib/getProductPrice";
-import { getProductImage } from "../../shared/lib/getProductImage";
 import styles from "./ProductDetails.module.scss";
 import {
   setPrice as regularSetPrice,
@@ -31,7 +30,7 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   } = product;
   const productName = `${name} ${size} ${color}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
-  const image = getProductImage(productArticle);
+  // const image = getProductImage(productArticle);
 
   const [store, setStore] = useState<Store>("columbia");
   const [hasClub, setHasClub] = useState(false);

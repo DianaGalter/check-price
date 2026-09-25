@@ -1,7 +1,12 @@
+import { useState } from "react";
 import type { Product } from "../../entities/product/product";
 import { getProductDimensions } from "../../shared/lib/getProductDimensions";
 import { getProductImage } from "../../shared/lib/getProductImage";
 import styles from "./ProductDetails.module.scss";
+import {
+  columbiaSetPrice as colSetPrice,
+  shvilimSetPrice as shvilSetPrice,
+} from "../../entities/product";
 
 interface ProductDetailsProps {
   product: Product;
@@ -21,10 +26,18 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
     width,
     depth,
     weight,
+    specialPrice,
   } = product;
   const productName = `${name} ${size} ${color}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
   const image = getProductImage(productArticle);
+  const [isColumbia, setIsColumbia] = useState(true);
+
+  const hasSet = !specialPrice;
+
+  const setPrice = hasSet
+    ? (isColumbia ? colSetPrice[name] : shvilSetPrice[name]).toFixed(2)
+    : null;
 
   return (
     <section
@@ -98,62 +111,56 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
           </div>
 
           {/* Dimensions */}
-          {color && (
-            <div className={styles.detailRow}>
-              <svg
-                className={styles.detailIcon}
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <rect x="6" y="5" width="12" height="14" rx="2" />
-                <path d="M9 5V3h6v2" />
-                <path d="M3 8v8" />
-                <path d="m2 9 1-1 1 1" />
-                <path d="m2 15 1 1 1-1" />
-              </svg>
+          <div className={styles.detailRow}>
+            <svg
+              className={styles.detailIcon}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <rect x="6" y="5" width="12" height="14" rx="2" />
+              <path d="M9 5V3h6v2" />
+              <path d="M3 8v8" />
+              <path d="m2 9 1-1 1 1" />
+              <path d="m2 15 1 1 1-1" />
+            </svg>
 
-              <span className={styles.label}>Размеры</span>
-              <span className={styles.value}>
-                {getProductDimensions(height, width, depth)}
-              </span>
-            </div>
-          )}
+            <span className={styles.label}>Размеры</span>
+            <span className={styles.value}>
+              {getProductDimensions(height, width, depth)}
+            </span>
+          </div>
 
           {/* Weight */}
-          {color && (
-            <div className={styles.detailRow}>
-              <svg
-                className={styles.detailIcon}
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M6 20h12l-1.5-11h-9L6 20Z" />
-                <path d="M9 9a3 3 0 0 1 6 0" />
-                <path d="m12 9 1.5-2" />
-              </svg>
+          <div className={styles.detailRow}>
+            <svg
+              className={styles.detailIcon}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M6 20h12l-1.5-11h-9L6 20Z" />
+              <path d="M9 9a3 3 0 0 1 6 0" />
+              <path d="m12 9 1.5-2" />
+            </svg>
 
-              <span className={styles.label}>Вес</span>
-              <span className={styles.value}>{weight} кг</span>
-            </div>
-          )}
+            <span className={styles.label}>Вес</span>
+            <span className={styles.value}>{weight} кг</span>
+          </div>
 
           {/* Volume */}
-          {color && (
-            <div className={styles.detailRow}>
-              <svg
-                className={styles.detailIcon}
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z" />
-                <path d="m4 7.5 8 4.5 8-4.5" />
-                <path d="M12 12v9" />
-              </svg>
+          <div className={styles.detailRow}>
+            <svg
+              className={styles.detailIcon}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z" />
+              <path d="m4 7.5 8 4.5 8-4.5" />
+              <path d="M12 12v9" />
+            </svg>
 
-              <span className={styles.label}>Объём</span>
-              <span className={styles.value}>{volume} л</span>
-            </div>
-          )}
+            <span className={styles.label}>Объём</span>
+            <span className={styles.value}>{volume} л</span>
+          </div>
 
           {/* Price */}
           <div className={styles.detailRow}>
@@ -178,26 +185,30 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
           </div>
 
           {/* setPrice */}
-          <div className={styles.detailRow}>
-            <svg
-              className={styles.detailIcon}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="8" />
+          {setPrice && (
+            <div className={styles.detailRow}>
+              <svg
+                className={styles.detailIcon}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="8" />
 
-              <path d="M9 8v8" />
-              <path d="M13 8v6" />
-              <path d="M9 8h4" />
+                <path d="M9 8v8" />
+                <path d="M13 8v6" />
+                <path d="M9 8h4" />
 
-              <path d="M11 10v6" />
-              <path d="M11 16h4" />
-              <path d="M15 8v8" />
-            </svg>
+                <path d="M11 10v6" />
+                <path d="M11 16h4" />
+                <path d="M15 8v8" />
+              </svg>
 
-            <span className={styles.label}>Цена сета</span>
-            <span className={`${styles.value} ${styles.price}`}>₪{price}</span>
-          </div>
+              <span className={styles.label}>Цена сета</span>
+              <span className={`${styles.value} ${styles.price}`}>
+                ₪{setPrice}
+              </span>
+            </div>
+          )}
 
           {/* Barcode */}
           <button className={styles.barcodeRow} type="button">

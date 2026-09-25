@@ -13,16 +13,21 @@ export const ProductList = ({
 }: ProductListProps) => {
   return (
     <ul className={styles.list}>
-      {products.map((product) => (
-        <li key={product.article} className={styles.item}>
-          <ProductCard
-            product={product}
-            onClick={() => {
-              onProductSelect(product);
-            }}
-          />
-        </li>
-      ))}
+      {products.map((product) => {
+        const productArticle = product.colorCode
+          ? `${product.article}${product.colorCode}`
+          : product.article;
+        return (
+          <li key={productArticle} className={styles.item}>
+            <ProductCard
+              product={product}
+              onClick={() => {
+                onProductSelect(product);
+              }}
+            />
+          </li>
+        );
+      })}
     </ul>
   );
 };

@@ -2,12 +2,14 @@ import { useState } from "react";
 import type { Product } from "../../entities/product/product";
 import { getProductDimensions } from "../../shared/lib/getProductDimensions";
 import { getProductPrice, type Store } from "../../shared/lib/getProductPrice";
+import { getProductImage } from "../../shared/lib/getProductImage";
 import styles from "./ProductDetails.module.scss";
 import {
   setPrice as regularSetPrice,
   columbiaSetPrice as colSetPrice,
   shvilimSetPrice as shvilSetPrice,
 } from "../../entities/product";
+import { applyDiscount } from "../../shared/lib/applyDiscount";
 
 interface ProductDetailsProps {
   product: Product;
@@ -30,12 +32,13 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   } = product;
   const productName = `${name} ${size} ${color}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
-  // const image = getProductImage(productArticle);
+  const image = getProductImage(productArticle);
 
   const [store, setStore] = useState<Store>("columbia");
   const [hasClub, setHasClub] = useState(false);
+  const [hasPoliceDiscount, setHasPoliceDiscount] = useState(false);
 
-  const currentPrice = hasClub
+  const productPrice = hasClub
     ? getProductPrice(product, store)
     : Number(price);
 
@@ -45,10 +48,33 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
       : shvilSetPrice[name]
     : regularSetPrice[name];
 
+  const currentPrice = hasPoliceDiscount
+    ? applyDiscount(productPrice, 0.25)
+    : productPrice;
+
+  const handlePoliceDiscountChange = () => {
+    setHasPoliceDiscount((current) => {
+      const next = !current;
+
+      if (next) {
+        setHasClub(true);
+      }
+
+      return next;
+    });
+  };
+
+  const discountedSetPrice =
+    currentSetPrice !== undefined
+      ? hasPoliceDiscount
+        ? applyDiscount(currentSetPrice, 0.25)
+        : currentSetPrice
+      : undefined;
+
   const formattedPrice = currentPrice.toFixed(2);
 
   const formattedSetPrice =
-    currentSetPrice !== undefined ? currentSetPrice.toFixed(2) : null;
+    discountedSetPrice !== undefined ? discountedSetPrice.toFixed(2) : null;
 
   return (
     <section
@@ -84,10 +110,10 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
             )
           }
           aria-label={`Переключить магазин. Сейчас ${
-            store === "columbia" ? "Columbia" : "Швилим"
+            store === "columbia" ? "Columbia" : "Ашкелон"
           }`}
         >
-          <span>{store === "columbia" ? "Columbia" : "Швилим"}</span>
+          <span>{store === "columbia" ? "Columbia" : "Ашкелон"}</span>
 
           <svg
             className={styles.storeIcon}
@@ -103,13 +129,13 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
       </header>
 
       {/* Product image */}
-      {/* <div className={styles.imageContainer}>
+      <div className={styles.imageContainer}>
         {image ? (
           <img className={styles.image} src={image} alt={productName} />
         ) : (
           <div className={styles.imagePlaceholder} aria-hidden="true" />
         )}
-      </div> */}
+      </div>
 
       {/* Product information */}
       <div className={styles.content}>
@@ -236,13 +262,12 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
           )}
 
           {/* Barcode */}
-          {/* {<button className={styles.barcodeRow} type="button">
+          <button className={styles.barcodeRow} type="button">
             <svg
               className={styles.detailIcon}
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
-
               <path d="M4 8V4h4" />
               <path d="M16 4h4v4" />
               <path d="M4 16v4h4" />
@@ -265,38 +290,76 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
             >
               <path d="m9 6 6 6-6 6" />
             </svg>
-          </button> */}
+          </button>
 
+          {/* Discount section */}
           <div className={styles.discountSection}>
-            <svg
-              className={styles.discountIcon}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M4 8l4 4 4-7 4 7 4-4-2 11H6L4 8Z" />
-            </svg>
+            {/* Club discount */}
+            <div className={styles.discountRow}>
+              <svg
+                className={styles.discountIcon}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M4 8l4 4 4-7 4 7 4-4-2 11H6L4 8Z" />
+              </svg>
 
-            <div className={styles.discountInfo}>
-              <span className={styles.discountTitle}>С муадоном</span>
-              <span className={styles.discountDescription}>
-                {store === "columbia"
-                  ? "Скидка 30% на чемодан"
-                  : 'Скидка 50% на 20" и 24"'}
-              </span>
+              <div className={styles.discountInfo}>
+                <span className={styles.discountTitle}>С муадоном</span>
+                <span className={styles.discountDescription}>
+                  {store === "columbia"
+                    ? `Скидка ${size === "24" ? "50%" : "30%"} на чемодан`
+                    : `Скидка ${
+                        size === "20" || size === "24" ? "50%" : "30%"
+                      } на чемодан`}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                className={`${styles.switch} ${
+                  hasClub ? styles.switchActive : ""
+                }`}
+                role="switch"
+                aria-checked={hasClub}
+                aria-label="Скидка с муадоном"
+                disabled={hasPoliceDiscount}
+                onClick={() => setHasClub((current) => !current)}
+              >
+                <span className={styles.switchThumb} />
+              </button>
             </div>
 
-            <button
-              type="button"
-              className={`${styles.switch} ${
-                hasClub ? styles.switchActive : ""
-              }`}
-              role="switch"
-              aria-checked={hasClub}
-              aria-label="Скидка с муадоном"
-              onClick={() => setHasClub((current) => !current)}
-            >
-              <span className={styles.switchThumb} />
-            </button>
+            {/* Police discount */}
+            <div className={styles.discountRow}>
+              <svg
+                className={styles.discountIcon}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M12 3 19 6v5c0 4.6-2.8 7.7-7 10-4.2-2.3-7-5.4-7-10V6l7-3Z" />
+              </svg>
+
+              <div className={styles.discountInfo}>
+                <span className={styles.discountTitle}>Миштара</span>
+                <span className={styles.discountDescription}>
+                  Доп. скидка 25%
+                </span>
+              </div>
+
+              <button
+                type="button"
+                className={`${styles.switch} ${
+                  hasPoliceDiscount ? styles.switchActive : ""
+                }`}
+                role="switch"
+                aria-checked={hasPoliceDiscount}
+                aria-label="Скидка Миштары"
+                onClick={handlePoliceDiscountChange}
+              >
+                <span className={styles.switchThumb} />
+              </button>
+            </div>
           </div>
         </section>
       </div>

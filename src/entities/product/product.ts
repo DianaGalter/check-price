@@ -1,11 +1,3 @@
-export interface Shoes {
-    name: string;
-    article: string;
-    price: number;
-    color?: string;
-    colorCode?: string;
-}
-
 export interface Product {
     name: string;
     size: string;

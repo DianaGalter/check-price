@@ -32,7 +32,7 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   } = product;
   const productName = `${name} ${size} ${color}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
-  const image = getProductImage(productArticle);
+  const image = getProductImage(name, colorCode, color);
 
   const [store, setStore] = useState<Store>("columbia");
   const [hasClub, setHasClub] = useState(false);

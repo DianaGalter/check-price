@@ -644,7 +644,7 @@ export const products: Product[] = [
     "price": "899.00"
   },
   {
-    "name": "SB Lava",
+    "name": "Lava",
     "size": "20",
     "article": "SBC206",
     "color": "Crocus",
@@ -656,7 +656,7 @@ export const products: Product[] = [
     "price": "510.00"
   },
   {
-    "name": "SB Lava",
+    "name": "Lava",
     "size": "24",
     "article": "SBC207",
     "color": "Crocus",
@@ -668,7 +668,7 @@ export const products: Product[] = [
     "price": "610.00"
   },
   {
-    "name": "SB Lava",
+    "name": "Lava",
     "size": "28",
     "article": "SBC208",
     "color": "Crocus",
@@ -680,7 +680,7 @@ export const products: Product[] = [
     "price": "710.00"
   },
   {
-    "name": "SB Lava",
+    "name": "Lava",
     "size": "20",
     "article": "SBC200",
     "color": "Black",
@@ -692,7 +692,7 @@ export const products: Product[] = [
     "price": "510.00"
   },
   {
-    "name": "SB Lava",
+    "name": "Lava",
     "size": "24",
     "article": "SBC201",
     "color": "Black",
@@ -704,7 +704,7 @@ export const products: Product[] = [
     "price": "610.00"
   },
   {
-    "name": "SB Lava",
+    "name": "Lava",
     "size": "28",
     "article": "SBC202",
     "color": "Black",
@@ -716,7 +716,7 @@ export const products: Product[] = [
     "price": "710.00"
   },
   {
-    "name": "SB Oregon",
+    "name": "Oregon",
     "size": "20",
     "article": "SB963",
     "color": "Black",
@@ -728,7 +728,7 @@ export const products: Product[] = [
     "price": "449.00"
   },
   {
-    "name": "SB Oregon",
+    "name": "Oregon",
     "size": "24",
     "article": "SB964",
     "color": "Black",
@@ -740,7 +740,7 @@ export const products: Product[] = [
     "price": "599.00"
   },
   {
-    "name": "SB Oregon",
+    "name": "Oregon",
     "size": "28",
     "article": "SB965",
     "color": "Black",
@@ -752,7 +752,7 @@ export const products: Product[] = [
     "price": "799.00"
   },
   {
-    "name": "SB Oregon",
+    "name": "Oregon",
     "size": "32",
     "article": "SB966",
     "color": "Black",

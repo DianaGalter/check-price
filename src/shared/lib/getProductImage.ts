@@ -6,9 +6,10 @@ const productImages = import.meta.glob(
   },
 ) as Record<string, string>;
 
-export const getProductImage = (article: string): string | undefined => {
+export const getProductImage = (name: string, colorCode: string | undefined, color: string): string | undefined => {
+  const imageName = `${name}${colorCode || color}`;
   const imagePath = Object.keys(productImages).find((path) =>
-    path.endsWith(`/${article}.webp`),
+    path.endsWith(`/${imageName}.webp`),
   );
 
   return imagePath ? productImages[imagePath] : undefined;

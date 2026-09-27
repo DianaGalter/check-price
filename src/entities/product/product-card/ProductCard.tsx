@@ -11,7 +11,7 @@ export const ProductCard = ({ product, onClick }: ProductCardProps) => {
   const { name, size, article, price, color, colorCode } = product;
   const productName = `${name} ${size}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
-  const image = getProductImage(productArticle);
+  const image = getProductImage(name, colorCode, color);
 
   return (
     <article className={styles.card}>

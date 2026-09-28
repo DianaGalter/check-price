@@ -8,6 +8,9 @@ import {
   setPrice as regularSetPrice,
   columbiaSetPrice as colSetPrice,
   shvilimSetPrice as shvilSetPrice,
+  extendedSetPrice as regularExtendedSetPrice,
+  columbiaExtendedSetPrice as colExtendedSetPrice,
+  shvilimExtendedSetPrice as shvilExtendedSetPrice,
 } from "../../entities/product";
 import { applyDiscount } from "../../shared/lib/applyDiscount";
 
@@ -48,6 +51,12 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
       : shvilSetPrice[name]
     : regularSetPrice[name];
 
+  const currentExtendedSetPrice = hasClub
+    ? store === "columbia"
+      ? colExtendedSetPrice[name]
+      : shvilExtendedSetPrice[name]
+    : regularExtendedSetPrice[name];
+
   const currentPrice = hasPoliceDiscount
     ? applyDiscount(productPrice, 0.25)
     : productPrice;
@@ -71,10 +80,22 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
         : currentSetPrice
       : undefined;
 
+  const discountedExtendedSetPrice =
+    currentExtendedSetPrice !== undefined
+      ? hasPoliceDiscount
+        ? applyDiscount(currentExtendedSetPrice, 0.25)
+        : currentExtendedSetPrice
+      : undefined;
+
   const formattedPrice = currentPrice.toFixed(2);
 
   const formattedSetPrice =
     discountedSetPrice !== undefined ? discountedSetPrice.toFixed(2) : null;
+
+  const formattedExtendedSetPrice =
+    discountedExtendedSetPrice !== undefined
+      ? discountedExtendedSetPrice.toFixed(2)
+      : null;
 
   return (
     <section
@@ -254,9 +275,35 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
                 <path d="M15 8v8" />
               </svg>
 
-              <span className={styles.label}>Цена сета</span>
+              <span className={styles.label}>
+                {formattedExtendedSetPrice ? `Сет 20"+ 24"+ 28"` : "Цена сета"}
+              </span>
               <span className={`${styles.value} ${styles.price}`}>
                 ₪{formattedSetPrice}
+              </span>
+            </div>
+          )}
+
+          {formattedExtendedSetPrice && (
+            <div className={styles.detailRow}>
+              <svg
+                className={styles.detailIcon}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="8" />
+                <path d="M9 8v8" />
+                <path d="M13 8v6" />
+                <path d="M9 8h4" />
+                <path d="M11 10v6" />
+                <path d="M11 16h4" />
+                <path d="M15 8v8" />
+              </svg>
+
+              <span className={styles.label}>Сет из 4 шт.</span>
+
+              <span className={`${styles.value} ${styles.price}`}>
+                ₪{formattedExtendedSetPrice}
               </span>
             </div>
           )}

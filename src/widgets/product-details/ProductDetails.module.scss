@@ -147,7 +147,7 @@
 .detailRow,
 .barcodeRow {
   display: grid;
-  grid-template-columns: 24px 100px minmax(0, 1fr);
+  grid-template-columns: 24px 120px minmax(0, 1fr);
   align-items: center;
   gap: 12px;
 

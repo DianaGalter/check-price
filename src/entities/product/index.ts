@@ -7,4 +7,7 @@ export const {
   setPrice,
   columbiaSetPrice,
   shvilimSetPrice,
+  extendedSetPrice,
+  columbiaExtendedSetPrice,
+  shvilimExtendedSetPrice,
 } = getSetPrices(products);

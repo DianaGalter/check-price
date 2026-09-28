@@ -97,6 +97,22 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
       ? discountedExtendedSetPrice.toFixed(2)
       : null;
 
+  const originalPrice = Number(price);
+  const originalSetPrice = regularSetPrice[name];
+  const originalExtendedSetPrice = regularExtendedSetPrice[name];
+
+  const showOriginalPrice = currentPrice < originalPrice;
+
+  const showOriginalSetPrice =
+    discountedSetPrice !== undefined &&
+    originalSetPrice !== undefined &&
+    discountedSetPrice < originalSetPrice;
+
+  const showOriginalExtendedSetPrice =
+    discountedExtendedSetPrice !== undefined &&
+    originalExtendedSetPrice !== undefined &&
+    discountedExtendedSetPrice < originalExtendedSetPrice;
+
   return (
     <section
       className={styles.panel}
@@ -251,9 +267,17 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
             </svg>
 
             <span className={styles.label}>Цена чемодана</span>
-            <span className={`${styles.value} ${styles.price}`}>
-              ₪{formattedPrice}
-            </span>
+            <div className={styles.priceGroup}>
+              <span className={`${styles.value} ${styles.price}`}>
+                ₪{formattedPrice}
+              </span>
+
+              {showOriginalPrice && (
+                <span className={styles.originalPrice}>
+                  ₪{originalPrice.toFixed(2)}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* setPrice */}
@@ -278,9 +302,17 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
               <span className={styles.label}>
                 {formattedExtendedSetPrice ? `Сет 20"+ 24"+ 28"` : "Цена сета"}
               </span>
-              <span className={`${styles.value} ${styles.price}`}>
-                ₪{formattedSetPrice}
-              </span>
+              <div className={styles.priceGroup}>
+                <span className={`${styles.value} ${styles.price}`}>
+                  ₪{formattedSetPrice}
+                </span>
+
+                {showOriginalSetPrice && (
+                  <span className={styles.originalPrice}>
+                    ₪{originalSetPrice.toFixed(2)}
+                  </span>
+                )}
+              </div>
             </div>
           )}
 
@@ -302,9 +334,17 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
 
               <span className={styles.label}>Сет из 4 шт.</span>
 
-              <span className={`${styles.value} ${styles.price}`}>
-                ₪{formattedExtendedSetPrice}
-              </span>
+              <div className={styles.priceGroup}>
+                <span className={`${styles.value} ${styles.price}`}>
+                  ₪{formattedExtendedSetPrice}
+                </span>
+
+                {showOriginalExtendedSetPrice && (
+                  <span className={styles.originalPrice}>
+                    ₪{originalExtendedSetPrice.toFixed(2)}
+                  </span>
+                )}
+              </div>
             </div>
           )}
 

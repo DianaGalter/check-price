@@ -1,28 +1,16 @@
+import type { Store } from "../../shared/lib/getProductPrice";
+import { StoreSwitcher } from "../../shared/ui/store-switcher/StoreSwitcher";
 import styles from "./Header.module.scss";
+
 interface HeaderProps {
-  onMenuClick: () => void;
+  store: Store;
+  onStoreToggle: () => void;
 }
 
-export const Header = ({ onMenuClick }: HeaderProps) => {
+export const Header = ({ store, onStoreToggle }: HeaderProps) => {
   return (
     <header className={styles.header}>
-      <button type="button" aria-label="Изменить" onClick={onMenuClick}>
-        {/* <svg className={styles.menuIcon} viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M4 7h16" />
-          <path d="M4 12h16" />
-          <path d="M4 17h16" />
-        </svg> */}
-      </button>
-
-      <h1 className={styles.title}>Поиск товара</h1>
-
-      <button
-        className={styles.button}
-        type="button"
-        aria-label="Открыть сканер"
-      >
-        {/* иконка сканера */}
-      </button>
+      <StoreSwitcher store={store} onToggle={onStoreToggle} />
     </header>
   );
 };

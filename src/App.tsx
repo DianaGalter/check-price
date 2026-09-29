@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { products, ProductList } from "./entities/product";
 import type { Product } from "./entities/product/product";
@@ -15,10 +15,24 @@ import { Header } from "./widgets/header";
 import { ProductDetails } from "./widgets/product-details";
 
 import styles from "./App.module.scss";
+import type { Store } from "./shared/lib/getProductPrice";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [store, setStore] = useState<Store>(() => {
+    const savedStore = localStorage.getItem("selectedStore");
+
+    return savedStore === "shvilim" ? "shvilim" : "columbia";
+  });
+
+  const toggleStore = () => {
+    setStore((current) => (current === "columbia" ? "shvilim" : "columbia"));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("selectedStore", store);
+  }, [store]);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -28,7 +42,7 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Header onMenuClick={() => {}} />
+      <Header store={store} onStoreToggle={toggleStore} />
 
       <div className={styles.searchSection}>
         <SearchInput value={searchQuery} onChange={setSearchQuery} />
@@ -57,6 +71,8 @@ function App() {
         <ProductDetails
           product={selectedProduct}
           onClose={() => setSelectedProduct(null)}
+          store={store}
+          onStoreToggle={toggleStore}
         />
       )}
 

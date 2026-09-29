@@ -13,13 +13,21 @@ import {
   shvilimExtendedSetPrice as shvilExtendedSetPrice,
 } from "../../entities/product";
 import { applyDiscount } from "../../shared/lib/applyDiscount";
+import { StoreSwitcher } from "../../shared/ui/store-switcher/StoreSwitcher";
 
 interface ProductDetailsProps {
   product: Product;
   onClose: () => void;
+  store: Store;
+  onStoreToggle: () => void;
 }
 
-export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
+export const ProductDetails = ({
+  product,
+  onClose,
+  store,
+  onStoreToggle,
+}: ProductDetailsProps) => {
   const {
     name,
     size,
@@ -37,7 +45,6 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   const productArticle = colorCode ? `${article}${colorCode}` : article;
   const image = getProductImage(name, colorCode, color);
 
-  const [store, setStore] = useState<Store>("columbia");
   const [hasClub, setHasClub] = useState(false);
   const [hasPoliceDiscount, setHasPoliceDiscount] = useState(false);
 
@@ -138,31 +145,7 @@ export const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
           </svg>
         </button>
 
-        <button
-          className={styles.storeButton}
-          type="button"
-          onClick={() =>
-            setStore((current) =>
-              current === "columbia" ? "shvilim" : "columbia",
-            )
-          }
-          aria-label={`Переключить магазин. Сейчас ${
-            store === "columbia" ? "Columbia" : "Ашкелон"
-          }`}
-        >
-          <span>{store === "columbia" ? "Columbia" : "Ашкелон"}</span>
-
-          <svg
-            className={styles.storeIcon}
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path d="m16 3 4 4-4 4" />
-            <path d="M20 7H4" />
-            <path d="m8 21-4-4 4-4" />
-            <path d="M4 17h16" />
-          </svg>
-        </button>
+        <StoreSwitcher store={store} onToggle={onStoreToggle} />
       </header>
 
       {/* Product image */}

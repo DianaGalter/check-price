@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 
 import { products, ProductList } from "./entities/product";
 import type { Product } from "./entities/product";
-import type { Language } from "./shared/i18n";
-import { translations } from "./shared/i18n";
+import { useTranslation } from "./shared/i18n";
 
 import {
   EmptyState,
@@ -36,37 +35,17 @@ function App() {
     localStorage.setItem("selectedStore", store);
   }, [store]);
 
-  const [language, setLanguage] = useState<Language>(() => {
-    const savedLanguage = localStorage.getItem("language");
-
-    return savedLanguage === "en" ? "en" : "ru";
-  });
-
-  useEffect(() => {
-    localStorage.setItem("language", language);
-  }, [language]);
-
-  const toggleLanguage = () => {
-    setLanguage((current) => (current === "ru" ? "en" : "ru"));
-  };
-
-  const t = translations[language];
-
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   const filteredProducts = filterProducts(products, debouncedSearchQuery);
   const productsCount = filteredProducts.length;
   const hasSearchQuery = Boolean(debouncedSearchQuery.trim());
 
+  const { t } = useTranslation();
+
   return (
     <div className={styles.app}>
-      <Header
-        store={store}
-        onStoreToggle={toggleStore}
-        language={language}
-        onLanguageToggle={toggleLanguage}
-        storeSwitcherT={t.storeSwitcher}
-      />
+      <Header store={store} onStoreToggle={toggleStore} />
 
       <div className={styles.searchSection}>
         <SearchInput
@@ -105,8 +84,6 @@ function App() {
           onClose={() => setSelectedProduct(null)}
           store={store}
           onStoreToggle={toggleStore}
-          t={t.productDetails}
-          storeSwitcherT={t.storeSwitcher}
         />
       )}
 

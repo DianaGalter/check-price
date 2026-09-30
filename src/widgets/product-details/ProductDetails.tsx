@@ -14,18 +14,13 @@ import {
 } from "../../entities/product";
 import { applyDiscount } from "../../shared/lib/applyDiscount";
 import { StoreSwitcher } from "../../shared/ui/store-switcher/StoreSwitcher";
-import type {
-  ProductDetailsTranslations,
-  StoreSwitcherTranslations,
-} from "../../shared/i18n";
+import { useTranslation } from "../../shared/i18n";
 
 interface ProductDetailsProps {
   product: Product;
   onClose: () => void;
   store: Store;
   onStoreToggle: () => void;
-  t: ProductDetailsTranslations;
-  storeSwitcherT: StoreSwitcherTranslations;
 }
 
 export const ProductDetails = ({
@@ -33,8 +28,6 @@ export const ProductDetails = ({
   onClose,
   store,
   onStoreToggle,
-  t,
-  storeSwitcherT,
 }: ProductDetailsProps) => {
   const {
     name,
@@ -52,6 +45,8 @@ export const ProductDetails = ({
   const productName = `${name} ${size} ${color}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
   const image = getProductImage(name, colorCode, color);
+
+  const { productDetails: t } = useTranslation().t;
 
   const [hasClub, setHasClub] = useState(false);
   const [hasPoliceDiscount, setHasPoliceDiscount] = useState(false);
@@ -162,11 +157,7 @@ export const ProductDetails = ({
           </svg>
         </button>
 
-        <StoreSwitcher
-          store={store}
-          onToggle={onStoreToggle}
-          t={storeSwitcherT}
-        />
+        <StoreSwitcher store={store} onToggle={onStoreToggle} />
       </header>
 
       {/* Product image */}

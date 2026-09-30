@@ -1,14 +1,14 @@
-import type { StoreSwitcherTranslations } from "../../i18n";
+import { useTranslation } from "../../i18n";
 import type { Store } from "../../lib/getProductPrice";
 import styles from "./StoreSwitcher.module.scss";
 
 interface StoreSwitcherProps {
   store: Store;
   onToggle: () => void;
-  t: StoreSwitcherTranslations;
 }
 
-export const StoreSwitcher = ({ store, onToggle, t }: StoreSwitcherProps) => {
+export const StoreSwitcher = ({ store, onToggle }: StoreSwitcherProps) => {
+  const { storeSwitcher: t } = useTranslation().t;
   const storeName = store === "columbia" ? t.columbia : t.shvilim;
 
   const ariaLabel = t.ariaLabel.replace("{store}", storeName);

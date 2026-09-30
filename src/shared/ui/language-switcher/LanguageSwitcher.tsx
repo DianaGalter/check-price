@@ -1,25 +1,22 @@
-import type { Language } from "../../i18n";
+import { useTranslation } from "../../i18n";
 import styles from "./LanguageSwitcher.module.scss";
 
-interface LanguageSwitcherProps {
-  language: Language;
-  onToggle: () => void;
-}
+export const LanguageSwitcher = () => {
+  const { language, setLanguage, t } = useTranslation();
+  const text = t.languageSwitcher;
 
-export const LanguageSwitcher = ({
-  language,
-  onToggle,
-}: LanguageSwitcherProps) => {
+  const nextLanguage = language === "ru" ? "en" : "ru";
+
+  const handleToggle = () => {
+    setLanguage(nextLanguage);
+  };
+
   return (
     <button
       className={styles.languageButton}
       type="button"
-      onClick={onToggle}
-      aria-label={
-        language === "ru"
-          ? "Switch language to English"
-          : "Переключить язык на русский"
-      }
+      onClick={handleToggle}
+      aria-label={text.ariaLabel}
     >
       <svg className={styles.globeIcon} viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="9" />

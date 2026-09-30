@@ -1,38 +1,5 @@
 export type Language = "ru" | "en";
 
-export interface ProductDetailsTranslations {
-  back: string;
-  info: string;
-
-  article: string;
-  dimensions: string;
-  dimensionUnit: string;
-  weight: string;
-  weightUnit: string;
-  volume: string;
-  volumeUnit: string;
-
-  suitcasePrice: string;
-  setPrice: string;
-  setOfThree: string;
-  setOfFour: string;
-
-  barcode: string;
-
-  club: string;
-  suitcaseDiscount: string;
-  clubDiscountAria: string;
-
-  police: string;
-  policeDiscount: string;
-  policeDiscountAria: string;
-}
-export interface StoreSwitcherTranslations {
-  columbia: string;
-  shvilim: string;
-  ariaLabel: string;
-}
-
 export const translations = {
   ru: {
     search: {
@@ -80,6 +47,10 @@ export const translations = {
       columbia: "Columbia",
       shvilim: "Ашкелон",
       ariaLabel: "Переключить магазин. Сейчас {store}",
+    },
+
+    languageSwitcher: {
+      ariaLabel: "Switch language to English",
     },
   },
 
@@ -129,6 +100,10 @@ export const translations = {
       columbia: "Columbia",
       shvilim: "Ashkelon",
       ariaLabel: "Switch store. Current store: {store}",
+    },
+    
+    languageSwitcher: {
+      ariaLabel: "Переключить язык на русский",
     },
   },
 } as const;

@@ -1,12 +1,14 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 import { translations } from "./translations";
 import type { Language } from "./types";
 
+type Translation = (typeof translations)[Language];
+
 interface I18nContextValue {
   language: Language;
   setLanguage: (language: Language) => void;
-  t: typeof translations.ru;
+  t: Translation;
 }
 
 export const I18nContext = createContext<I18nContextValue | null>(null);
@@ -16,7 +18,15 @@ interface I18nProviderProps {
 }
 
 export const I18nProvider = ({ children }: I18nProviderProps) => {
-  const [language, setLanguage] = useState<Language>("ru");
+  const [language, setLanguage] = useState<Language>(() => {
+    const savedLanguage = localStorage.getItem("language");
+
+    return savedLanguage === "en" ? "en" : "ru";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("language", language);
+  }, [language]);
 
   const value = useMemo(
     () => ({

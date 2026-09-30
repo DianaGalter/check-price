@@ -1,65 +1,79 @@
-import type { Language } from "./types";
+export type Language = "ru" | "en";
 
 export const translations = {
   ru: {
     search: {
-      title: "Поиск товара",
-      placeholder: "Введите название или артикул",
-      found: "Найдено товаров",
-      noResults: "Товары не найдены",
-      hint: "Можно искать по названию товара или части артикула",
+      placeholder: "Название модели или артикул",
+      resultsCount: "Найдено чемоданов",
+      noResults: "Чемоданы не найдены",
+      hint: "Можно искать по названию модели или части артикула",
+    },
+
+    emptyState: {
+      title: "Найдите чемодан",
+      description: "Введите название модели или артикул",
     },
 
     product: {
       article: "Артикул",
-      color: "Цвет",
-      price: "Цена",
+      dimensions: "Размеры",
+      weight: "Вес",
+      volume: "Объём",
+      price: "Цена чемодана",
+      setPrice: "Цена сета",
+      setOfThree: "Сет из 3 шт.",
+      setOfFour: "Сет из 4 шт.",
       barcode: "Штрихкод",
     },
 
-    settings: {
-      title: "Настройки",
-      theme: "Тема",
-      language: "Язык",
-      light: "Светлая",
-      dark: "Тёмная",
-      about: "О приложении",
+    discounts: {
+      club: "С муадоном",
+      suitcaseDiscount: "Скидка {discount} на чемодан",
+      police: "Миштара",
+      policeDiscount: "Доп. скидка 25%",
     },
 
-    common: {
-      back: "Вернуться к списку",
-      close: "Закрыть",
+    stores: {
+      columbia: "Columbia",
+      shvilim: "Ашкелон",
     },
   },
 
   en: {
     search: {
-      title: "Product search",
-      placeholder: "Enter product name or article",
-      found: "Products found",
-      noResults: "No products found",
-      hint: "You can search by product name or part of the article",
+      placeholder: "Model name or article number",
+      resultsCount: "Suitcases found",
+      noResults: "No suitcases found",
+      hint: "Search by model name or part of the article number",
+    },
+
+    emptyState: {
+      title: "Find a suitcase",
+      description: "Enter a model name or article number",
     },
 
     product: {
       article: "Article",
-      color: "Color",
-      price: "Price",
+      dimensions: "Dimensions",
+      weight: "Weight",
+      volume: "Volume",
+      price: "Suitcase price",
+      setPrice: "Set price",
+      setOfThree: "3-piece set",
+      setOfFour: "4-piece set",
       barcode: "Barcode",
     },
 
-    settings: {
-      title: "Settings",
-      theme: "Theme",
-      language: "Language",
-      light: "Light",
-      dark: "Dark",
-      about: "About",
+    discounts: {
+      club: "Club member",
+      suitcaseDiscount: "{discount} discount on suitcase",
+      police: "Police",
+      policeDiscount: "Extra 25% discount",
     },
 
-    common: {
-      back: "Back to results",
-      close: "Close",
+    stores: {
+      columbia: "Columbia",
+      shvilim: "Ashkelon",
     },
   },
-} satisfies Record<Language, object>;
+} as const;

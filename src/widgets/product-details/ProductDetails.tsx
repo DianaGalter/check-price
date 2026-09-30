@@ -163,7 +163,7 @@ export const ProductDetails = ({
           {productName}
         </h2>
 
-        <section className={styles.details} aria-label="Информация о товаре">
+        <section className={styles.details} aria-label="Информация о модели">
           {/* Article */}
           <div className={styles.detailRow}>
             <svg

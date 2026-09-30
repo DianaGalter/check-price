@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { products, ProductList } from "./entities/product";
 import type { Product } from "./entities/product/product";
+import type { Language } from "./shared/i18n";
 
 import {
   EmptyState,
@@ -34,6 +35,20 @@ function App() {
     localStorage.setItem("selectedStore", store);
   }, [store]);
 
+  const [language, setLanguage] = useState<Language>(() => {
+    const savedLanguage = localStorage.getItem("language");
+
+    return savedLanguage === "en" ? "en" : "ru";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("language", language);
+  }, [language]);
+
+  const toggleLanguage = () => {
+    setLanguage((current) => (current === "ru" ? "en" : "ru"));
+  };
+
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   const filteredProducts = filterProducts(products, debouncedSearchQuery);
@@ -42,14 +57,19 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Header store={store} onStoreToggle={toggleStore} />
+      <Header
+        store={store}
+        onStoreToggle={toggleStore}
+        language={language}
+        onLanguageToggle={toggleLanguage}
+      />
 
       <div className={styles.searchSection}>
         <SearchInput value={searchQuery} onChange={setSearchQuery} />
 
         {hasSearchQuery && productsCount > 0 && (
           <p className={styles.resultsCount}>
-            Найдено товаров: {productsCount}
+            Найдено чемоданов: {productsCount}
           </p>
         )}
       </div>
@@ -63,7 +83,7 @@ function App() {
             onProductSelect={setSelectedProduct}
           />
         ) : (
-          <p className={styles.noResults}>Товары не найдены</p>
+          <p className={styles.noResults}>Чемоданы не найдены</p>
         )}
       </main>
 
@@ -79,7 +99,7 @@ function App() {
       <Footer
         hint={
           hasSearchQuery
-            ? "Можно искать по названию товара или части артикула"
+            ? "Можно искать по названию модели или части артикула"
             : undefined
         }
       />

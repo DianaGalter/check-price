@@ -105,8 +105,8 @@ export const EmptyState = () => {
         />
       </svg>
 
-      <h2 className={styles.title}>Найдите товар</h2>
-      <p className={styles.description}>Введите название товара или артикул</p>
+      <h2 className={styles.title}>Найдите чемодан</h2>
+      <p className={styles.description}>Введите название модели или артикул</p>
     </>
   );
 };

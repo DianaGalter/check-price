@@ -16,7 +16,7 @@ export const SearchInput = ({ value, onChange }: SearchInputProps) => {
         className={styles.input}
         id="product-search"
         type="search"
-        aria-label="Поиск товара"
+        aria-label="Поиск чемодана"
         placeholder="Поиск по названию или артикулу"
         value={value}
         onChange={(event) => onChange(event.target.value)}

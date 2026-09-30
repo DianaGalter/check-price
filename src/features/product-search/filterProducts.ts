@@ -1,4 +1,4 @@
-import { type Product } from "../../entities/product/product";
+import { type Product } from "../../entities/product";
 
 const normalizeText = (value: string) =>
   value.trim().toLowerCase().replace(/\s+/g, " ");

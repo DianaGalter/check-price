@@ -2,3 +2,4 @@ export type { Language } from "./types";
 export { useTranslation } from "./useTranslation";
 export { I18nProvider } from "./I18nContext";
 export { translations } from "./translations";
+export type {ProductDetailsTranslations, StoreSwitcherTranslations} from './translations';

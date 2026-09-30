@@ -2,9 +2,16 @@ import styles from "./SearchInput.module.scss";
 interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
+  placeholder: string;
+  ariaLabel: string;
 }
 
-export const SearchInput = ({ value, onChange }: SearchInputProps) => {
+export const SearchInput = ({
+  value,
+  onChange,
+  placeholder,
+  ariaLabel,
+}: SearchInputProps) => {
   return (
     <search className={styles.search}>
       <svg className={styles.searchIcon} viewBox="0 0 24 24" aria-hidden="true">
@@ -16,8 +23,8 @@ export const SearchInput = ({ value, onChange }: SearchInputProps) => {
         className={styles.input}
         id="product-search"
         type="search"
-        aria-label="Поиск чемодана"
-        placeholder="Поиск по названию или артикулу"
+        aria-label={ariaLabel}
+        placeholder={placeholder}
         value={value}
         onChange={(event) => onChange(event.target.value)}
       />

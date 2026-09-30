@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
 import { products, ProductList } from "./entities/product";
-import type { Product } from "./entities/product/product";
+import type { Product } from "./entities/product";
 import type { Language } from "./shared/i18n";
+import { translations } from "./shared/i18n";
 
 import {
   EmptyState,
@@ -49,6 +50,8 @@ function App() {
     setLanguage((current) => (current === "ru" ? "en" : "ru"));
   };
 
+  const t = translations[language];
+
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   const filteredProducts = filterProducts(products, debouncedSearchQuery);
@@ -62,28 +65,37 @@ function App() {
         onStoreToggle={toggleStore}
         language={language}
         onLanguageToggle={toggleLanguage}
+        storeSwitcherT={t.storeSwitcher}
       />
 
       <div className={styles.searchSection}>
-        <SearchInput value={searchQuery} onChange={setSearchQuery} />
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder={t.search.placeholder}
+          ariaLabel={t.search.ariaLabel}
+        />
 
         {hasSearchQuery && productsCount > 0 && (
           <p className={styles.resultsCount}>
-            Найдено чемоданов: {productsCount}
+            {t.search.resultsCount}: {productsCount}
           </p>
         )}
       </div>
 
       <main className={styles.main}>
         {!hasSearchQuery ? (
-          <EmptyState />
+          <EmptyState
+            title={t.emptyState.title}
+            description={t.emptyState.description}
+          />
         ) : productsCount > 0 ? (
           <ProductList
             products={filteredProducts}
             onProductSelect={setSelectedProduct}
           />
         ) : (
-          <p className={styles.noResults}>Чемоданы не найдены</p>
+          <p className={styles.noResults}>{t.search.noResults}</p>
         )}
       </main>
 
@@ -93,16 +105,12 @@ function App() {
           onClose={() => setSelectedProduct(null)}
           store={store}
           onStoreToggle={toggleStore}
+          t={t.productDetails}
+          storeSwitcherT={t.storeSwitcher}
         />
       )}
 
-      <Footer
-        hint={
-          hasSearchQuery
-            ? "Можно искать по названию модели или части артикула"
-            : undefined
-        }
-      />
+      <Footer hint={hasSearchQuery ? t.search.hint : undefined} />
     </div>
   );
 }

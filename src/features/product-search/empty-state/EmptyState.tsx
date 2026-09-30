@@ -1,6 +1,10 @@
 import styles from "./EmptyState.module.scss";
+interface EmptyStateProps {
+  title: string;
+  description: string;
+}
 
-export const EmptyState = () => {
+export const EmptyState = ({ title, description }: EmptyStateProps) => {
   return (
     <>
       <svg className={styles.emptyImage} viewBox="0 0 320 410" fill="none">
@@ -105,8 +109,8 @@ export const EmptyState = () => {
         />
       </svg>
 
-      <h2 className={styles.title}>Найдите чемодан</h2>
-      <p className={styles.description}>Введите название модели или артикул</p>
+      <h2>{title}</h2>
+      <p>{description}</p>
     </>
   );
 };

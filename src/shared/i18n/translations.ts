@@ -1,9 +1,43 @@
 export type Language = "ru" | "en";
 
+export interface ProductDetailsTranslations {
+  back: string;
+  info: string;
+
+  article: string;
+  dimensions: string;
+  dimensionUnit: string;
+  weight: string;
+  weightUnit: string;
+  volume: string;
+  volumeUnit: string;
+
+  suitcasePrice: string;
+  setPrice: string;
+  setOfThree: string;
+  setOfFour: string;
+
+  barcode: string;
+
+  club: string;
+  suitcaseDiscount: string;
+  clubDiscountAria: string;
+
+  police: string;
+  policeDiscount: string;
+  policeDiscountAria: string;
+}
+export interface StoreSwitcherTranslations {
+  columbia: string;
+  shvilim: string;
+  ariaLabel: string;
+}
+
 export const translations = {
   ru: {
     search: {
       placeholder: "Название модели или артикул",
+      ariaLabel: "Поиск чемодана",
       resultsCount: "Найдено чемоданов",
       noResults: "Чемоданы не найдены",
       hint: "Можно искать по названию модели или части артикула",
@@ -14,34 +48,45 @@ export const translations = {
       description: "Введите название модели или артикул",
     },
 
-    product: {
+    productDetails: {
+      back: "Вернуться к списку",
+      info: "Информация о чемодане",
+
       article: "Артикул",
       dimensions: "Размеры",
+      dimensionUnit: "см",
       weight: "Вес",
+      weightUnit: "кг",
       volume: "Объём",
-      price: "Цена чемодана",
+      volumeUnit: "л",
+
+      suitcasePrice: "Цена чемодана",
       setPrice: "Цена сета",
       setOfThree: "Сет из 3 шт.",
       setOfFour: "Сет из 4 шт.",
-      barcode: "Штрихкод",
-    },
 
-    discounts: {
+      barcode: "Штрихкод",
+
       club: "С муадоном",
       suitcaseDiscount: "Скидка {discount} на чемодан",
+      clubDiscountAria: "Скидка с муадоном",
+
       police: "Миштара",
       policeDiscount: "Доп. скидка 25%",
+      policeDiscountAria: "Скидка Миштары",
     },
 
-    stores: {
+    storeSwitcher: {
       columbia: "Columbia",
       shvilim: "Ашкелон",
+      ariaLabel: "Переключить магазин. Сейчас {store}",
     },
   },
 
   en: {
     search: {
       placeholder: "Model name or article number",
+      ariaLabel: "Search for a suitcase",
       resultsCount: "Suitcases found",
       noResults: "No suitcases found",
       hint: "Search by model name or part of the article number",
@@ -52,28 +97,38 @@ export const translations = {
       description: "Enter a model name or article number",
     },
 
-    product: {
+    productDetails: {
+      back: "Back to the list",
+      info: "Suitcase information",
+
       article: "Article",
       dimensions: "Dimensions",
+      dimensionUnit: "cm",
       weight: "Weight",
+      weightUnit: "kg",
       volume: "Volume",
-      price: "Suitcase price",
+      volumeUnit: "L",
+
+      suitcasePrice: "Suitcase price",
       setPrice: "Set price",
       setOfThree: "3-piece set",
       setOfFour: "4-piece set",
-      barcode: "Barcode",
-    },
 
-    discounts: {
+      barcode: "Barcode",
+
       club: "Club member",
       suitcaseDiscount: "{discount} discount on suitcase",
+      clubDiscountAria: "Club member discount",
+
       police: "Police",
       policeDiscount: "Extra 25% discount",
+      policeDiscountAria: "Police discount",
     },
 
-    stores: {
+    storeSwitcher: {
       columbia: "Columbia",
       shvilim: "Ashkelon",
+      ariaLabel: "Switch store. Current store: {store}",
     },
   },
 } as const;

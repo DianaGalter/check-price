@@ -1,20 +1,24 @@
+import type { StoreSwitcherTranslations } from "../../i18n";
 import type { Store } from "../../lib/getProductPrice";
 import styles from "./StoreSwitcher.module.scss";
 
 interface StoreSwitcherProps {
   store: Store;
   onToggle: () => void;
+  t: StoreSwitcherTranslations;
 }
 
-export const StoreSwitcher = ({ store, onToggle }: StoreSwitcherProps) => {
-  const storeName = store === "columbia" ? "Columbia" : "Ашкелон";
+export const StoreSwitcher = ({ store, onToggle, t }: StoreSwitcherProps) => {
+  const storeName = store === "columbia" ? t.columbia : t.shvilim;
+
+  const ariaLabel = t.ariaLabel.replace("{store}", storeName);
 
   return (
     <button
       className={styles.storeButton}
       type="button"
       onClick={onToggle}
-      aria-label={`Переключить магазин. Сейчас ${storeName}`}
+      aria-label={ariaLabel}
     >
       <span>{storeName}</span>
 

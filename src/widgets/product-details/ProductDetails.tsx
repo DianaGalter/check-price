@@ -14,12 +14,18 @@ import {
 } from "../../entities/product";
 import { applyDiscount } from "../../shared/lib/applyDiscount";
 import { StoreSwitcher } from "../../shared/ui/store-switcher/StoreSwitcher";
+import type {
+  ProductDetailsTranslations,
+  StoreSwitcherTranslations,
+} from "../../shared/i18n";
 
 interface ProductDetailsProps {
   product: Product;
   onClose: () => void;
   store: Store;
   onStoreToggle: () => void;
+  t: ProductDetailsTranslations;
+  storeSwitcherT: StoreSwitcherTranslations;
 }
 
 export const ProductDetails = ({
@@ -27,6 +33,8 @@ export const ProductDetails = ({
   onClose,
   store,
   onStoreToggle,
+  t,
+  storeSwitcherT,
 }: ProductDetailsProps) => {
   const {
     name,
@@ -120,6 +128,15 @@ export const ProductDetails = ({
     originalExtendedSetPrice !== undefined &&
     discountedExtendedSetPrice < originalExtendedSetPrice;
 
+  const clubDiscount =
+    store === "columbia"
+      ? size === "24"
+        ? "50%"
+        : "30%"
+      : size === "20" || size === "24"
+        ? "50%"
+        : "30%";
+
   return (
     <section
       className={styles.panel}
@@ -132,7 +149,7 @@ export const ProductDetails = ({
         <button
           className={styles.iconButton}
           type="button"
-          aria-label="Вернуться к списку"
+          aria-label={t.back}
           onClick={onClose}
         >
           <svg
@@ -145,7 +162,11 @@ export const ProductDetails = ({
           </svg>
         </button>
 
-        <StoreSwitcher store={store} onToggle={onStoreToggle} />
+        <StoreSwitcher
+          store={store}
+          onToggle={onStoreToggle}
+          t={storeSwitcherT}
+        />
       </header>
 
       {/* Product image */}
@@ -163,7 +184,7 @@ export const ProductDetails = ({
           {productName}
         </h2>
 
-        <section className={styles.details} aria-label="Информация о модели">
+        <section className={styles.details} aria-label={t.info}>
           {/* Article */}
           <div className={styles.detailRow}>
             <svg
@@ -175,7 +196,7 @@ export const ProductDetails = ({
               <circle cx="9" cy="10" r="1.5" />
             </svg>
 
-            <span className={styles.label}>Артикул</span>
+            <span className={styles.label}>{t.article}</span>
             <span className={styles.value}>{productArticle}</span>
           </div>
 
@@ -193,9 +214,9 @@ export const ProductDetails = ({
               <path d="m2 15 1 1 1-1" />
             </svg>
 
-            <span className={styles.label}>Размеры</span>
+            <span className={styles.label}>{t.dimensions}</span>
             <span className={styles.value}>
-              {getProductDimensions(height, width, depth)}
+              {getProductDimensions(height, width, depth, t.dimensionUnit)}
             </span>
           </div>
 
@@ -211,8 +232,10 @@ export const ProductDetails = ({
               <path d="m12 9 1.5-2" />
             </svg>
 
-            <span className={styles.label}>Вес</span>
-            <span className={styles.value}>{weight} кг</span>
+            <span className={styles.label}>{t.weight}</span>
+            <span className={styles.value}>
+              {weight} {t.weightUnit}
+            </span>
           </div>
 
           {/* Volume */}
@@ -227,8 +250,10 @@ export const ProductDetails = ({
               <path d="M12 12v9" />
             </svg>
 
-            <span className={styles.label}>Объём</span>
-            <span className={styles.value}>{volume} л</span>
+            <span className={styles.label}>{t.volume}</span>
+            <span className={styles.value}>
+              {volume} {t.volumeUnit}
+            </span>
           </div>
 
           {/* Price */}
@@ -249,7 +274,7 @@ export const ProductDetails = ({
               <path d="M15 8v8" />
             </svg>
 
-            <span className={styles.label}>Цена чемодана</span>
+            <span className={styles.label}>{t.suitcasePrice}</span>
             <div className={styles.priceGroup}>
               <span className={`${styles.value} ${styles.price}`}>
                 ₪{formattedPrice}
@@ -283,7 +308,7 @@ export const ProductDetails = ({
               </svg>
 
               <span className={styles.label}>
-                {formattedExtendedSetPrice ? `Сет 20"+ 24"+ 28"` : "Цена сета"}
+                {formattedExtendedSetPrice ? t.setOfThree : t.setPrice}
               </span>
               <div className={styles.priceGroup}>
                 <span className={`${styles.value} ${styles.price}`}>
@@ -315,7 +340,7 @@ export const ProductDetails = ({
                 <path d="M15 8v8" />
               </svg>
 
-              <span className={styles.label}>Сет из 4 шт.</span>
+              <span className={styles.label}>{t.setOfFour}</span>
 
               <div className={styles.priceGroup}>
                 <span className={`${styles.value} ${styles.price}`}>
@@ -351,7 +376,7 @@ export const ProductDetails = ({
               <path d="M17 7v10" />
             </svg>
 
-            <span className={styles.label}>Штрихкод</span>
+            <span className={styles.label}>{t.barcode}</span>
 
             <svg
               className={styles.chevron}
@@ -375,13 +400,9 @@ export const ProductDetails = ({
               </svg>
 
               <div className={styles.discountInfo}>
-                <span className={styles.discountTitle}>С муадоном</span>
+                <span className={styles.discountTitle}>{t.club}</span>
                 <span className={styles.discountDescription}>
-                  {store === "columbia"
-                    ? `Скидка ${size === "24" ? "50%" : "30%"} на чемодан`
-                    : `Скидка ${
-                        size === "20" || size === "24" ? "50%" : "30%"
-                      } на чемодан`}
+                  {t.suitcaseDiscount.replace("{discount}", clubDiscount)}
                 </span>
               </div>
 
@@ -392,7 +413,7 @@ export const ProductDetails = ({
                 }`}
                 role="switch"
                 aria-checked={hasClub}
-                aria-label="Скидка с муадоном"
+                aria-label={t.clubDiscountAria}
                 disabled={hasPoliceDiscount}
                 onClick={() => setHasClub((current) => !current)}
               >
@@ -411,9 +432,9 @@ export const ProductDetails = ({
               </svg>
 
               <div className={styles.discountInfo}>
-                <span className={styles.discountTitle}>Миштара</span>
+                <span className={styles.discountTitle}>{t.police}</span>
                 <span className={styles.discountDescription}>
-                  Доп. скидка 25%
+                  {t.policeDiscount}
                 </span>
               </div>
 
@@ -424,7 +445,7 @@ export const ProductDetails = ({
                 }`}
                 role="switch"
                 aria-checked={hasPoliceDiscount}
-                aria-label="Скидка Миштары"
+                aria-label={t.policeDiscountAria}
                 onClick={handlePoliceDiscountChange}
               >
                 <span className={styles.switchThumb} />

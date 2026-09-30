@@ -1,4 +1,4 @@
-import type { Product } from "../../entities/product/product";
+import type { Product } from "../../entities/product";
 
 type PricesByName = Record<string, number>;
 type PricesBySize = Record<string, Record<string, number>>;

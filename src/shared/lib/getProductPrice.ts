@@ -1,4 +1,4 @@
-import type { Product } from "../../entities/product/product";
+import type { Product } from "../../entities/product";
 
 export type Store = "columbia" | "shvilim";
 

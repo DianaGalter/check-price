@@ -220,10 +220,15 @@
   gap: 12px;
 
   padding: 12px 16px;
+  cursor: pointer;
 }
 
 .discountRow + .discountRow {
   border-top: 1px solid var(--color-border);
+}
+
+.discountRowDisabled {
+  cursor: not-allowed;
 }
 
 .discountIcon {

@@ -71,7 +71,7 @@ export const ProductDetails = ({
     ? applyDiscount(productPrice, 0.25)
     : productPrice;
 
-  const handlePoliceDiscountChange = () => {
+  const handlePoliceDiscountToggle = () => {
     setHasPoliceDiscount((current) => {
       const next = !current;
 
@@ -81,6 +81,11 @@ export const ProductDetails = ({
 
       return next;
     });
+  };
+
+  const handleClubToggle = () => {
+    if (hasPoliceDiscount) return;
+    setHasClub((current) => !current);
   };
 
   const discountedSetPrice =
@@ -381,7 +386,10 @@ export const ProductDetails = ({
           {/* Discount section */}
           <div className={styles.discountSection}>
             {/* Club discount */}
-            <div className={styles.discountRow}>
+            <div
+              className={`${styles.discountRow} ${hasPoliceDiscount ? styles.discountRowDisabled : ""}`}
+              onClick={handleClubToggle}
+            >
               <svg
                 className={styles.discountIcon}
                 viewBox="0 0 24 24"
@@ -406,14 +414,20 @@ export const ProductDetails = ({
                 aria-checked={hasClub}
                 aria-label={t.clubDiscountAria}
                 disabled={hasPoliceDiscount}
-                onClick={() => setHasClub((current) => !current)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleClubToggle();
+                }}
               >
                 <span className={styles.switchThumb} />
               </button>
             </div>
 
             {/* Police discount */}
-            <div className={styles.discountRow}>
+            <div
+              className={styles.discountRow}
+              onClick={handlePoliceDiscountToggle}
+            >
               <svg
                 className={styles.discountIcon}
                 viewBox="0 0 24 24"
@@ -437,7 +451,10 @@ export const ProductDetails = ({
                 role="switch"
                 aria-checked={hasPoliceDiscount}
                 aria-label={t.policeDiscountAria}
-                onClick={handlePoliceDiscountChange}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handlePoliceDiscountToggle();
+                }}
               >
                 <span className={styles.switchThumb} />
               </button>

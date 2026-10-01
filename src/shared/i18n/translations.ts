@@ -52,6 +52,10 @@ export const translations = {
     languageSwitcher: {
       ariaLabel: "Switch language to English",
     },
+
+    barcode: {
+      title: "Штрихкоды",
+    }
   },
 
   en: {
@@ -105,5 +109,9 @@ export const translations = {
     languageSwitcher: {
       ariaLabel: "Переключить язык на русский",
     },
+
+    barcode: {
+      title: "Barcodes",
+    }
   },
 } as const;

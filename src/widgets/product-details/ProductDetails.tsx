@@ -470,7 +470,11 @@ export const ProductDetails = ({
         </section>
       </div>
       {isBarcodeModalOpen && (
-        <BarcodeModal onClose={() => setIsBarcodeModalOpen(false)} />
+        <BarcodeModal
+          productName={productName}
+          productArticle={productArticle}
+          onClose={() => setIsBarcodeModalOpen(false)}
+        />
       )}
     </section>
   );

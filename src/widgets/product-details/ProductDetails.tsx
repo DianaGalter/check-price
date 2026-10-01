@@ -15,6 +15,7 @@ import {
 import { applyDiscount } from "../../shared/lib/applyDiscount";
 import { StoreSwitcher } from "../../shared/ui/store-switcher/StoreSwitcher";
 import { useTranslation } from "../../shared/i18n";
+import { BarcodeModal } from "./BarcodeModal";
 
 interface ProductDetailsProps {
   product: Product;
@@ -50,6 +51,8 @@ export const ProductDetails = ({
 
   const [hasClub, setHasClub] = useState(false);
   const [hasPoliceDiscount, setHasPoliceDiscount] = useState(false);
+
+  const [isBarcodeModalOpen, setIsBarcodeModalOpen] = useState(false);
 
   const productPrice = hasClub
     ? getProductPrice(product, store)
@@ -353,7 +356,11 @@ export const ProductDetails = ({
           )}
 
           {/* Barcode */}
-          <button className={styles.barcodeRow} type="button">
+          <button
+            className={styles.barcodeRow}
+            type="button"
+            onClick={() => setIsBarcodeModalOpen(true)}
+          >
             <svg
               className={styles.detailIcon}
               viewBox="0 0 24 24"
@@ -462,6 +469,9 @@ export const ProductDetails = ({
           </div>
         </section>
       </div>
+      {isBarcodeModalOpen && (
+        <BarcodeModal onClose={() => setIsBarcodeModalOpen(false)} />
+      )}
     </section>
   );
 };

@@ -1,3 +1,4 @@
+import { useTranslation } from "../../../shared/i18n";
 import { getProductImage } from "../../../shared/lib/getProductImage";
 import type { Product } from "../product";
 import styles from "./ProductCard.module.scss";
@@ -12,6 +13,7 @@ export const ProductCard = ({ product, onClick }: ProductCardProps) => {
   const productName = `${name} ${size}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
   const image = getProductImage(name, colorCode, color);
+  const { productDetails: t } = useTranslation().t;
 
   return (
     <article className={styles.card}>
@@ -34,7 +36,9 @@ export const ProductCard = ({ product, onClick }: ProductCardProps) => {
 
           {color && <p className={styles.color}>{color}</p>}
 
-          <p className={styles.article}>Артикул: {productArticle}</p>
+          <p className={styles.article}>
+            {t.article}: {productArticle}
+          </p>
           <p className={styles.price}>₪{price}</p>
         </div>
 

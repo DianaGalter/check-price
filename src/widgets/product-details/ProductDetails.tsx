@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Product } from "../../entities/product/product";
+import type { Product } from "../../entities/product";
 import { getProductDimensions } from "../../shared/lib/getProductDimensions";
 import { getProductPrice, type Store } from "../../shared/lib/getProductPrice";
 import { getProductImage } from "../../shared/lib/getProductImage";
@@ -11,7 +11,9 @@ import {
   extendedSetPrice as regularExtendedSetPrice,
   columbiaExtendedSetPrice as colExtendedSetPrice,
   shvilimExtendedSetPrice as shvilExtendedSetPrice,
+  products,
 } from "../../entities/product";
+import { getSetBarcode } from "../../shared/lib/getSetBarcode";
 import { applyDiscount } from "../../shared/lib/applyDiscount";
 import { StoreSwitcher } from "../../shared/ui/store-switcher/StoreSwitcher";
 import { useTranslation } from "../../shared/i18n";
@@ -45,6 +47,9 @@ export const ProductDetails = ({
   } = product;
   const productName = `${name} ${size} ${color}`;
   const productArticle = colorCode ? `${article}${colorCode}` : article;
+
+  const setBarcode = getSetBarcode(product, products);
+
   const image = getProductImage(name, colorCode, color);
 
   const { productDetails: t } = useTranslation().t;
@@ -473,6 +478,7 @@ export const ProductDetails = ({
         <BarcodeModal
           productName={productName}
           productArticle={productArticle}
+          setBarcode={setBarcode}
           onClose={() => setIsBarcodeModalOpen(false)}
         />
       )}

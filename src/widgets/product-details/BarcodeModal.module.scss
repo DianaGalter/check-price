@@ -32,7 +32,7 @@
 }
 
 .title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
 }
 
@@ -64,11 +64,14 @@
 .barcodeItem {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
+  margin: 24px 0 32px;
 }
 
 .barcodeLabel {
   font-size: 15px;
   font-weight: 500;
+}
+
+.barcodeSingle {
+  padding-bottom: 24px;
 }

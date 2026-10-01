@@ -5,12 +5,14 @@ import styles from "./BarcodeModal.module.scss";
 interface BarcodeModalProps {
   productName: string;
   productArticle: string;
+  setBarcode?: string;
   onClose: () => void;
 }
 
 export const BarcodeModal = ({
   productName,
   productArticle,
+  setBarcode,
   onClose,
 }: BarcodeModalProps) => {
   const { barcode: t } = useTranslation().t;
@@ -37,11 +39,21 @@ export const BarcodeModal = ({
             </svg>
           </button>
         </header>
+
         <div className={styles.barcodeItem}>
-          <span className={styles.barcodeLabel}>{productName}</span>
+          <span className={`${styles.barcodeLabel} ${styles.barcodeSingle}`}>
+            {productName}
+          </span>
 
           <Barcode value={productArticle} />
         </div>
+
+        {setBarcode && (
+          <div className={styles.barcodeItem}>
+            <span className={styles.barcodeLabel}>{t.set}</span>
+            <Barcode value={setBarcode} />
+          </div>
+        )}
       </section>
     </div>
   );

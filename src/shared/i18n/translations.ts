@@ -55,6 +55,7 @@ export const translations = {
 
     barcode: {
       title: "Штрихкоды",
+      set: "Сет",
     }
   },
 
@@ -112,6 +113,7 @@ export const translations = {
 
     barcode: {
       title: "Barcodes",
+      set: "Set",
     }
   },
 } as const;

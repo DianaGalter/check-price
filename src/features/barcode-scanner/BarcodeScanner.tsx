@@ -39,8 +39,32 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
             : undefined;
 
         if (track) {
-          alert(Object.keys(track.getCapabilities()));
-          alert(Object.keys(track.getSettings()));
+          interface CameraCapabilities extends MediaTrackCapabilities {
+            focusMode?: string[];
+            focusDistance?: {
+              min: number;
+              max: number;
+              step: number;
+            };
+            zoom?: {
+              min: number;
+              max: number;
+              step: number;
+            };
+          }
+          const capabilities = track.getCapabilities() as CameraCapabilities;
+
+          alert(
+            JSON.stringify(
+              {
+                focusMode: capabilities.focusMode,
+                focusDistance: capabilities.focusDistance,
+                zoom: capabilities.zoom,
+              },
+              null,
+              2,
+            ),
+          );
         }
       } catch (error) {
         console.error("Не удалось запустить сканер:", error);

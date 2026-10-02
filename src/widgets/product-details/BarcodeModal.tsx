@@ -55,13 +55,6 @@ export const BarcodeModal = ({
             <Barcode value={setBarcode} />
           </div>
         )}
-
-        <BarcodeScanner
-          onScan={(value) => {
-            alert(value);
-          }}
-          onClose={onClose}
-        />
       </section>
     </div>
   );

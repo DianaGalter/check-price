@@ -1,3 +1,4 @@
+import { BarcodeScanner } from "../../features/barcode-scanner";
 import { useTranslation } from "../../shared/i18n";
 import { Barcode } from "../../shared/ui/barcode/Barcode";
 import styles from "./BarcodeModal.module.scss";
@@ -54,6 +55,13 @@ export const BarcodeModal = ({
             <Barcode value={setBarcode} />
           </div>
         )}
+
+        <BarcodeScanner
+          onScan={(value) => {
+            alert(value);
+          }}
+          onClose={onClose}
+        />
       </section>
     </div>
   );

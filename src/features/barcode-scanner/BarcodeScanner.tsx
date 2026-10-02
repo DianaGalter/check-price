@@ -65,6 +65,33 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
               2,
             ),
           );
+
+          const settings = track.getSettings();
+
+          alert(
+            JSON.stringify(
+              {
+                label: track.label,
+                deviceId: settings.deviceId,
+                facingMode: settings.facingMode,
+                width: settings.width,
+                height: settings.height,
+              },
+              null,
+              2,
+            ),
+          );
+
+          const devices = await navigator.mediaDevices.enumerateDevices();
+
+          const cameras = devices
+            .filter((device) => device.kind === "videoinput")
+            .map((device) => ({
+              label: device.label,
+              deviceId: device.deviceId,
+            }));
+
+          alert(JSON.stringify(cameras, null, 2));
         }
       } catch (error) {
         console.error("Не удалось запустить сканер:", error);

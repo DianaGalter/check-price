@@ -33,8 +33,17 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
             onScan(result.getText());
           },
         );
+        const track =
+          videoRef.current?.srcObject instanceof MediaStream
+            ? videoRef.current.srcObject.getVideoTracks()[0]
+            : undefined;
+
+        if (track) {
+          alert(`Camera capabilities: ${track.getCapabilities()}`);
+          alert(`Camera settings: ${track.getSettings()}`);
+        }
       } catch (error) {
-        console.error("Не удалось запустить сканер:", error);
+        alert(`Не удалось запустить сканер: ${error}`);
       }
     };
 

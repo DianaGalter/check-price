@@ -46,6 +46,8 @@ jobs:
 
       - name: Build master
         run: pnpm build
+        env:
+          DEPLOY_PATH: /check-price/
 
       - name: Save production build
         run: |
@@ -62,7 +64,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build dev
-        run: pnpm build -- --base=/check-price/dev/
+        run: pnpm build
+        env:
+          DEPLOY_PATH: /check-price/dev/
 
       - name: Add dev build
         run: |

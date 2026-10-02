@@ -39,11 +39,11 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
             : undefined;
 
         if (track) {
-          alert(`Camera capabilities: ${track.getCapabilities()}`);
-          alert(`Camera settings: ${track.getSettings()}`);
+          alert(Object.keys(track.getCapabilities()));
+          alert(Object.keys(track.getSettings()));
         }
       } catch (error) {
-        alert(`Не удалось запустить сканер: ${error}`);
+        console.error("Не удалось запустить сканер:", error);
       }
     };
 

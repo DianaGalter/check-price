@@ -39,7 +39,8 @@ function App() {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   const handleScan = (value: string) => {
-    setSearchQuery(value);
+    const product = products.find((product) => product.barcode === value);
+    setSearchQuery(product?.article || "");
     setIsScannerOpen(false);
   };
 

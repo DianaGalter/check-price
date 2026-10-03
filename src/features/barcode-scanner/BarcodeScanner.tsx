@@ -19,25 +19,10 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
 
     const startScanner = async () => {
       try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-
-        const backCameras = devices.filter(
-          (device) =>
-            device.kind === "videoinput" &&
-            device.label.includes("facing back"),
-        );
-
-        const camera = backCameras[1];
-
-        if (!camera) {
-          console.error("Вторая задняя камера не найдена");
-          return;
-        }
-
         controls = await reader.decodeFromConstraints(
           {
             video: {
-              deviceId: { exact: camera.deviceId },
+              facingMode: { ideal: "environment" },
               width: { ideal: 1280 },
               height: { ideal: 720 },
             },
@@ -50,6 +35,27 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
             onScan(result.getText());
           },
         );
+
+        const track =
+          videoRef.current?.srcObject instanceof MediaStream
+            ? videoRef.current.srcObject.getVideoTracks()[0]
+            : undefined;
+
+        if (track) {
+          const settings = track.getSettings();
+
+          alert(
+            JSON.stringify(
+              {
+                label: track.label,
+                width: settings.width,
+                height: settings.height,
+              },
+              null,
+              2,
+            ),
+          );
+        }
       } catch (error) {
         console.error("Не удалось запустить сканер:", error);
       }

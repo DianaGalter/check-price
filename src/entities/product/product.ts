@@ -2,6 +2,7 @@ export interface Product {
     name: string;
     size: string;
     article: string;
+    barcode?: string;
     colorCode?: string;
     color: string;
     height: string;

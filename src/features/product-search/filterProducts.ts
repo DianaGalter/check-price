@@ -15,9 +15,10 @@ export const filterProducts = (
 
   return productList.filter((product) => {
     const normalizedName = normalizeText(product.name);
+    const normalizedArticle = normalizeText(product.article);
 
     return (
-      product.article.includes(normalizedQuery) ||
+      normalizedArticle.includes(normalizedQuery) ||
       normalizedName.includes(normalizedQuery)
     );
   });

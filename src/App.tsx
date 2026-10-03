@@ -17,6 +17,7 @@ import { ProductDetails } from "./widgets/product-details";
 
 import styles from "./App.module.scss";
 import type { Store } from "./shared/lib/getProductPrice";
+import { BarcodeScanner } from "./features/barcode-scanner";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,6 +35,13 @@ function App() {
   useEffect(() => {
     localStorage.setItem("selectedStore", store);
   }, [store]);
+
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
+
+  const handleScan = (value: string) => {
+    setSearchQuery(value);
+    setIsScannerOpen(false);
+  };
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -53,7 +61,15 @@ function App() {
           onChange={setSearchQuery}
           placeholder={t.search.placeholder}
           ariaLabel={t.search.ariaLabel}
+          onScanClick={() => setIsScannerOpen(true)}
         />
+
+        {isScannerOpen && (
+          <BarcodeScanner
+            onScan={handleScan}
+            onClose={() => setIsScannerOpen(false)}
+          />
+        )}
 
         {hasSearchQuery && productsCount > 0 && (
           <p className={styles.resultsCount}>

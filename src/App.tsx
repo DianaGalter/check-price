@@ -40,7 +40,9 @@ function App() {
 
   const handleScan = (value: string) => {
     const product = products.find((product) => product.barcode === value);
-    setSearchQuery(product?.article || "");
+
+    // If there is no corresponding article, show value so the user know that the scanner works
+    setSearchQuery(product?.article || value);
     setIsScannerOpen(false);
   };
 

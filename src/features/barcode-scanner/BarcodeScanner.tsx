@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { BrowserQRCodeReader } from "@zxing/browser";
+import { BrowserMultiFormatReader } from "@zxing/browser";
+import type { IScannerControls } from "@zxing/browser";
 import styles from "./BarcodeScanner.module.scss";
 
 interface BarcodeScannerProps {
@@ -13,18 +14,65 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
   useEffect(() => {
     if (!videoRef.current) return;
 
-    async function startScanner() {
-      const videoInputDevices =
-        await BrowserQRCodeReader.listVideoInputDevices();
+    const reader = new BrowserMultiFormatReader();
+    let controls: IScannerControls | undefined;
 
-      // 1. Фильтруем камеры: ищем ту, которая "задняя" (back) И НЕ широкоугольная (wide/ultra)
-      videoInputDevices.find((device) => {
-        const label = device.label.toLowerCase();
-        // Ищем признаки основной камеры Samsung
-        alert(label);
-      });
-    }
+    const startScanner = async () => {
+      try {
+        controls = await reader.decodeFromConstraints(
+          {
+            video: {
+              facingMode: { ideal: "environment" },
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
+            },
+          },
+          videoRef.current!,
+          (result) => {
+            if (!result) return;
+
+            controls?.stop();
+            onScan(result.getText());
+          },
+        );
+
+        const track =
+          videoRef.current?.srcObject instanceof MediaStream
+            ? videoRef.current.srcObject.getVideoTracks()[0]
+            : undefined;
+
+        if (track) {
+          const settings = track.getSettings();
+
+          const capabilities = track.getCapabilities() as any;
+
+          if (capabilities.zoom) {
+            await track.applyConstraints({
+              advanced: [{ zoom: 1.5 }], // небольшое приближение
+            } as any);
+          }
+          alert(
+            JSON.stringify(
+              {
+                label: track.label,
+                width: settings.width,
+                height: settings.height,
+              },
+              null,
+              2,
+            ),
+          );
+        }
+      } catch (error) {
+        console.error("Не удалось запустить сканер:", error);
+      }
+    };
+
     startScanner();
+
+    return () => {
+      controls?.stop();
+    };
   }, [onScan]);
 
   return (

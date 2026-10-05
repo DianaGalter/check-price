@@ -12,7 +12,7 @@ function logToScreen(message: string) {
   if (logElement) {
     logElement.innerText += "\n" + message;
   }
-  console.log(message);
+  alert(message);
 }
 
 export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {

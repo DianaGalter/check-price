@@ -15,9 +15,12 @@ export const filterProducts = (
 
   return productList.filter((product) => {
     const normalizedName = normalizeText(product.name);
+    const fullArticle = product.colorCode
+      ? `${product.article}${product.colorCode}`
+      : product.article;
 
     return (
-      product.article.includes(normalizedQuery) ||
+      fullArticle.includes(normalizedQuery) ||
       normalizedName.includes(normalizedQuery)
     );
   });

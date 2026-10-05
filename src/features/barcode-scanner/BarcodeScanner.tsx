@@ -23,8 +23,8 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
           {
             video: {
               facingMode: { ideal: "environment" },
-              width: { ideal: 1280 },
-              height: { ideal: 720 },
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
             },
           },
           videoRef.current!,

@@ -44,6 +44,18 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
         if (track) {
           const settings = track.getSettings();
 
+          const capabilities = track.getCapabilities() as any;
+
+          // Проверяем, поддерживает ли браузер/камера управление фокусом
+          if (
+            capabilities.focusMode &&
+            capabilities.focusMode.includes("continuous")
+          ) {
+            await track.applyConstraints({
+              advanced: [{ focusMode: "continuous" }],
+            } as any);
+          }
+
           alert(
             JSON.stringify(
               {

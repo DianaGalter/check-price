@@ -32,17 +32,12 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
           video: true,
         });
         let devices = await navigator.mediaDevices.enumerateDevices();
-        let results = [];
-        for (const device of devices) {
-          alert("label: " + device.label);
-          if (device.kind === "videoinput") {
-            results.push({
-              id: device.deviceId,
-              label: device.label,
-            });
-            alert("label: " + device.label);
-          }
-        }
+        const backCameras = devices.filter(
+          (device) =>
+            device.kind === "videoinput" &&
+            device.label.toLowerCase().includes("back"),
+        );
+        alert(backCameras.map((camera) => camera.label).join("\n"));
         closeActiveStreams(mediaStream);
       } catch (error) {
         console.error("Не удалось запустить сканер:", error);

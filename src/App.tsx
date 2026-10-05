@@ -42,7 +42,10 @@ function App() {
     const product = products.find((product) => product.barcode === value);
 
     // If there is no corresponding article, show value so the user know that the scanner works
-    setSearchQuery(product?.article || value);
+    const productArticle = product?.colorCode
+      ? `${product?.article}${product?.colorCode}`
+      : product?.article;
+    setSearchQuery(productArticle || value);
     setIsScannerOpen(false);
   };
 

@@ -44,6 +44,13 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
         if (track) {
           const settings = track.getSettings();
 
+          const capabilities = track.getCapabilities() as any;
+
+          if (capabilities.zoom) {
+            await track.applyConstraints({
+              advanced: [{ zoom: 1.5 }], // небольшое приближение
+            } as any);
+          }
           alert(
             JSON.stringify(
               {

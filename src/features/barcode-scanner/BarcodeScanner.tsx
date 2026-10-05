@@ -36,23 +36,32 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
           },
         );
 
-        const track =
-          videoRef.current?.srcObject instanceof MediaStream
-            ? videoRef.current.srcObject.getVideoTracks()[0]
-            : undefined;
+        const closeActiveStreams = (stream: MediaStream) => {
+          const tracks = stream.getVideoTracks();
+          for (const track of tracks) {
+            track.enabled = false;
+            track.stop();
+            stream.removeTrack(track);
+          }
+        };
 
-        if (track) {
-          alert(track.label);
+        let mediaStream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: true,
+        });
+        let devices = await navigator.mediaDevices.enumerateDevices();
+        let results = [];
+        for (const device of devices) {
+          alert("label: " + device.label);
+          if (device.kind === "videoinput") {
+            results.push({
+              id: device.deviceId,
+              label: device.label,
+            });
+            alert("label: " + device.label);
+          }
         }
-
-        const track1 =
-          videoRef.current?.srcObject instanceof MediaStream
-            ? videoRef.current.srcObject.getVideoTracks()[1]
-            : undefined;
-
-        if (track1) {
-          alert("трек1" + track1.label);
-        }
+        closeActiveStreams(mediaStream);
       } catch (error) {
         console.error("Не удалось запустить сканер:", error);
       }

@@ -16,9 +16,9 @@ export const EmptyState = ({ title, description }: EmptyStateProps) => {
             C200 32 211 43 211 58
             V137"
           stroke="currentColor"
-          stroke-width="7"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
 
         <path
@@ -29,9 +29,9 @@ export const EmptyState = ({ title, description }: EmptyStateProps) => {
             C191 45 195 49 195 54
             V62"
           stroke="currentColor"
-          stroke-width="7"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
 
         {/* <!-- Suitcase body --> */}
@@ -50,9 +50,9 @@ export const EmptyState = ({ title, description }: EmptyStateProps) => {
             C69 147 79 137 91 137
           "
           stroke="currentColor"
-          stroke-width="7"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
 
         {/* <!-- Wheels --> */}
@@ -62,8 +62,8 @@ export const EmptyState = ({ title, description }: EmptyStateProps) => {
             C117 406 124 399 124 389
             V376"
           stroke="currentColor"
-          stroke-width="7"
-          stroke-linecap="round"
+          strokeWidth="7"
+          strokeLinecap="round"
         />
 
         <path
@@ -72,8 +72,8 @@ export const EmptyState = ({ title, description }: EmptyStateProps) => {
             C229 406 236 399 236 389
             V376"
           stroke="currentColor"
-          stroke-width="7"
-          stroke-linecap="round"
+          strokeWidth="7"
+          strokeLinecap="round"
         />
 
         {/* <!-- Magnifying glass --> */}
@@ -82,7 +82,7 @@ export const EmptyState = ({ title, description }: EmptyStateProps) => {
           cy="301"
           r="58"
           stroke="currentColor"
-          stroke-width="7"
+          strokeWidth="7"
         />
 
         <circle
@@ -90,22 +90,22 @@ export const EmptyState = ({ title, description }: EmptyStateProps) => {
           cy="301"
           r="43"
           stroke="currentColor"
-          stroke-width="7"
+          strokeWidth="7"
         />
 
         {/* <!-- Magnifying glass handle --> */}
         <path
           d="M259 343L304 388"
           stroke="currentColor"
-          stroke-width="16"
-          stroke-linecap="round"
+          strokeWidth="16"
+          strokeLinecap="round"
         />
 
         <path
           d="M259 343L304 388"
           stroke="currentColor"
-          stroke-width="7"
-          stroke-linecap="round"
+          strokeWidth="7"
+          strokeLinecap="round"
         />
       </svg>
 

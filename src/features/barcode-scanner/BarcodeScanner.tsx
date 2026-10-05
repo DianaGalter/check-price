@@ -42,18 +42,16 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
             : undefined;
 
         if (track) {
-          const settings = track.getSettings() as any;
+          alert(track.label);
+        }
 
-          await track.applyConstraints({
-            advanced: [
-              {
-                exposureMode: ["continuous"],
-                whiteBalanceMode: ["continuous"],
-              },
-            ],
-          } as any);
+        const track1 =
+          videoRef.current?.srcObject instanceof MediaStream
+            ? videoRef.current.srcObject.getVideoTracks()[1]
+            : undefined;
 
-          alert(settings.exposureMode);
+        if (track1) {
+          alert("трек1" + track1.label);
         }
       } catch (error) {
         console.error("Не удалось запустить сканер:", error);

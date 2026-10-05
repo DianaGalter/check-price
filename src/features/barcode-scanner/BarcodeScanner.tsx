@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { BrowserMultiFormatReader } from "@zxing/browser";
 import type { IScannerControls } from "@zxing/browser";
 import styles from "./BarcodeScanner.module.scss";
 
@@ -14,28 +13,11 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
   useEffect(() => {
     if (!videoRef.current) return;
 
-    const reader = new BrowserMultiFormatReader();
     let controls: IScannerControls | undefined;
 
     const startScanner = async () => {
+      alert("scanning...");
       try {
-        controls = await reader.decodeFromConstraints(
-          {
-            video: {
-              facingMode: { ideal: "environment" },
-              width: { ideal: 1920 },
-              height: { ideal: 1080 },
-            },
-          },
-          videoRef.current!,
-          (result) => {
-            if (!result) return;
-
-            controls?.stop();
-            onScan(result.getText());
-          },
-        );
-
         const closeActiveStreams = (stream: MediaStream) => {
           const tracks = stream.getVideoTracks();
           for (const track of tracks) {

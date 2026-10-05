@@ -42,26 +42,18 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
             : undefined;
 
         if (track) {
-          const settings = track.getSettings();
+          const settings = track.getSettings() as any;
 
-          const capabilities = track.getCapabilities() as any;
-
-          if (capabilities.zoom) {
-            await track.applyConstraints({
-              advanced: [{ zoom: 1.5 }], // небольшое приближение
-            } as any);
-          }
-          alert(
-            JSON.stringify(
+          await track.applyConstraints({
+            advanced: [
               {
-                label: track.label,
-                width: settings.width,
-                height: settings.height,
+                exposureMode: ["continuous"],
+                whiteBalanceMode: ["continuous"],
               },
-              null,
-              2,
-            ),
-          );
+            ],
+          } as any);
+
+          alert(settings.exposureMode);
         }
       } catch (error) {
         console.error("Не удалось запустить сканер:", error);

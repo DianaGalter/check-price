@@ -26,25 +26,6 @@ interface ProductDetailsProps {
   onStoreToggle: () => void;
 }
 
-const getClubDiscount = (
-  store: Store,
-  size: string,
-  model: Product["name"],
-): string => {
-  // Current exception
-  const newModels = ["Tortuga", "Seaside"];
-
-  if (newModels.includes(model)) {
-    return "30%";
-  }
-
-  if (store === "columbia") {
-    return size === "24" ? "50%" : "30%";
-  } else {
-    return size === "20" || size === "24" ? "50%" : "30%";
-  }
-};
-
 export const ProductDetails = ({
   product,
   onClose,
@@ -158,7 +139,14 @@ export const ProductDetails = ({
     originalExtendedSetPrice !== undefined &&
     discountedExtendedSetPrice < originalExtendedSetPrice;
 
-  const clubDiscount = getClubDiscount(store, size, product.name);
+  const clubDiscount =
+    store === "columbia"
+      ? size === "24"
+        ? "50%"
+        : "30%"
+      : size === "20" || size === "24"
+        ? "50%"
+        : "30%";
 
   const dimensions = getProductDimensions(height, width, depth);
 

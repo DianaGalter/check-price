@@ -73,12 +73,12 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
     const startScanner = async () => {
       try {
         const scanner = new Html5Qrcode(SCANNER_ELEMENT_ID, {
-          verbose: false,
           formatsToSupport: [
             Html5QrcodeSupportedFormats.CODE_128,
             Html5QrcodeSupportedFormats.EAN_13,
             Html5QrcodeSupportedFormats.UPC_A,
           ],
+          verbose: false,
         });
 
         scannerRef.current = scanner;
@@ -158,7 +158,18 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
 
   return (
     <div className={styles.overlay}>
-      <div id={SCANNER_ELEMENT_ID} className={styles.video} />
+      <div id={SCANNER_ELEMENT_ID} className={styles.scannerRegion} />
+
+      <div className={styles.scanOverlay} aria-hidden="true">
+        <div className={styles.scanFrame}>
+          <div className={styles.scanLine} />
+
+          <span className={`${styles.corner} ${styles.topLeft}`} />
+          <span className={`${styles.corner} ${styles.topRight}`} />
+          <span className={`${styles.corner} ${styles.bottomLeft}`} />
+          <span className={`${styles.corner} ${styles.bottomRight}`} />
+        </div>
+      </div>
 
       {cameras.length > 1 && (
         <button

@@ -1,0 +1,153 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  overflow: hidden;
+
+  background-color: #000;
+}
+
+.scannerRegion {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+}
+
+.scannerRegion video {
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover;
+}
+
+.scanOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.scanFrame {
+  position: relative;
+
+  width: min(82vw, 360px);
+  height: 150px;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  box-shadow: 0 0 0 9999px rgb(0 0 0 / 0.3);
+}
+
+.scanLine {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  right: 16px;
+
+  height: 2px;
+
+  border-radius: 999px;
+
+  background-color: var(--color-accent);
+  box-shadow: 0 0 8px var(--color-accent);
+
+  animation: scan 2s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(124px);
+  }
+}
+
+.corner {
+  position: absolute;
+
+  width: 30px;
+  height: 30px;
+
+  border-color: var(--color-accent);
+  border-style: solid;
+}
+
+.topLeft {
+  top: 0;
+  left: 0;
+
+  border-width: 4px 0 0 4px;
+  border-radius: 16px 0 0;
+}
+
+.topRight {
+  top: 0;
+  right: 0;
+
+  border-width: 4px 4px 0 0;
+  border-radius: 0 16px 0 0;
+}
+
+.bottomLeft {
+  bottom: 0;
+  left: 0;
+
+  border-width: 0 0 4px 4px;
+  border-radius: 0 0 0 16px;
+}
+
+.bottomRight {
+  right: 0;
+  bottom: 0;
+
+  border-width: 0 4px 4px 0;
+  border-radius: 0 0 16px;
+}
+
+.closeButton,
+.switchCameraButton {
+  position: absolute;
+  z-index: 3;
+
+  display: grid;
+  place-items: center;
+
+  width: 48px;
+  height: 48px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  color: var(--color-text-primary);
+  background-color: rgb(255 255 255 / 0.8);
+
+  font: inherit;
+  font-size: 26px;
+
+  cursor: pointer;
+}
+
+.closeButton {
+  top: 20px;
+  right: 20px;
+}
+
+.switchCameraButton {
+  right: 20px;
+  bottom: 24px;
+}

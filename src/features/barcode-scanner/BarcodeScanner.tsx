@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  BrowserMultiFormatReader,
-  type IScannerControls,
-} from "@zxing/browser";
+import { Html5Qrcode, Html5QrcodeSupportedFormats } from "html5-qrcode";
+
 import styles from "./BarcodeScanner.module.scss";
 
 interface BarcodeScannerProps {
@@ -10,82 +8,52 @@ interface BarcodeScannerProps {
   onClose: () => void;
 }
 
+interface Camera {
+  id: string;
+  label: string;
+}
+
 const CAMERA_STORAGE_KEY = "scannerCameraId";
+const SCANNER_ELEMENT_ID = "barcode-reader";
 
 export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const controlsRef = useRef<IScannerControls | null>(null);
+  const scannerRef = useRef<Html5Qrcode | null>(null);
 
-  const [cameras, setCameras] = useState<MediaDeviceInfo[]>([]);
+  const [cameras, setCameras] = useState<Camera[]>([]);
   const [selectedCameraId, setSelectedCameraId] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
     const getCameras = async () => {
-      let permissionStream: MediaStream | undefined;
-
       try {
-        let devices = await navigator.mediaDevices.enumerateDevices();
-
-        const hasCameraLabels = devices.some(
-          (device) => device.kind === "videoinput" && device.label,
-        );
-
-        // Если permission ещё не был выдан,
-        // браузер может скрывать названия камер.
-        if (!hasCameraLabels) {
-          permissionStream = await navigator.mediaDevices.getUserMedia({
-            audio: false,
-            video: true,
-          });
-
-          devices = await navigator.mediaDevices.enumerateDevices();
-        }
-
-        const videoDevices = devices.filter(
-          (device) => device.kind === "videoinput",
-        );
-
-        const backCameras = videoDevices.filter((device) =>
-          device.label.toLowerCase().includes("back"),
-        );
-
-        const availableCameras =
-          backCameras.length > 0 ? backCameras : videoDevices;
-
-        // Если мы открывали временный stream только ради permission,
-        // закрываем его до запуска ZXing.
-        if (permissionStream) {
-          permissionStream.getTracks().forEach((track) => track.stop());
-
-          permissionStream = undefined;
-
-          // Даём браузеру немного времени освободить камеру.
-          await new Promise((resolve) => setTimeout(resolve, 200));
-        }
+        const devices = await Html5Qrcode.getCameras();
 
         if (cancelled) return;
+
+        const backCameras = devices.filter((camera) =>
+          camera.label.toLowerCase().includes("back"),
+        );
+
+        const availableCameras = backCameras.length > 0 ? backCameras : devices;
 
         setCameras(availableCameras);
 
         const savedCameraId = localStorage.getItem(CAMERA_STORAGE_KEY);
 
         const savedCamera = availableCameras.find(
-          (camera) => camera.deviceId === savedCameraId,
+          (camera) => camera.id === savedCameraId,
         );
 
         const defaultCamera =
           savedCamera ??
-          (backCameras.length > 0 ? backCameras.at(-1) : videoDevices[0]);
+          (backCameras.length > 0 ? backCameras.at(-1) : devices[0]);
 
         if (defaultCamera) {
-          setSelectedCameraId(defaultCamera.deviceId);
+          setSelectedCameraId(defaultCamera.id);
         }
       } catch (error) {
         console.error("Не удалось получить камеры:", error);
-      } finally {
-        permissionStream?.getTracks().forEach((track) => track.stop());
       }
     };
 
@@ -97,58 +65,47 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
   }, []);
 
   useEffect(() => {
-    if (!videoRef.current || !selectedCameraId) {
-      return;
-    }
-
-    const reader = new BrowserMultiFormatReader();
+    if (!selectedCameraId) return;
 
     let cancelled = false;
-    let localControls: IScannerControls | null = null;
+    let hasScanned = false;
 
     const startScanner = async () => {
       try {
-        // Если в video ещё висит старый stream — закрываем его явно.
-        const oldStream = videoRef.current?.srcObject;
+        const scanner = new Html5Qrcode(SCANNER_ELEMENT_ID, {
+          verbose: false,
+          formatsToSupport: [
+            Html5QrcodeSupportedFormats.CODE_128,
+            Html5QrcodeSupportedFormats.EAN_13,
+            Html5QrcodeSupportedFormats.UPC_A,
+          ],
+        });
 
-        if (oldStream instanceof MediaStream) {
-          oldStream.getTracks().forEach((track) => track.stop());
-          videoRef.current!.srcObject = null;
-        }
+        scannerRef.current = scanner;
 
-        const controls = await reader.decodeFromVideoDevice(
+        await scanner.start(
           selectedCameraId,
-          videoRef.current!,
-          (result) => {
-            if (!result || cancelled) return;
+          {
+            fps: 10,
+          },
+          (decodedText) => {
+            if (cancelled || hasScanned) return;
+
+            hasScanned = true;
 
             localStorage.setItem(CAMERA_STORAGE_KEY, selectedCameraId);
 
-            localControls?.stop();
-
-            onScan(result.getText());
+            onScan(decodedText);
+          },
+          () => {
+            // Неудачное распознавание отдельного кадра —
+            // нормальная часть работы сканера.
           },
         );
 
-        localControls = controls;
-
-        // Effect мог успеть уничтожиться,
-        // пока камера ещё открывалась.
-        if (cancelled) {
-          controls.stop();
-
-          const stream = videoRef.current?.srcObject;
-
-          if (stream instanceof MediaStream) {
-            stream.getTracks().forEach((track) => track.stop());
-
-            videoRef.current!.srcObject = null;
-          }
-
-          return;
+        if (cancelled && scanner.isScanning) {
+          await scanner.stop();
         }
-
-        controlsRef.current = controls;
       } catch (error) {
         if (!cancelled) {
           console.error("Не удалось запустить сканер:", error);
@@ -161,45 +118,47 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
     return () => {
       cancelled = true;
 
-      localControls?.stop();
+      const scanner = scannerRef.current;
 
-      if (controlsRef.current === localControls) {
-        controlsRef.current = null;
+      if (scanner?.isScanning) {
+        scanner
+          .stop()
+          .catch((error) =>
+            console.error("Не удалось остановить сканер:", error),
+          );
       }
 
-      const stream = videoRef.current?.srcObject;
-
-      if (stream instanceof MediaStream) {
-        stream.getTracks().forEach((track) => track.stop());
-
-        videoRef.current!.srcObject = null;
-      }
+      scannerRef.current = null;
     };
   }, [selectedCameraId, onScan]);
 
-  const switchCamera = () => {
+  const switchCamera = async () => {
     if (cameras.length < 2 || !selectedCameraId) {
       return;
     }
 
     const currentIndex = cameras.findIndex(
-      (camera) => camera.deviceId === selectedCameraId,
+      (camera) => camera.id === selectedCameraId,
     );
 
     const nextIndex = (currentIndex + 1) % cameras.length;
 
-    setSelectedCameraId(cameras[nextIndex].deviceId);
+    const scanner = scannerRef.current;
+
+    if (scanner?.isScanning) {
+      try {
+        await scanner.stop();
+      } catch (error) {
+        console.error("Не удалось остановить камеру:", error);
+      }
+    }
+
+    setSelectedCameraId(cameras[nextIndex].id);
   };
 
   return (
     <div className={styles.overlay}>
-      <video
-        ref={videoRef}
-        className={styles.video}
-        autoPlay
-        muted
-        playsInline
-      />
+      <div id={SCANNER_ELEMENT_ID} className={styles.video} />
 
       {cameras.length > 1 && (
         <button

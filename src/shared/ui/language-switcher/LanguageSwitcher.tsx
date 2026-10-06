@@ -1,11 +1,25 @@
-import { useTranslation } from "../../i18n";
+import { useTranslation, type Language } from "../../i18n";
 import styles from "./LanguageSwitcher.module.scss";
 
 export const LanguageSwitcher = () => {
   const { language, setLanguage, t } = useTranslation();
   const text = t.languageSwitcher;
 
-  const nextLanguage = language === "ru" ? "en" : "ru";
+  let nextLanguage: Language = "ru";
+
+  switch (language) {
+    case "en":
+      nextLanguage = "he";
+      break;
+    case "he":
+      nextLanguage = "ru";
+      break;
+    case "ru":
+      nextLanguage = "en";
+      break;
+    default:
+      nextLanguage = "ru";
+  }
 
   const handleToggle = () => {
     setLanguage(nextLanguage);

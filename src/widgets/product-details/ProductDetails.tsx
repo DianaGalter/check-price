@@ -71,7 +71,10 @@ export const ProductDetails = ({
 
   const image = getProductImage(name, colorCode, color);
 
-  const { productDetails: t } = useTranslation().t;
+  const { t: translations, language } = useTranslation();
+  const t = translations.productDetails;
+
+  const isRtl = language === "he";
 
   const [hasClub, setHasClub] = useState(false);
   const [hasPoliceDiscount, setHasPoliceDiscount] = useState(false);
@@ -157,12 +160,16 @@ export const ProductDetails = ({
 
   const clubDiscount = getClubDiscount(store, size, product.name);
 
+  const dimensions = getProductDimensions(height, width, depth);
+
   return (
     <section
       className={styles.panel}
       role="dialog"
       aria-modal="true"
       aria-labelledby="product-details-title"
+      dir={isRtl ? "rtl" : "ltr"}
+      lang={language}
     >
       {/* Header */}
       <header className={styles.header}>
@@ -232,7 +239,10 @@ export const ProductDetails = ({
 
             <span className={styles.label}>{t.dimensions}</span>
             <span className={styles.value}>
-              {getProductDimensions(height, width, depth, t.dimensionUnit)}
+              <span className={styles.measurement}>
+                <span>{dimensions}</span>
+                <span>{t.dimensionUnit}</span>
+              </span>
             </span>
           </div>
 
@@ -250,7 +260,10 @@ export const ProductDetails = ({
 
             <span className={styles.label}>{t.weight}</span>
             <span className={styles.value}>
-              {weight} {t.weightUnit}
+              <span className={styles.measurement}>
+                <span>{weight}</span>
+                <span>{t.weightUnit}</span>
+              </span>
             </span>
           </div>
 
@@ -268,7 +281,10 @@ export const ProductDetails = ({
 
             <span className={styles.label}>{t.volume}</span>
             <span className={styles.value}>
-              {volume} {t.volumeUnit}
+              <span className={styles.measurement}>
+                <span>{volume}</span>
+                <span>{t.volumeUnit}</span>
+              </span>
             </span>
           </div>
 

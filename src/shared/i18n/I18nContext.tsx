@@ -21,7 +21,14 @@ export const I18nProvider = ({ children }: I18nProviderProps) => {
   const [language, setLanguage] = useState<Language>(() => {
     const savedLanguage = localStorage.getItem("language");
 
-    return savedLanguage === "en" ? "en" : "ru";
+    switch (savedLanguage) {
+      case "en":
+        return "en";
+      case "he":
+        return "he";
+      default:
+        return "ru";
+    }
   });
 
   useEffect(() => {

@@ -39,8 +39,8 @@
 .scanFrame {
   position: relative;
 
-  width: min(82vw, 360px);
-  height: 150px;
+  width: min(82vw, 250px);
+  height: 250px;
 
   overflow: hidden;
 
@@ -52,8 +52,8 @@
 .scanLine {
   position: absolute;
   top: 12px;
-  left: 16px;
-  right: 16px;
+  left: 12px;
+  right: 12px;
 
   height: 2px;
 
@@ -72,7 +72,7 @@
   }
 
   50% {
-    transform: translateY(124px);
+    transform: translateY(230px);
   }
 }
 
@@ -118,8 +118,7 @@
   border-radius: 0 0 16px;
 }
 
-.closeButton,
-.switchCameraButton {
+.closeButton {
   position: absolute;
   z-index: 3;
 
@@ -148,6 +147,32 @@
 }
 
 .switchCameraButton {
+  position: absolute;
   right: 20px;
   bottom: 24px;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 14px;
+
+  border: 0;
+  border-radius: 999px;
+
+  color: var(--color-text-primary);
+  background-color: rgb(255 255 255 / 0.88);
+  backdrop-filter: blur(6px);
+
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.switchCameraIcon {
+  font-size: 22px;
+  line-height: 1;
 }

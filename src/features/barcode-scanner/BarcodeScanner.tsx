@@ -85,6 +85,7 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
             Html5QrcodeSupportedFormats.UPC_A,
             Html5QrcodeSupportedFormats.UPC_E,
           ],
+          useBarCodeDetectorIfSupported: true,
           verbose: false,
         });
 

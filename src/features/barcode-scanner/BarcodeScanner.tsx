@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from "html5-qrcode";
 
 import styles from "./BarcodeScanner.module.scss";
+import { useTranslation } from "../../shared/i18n";
 
 interface BarcodeScannerProps {
   onScan: (value: string) => void;
@@ -18,6 +19,8 @@ const SCANNER_ELEMENT_ID = "barcode-reader";
 
 export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
   const scannerRef = useRef<Html5Qrcode | null>(null);
+
+  const { camera: t } = useTranslation().t;
 
   const [cameras, setCameras] = useState<Camera[]>([]);
   const [selectedCameraId, setSelectedCameraId] = useState<string | null>(null);
@@ -178,7 +181,8 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
           onClick={switchCamera}
           aria-label="Switch camera"
         >
-          ↻
+          <span className={styles.switchCameraIcon}>↻</span>
+          <span>{t.switch}</span>
         </button>
       )}
 

@@ -57,6 +57,10 @@ export const translations = {
       title: "Штрихкоды",
       set: "Сет",
     },
+
+    camera: {
+      switch: "Переключить камеру"
+    },
   },
 
   en: {
@@ -115,6 +119,10 @@ export const translations = {
       title: "Barcodes",
       set: "Set",
     },
+
+    camera: {
+      switch: "Switch camera"
+    },
   },
 
   he: {
@@ -172,6 +180,10 @@ export const translations = {
     barcode: {
       title: "ברקודים",
       set: "סט",
+    },
+
+    camera: {
+      switch: "החלפת מצלמה"
     },
   },
 } as const;

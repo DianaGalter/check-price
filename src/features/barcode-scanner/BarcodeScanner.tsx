@@ -95,6 +95,7 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
           selectedCameraId,
           {
             fps: 10,
+            aspectRatio: 16 / 9,
           },
           (decodedText) => {
             if (cancelled || hasScanned) return;

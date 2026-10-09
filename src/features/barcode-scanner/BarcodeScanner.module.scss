@@ -23,6 +23,12 @@
   object-fit: cover;
 }
 
+.scannerRegion {
+  :global(#qr-shaded-region) {
+    display: none !important;
+  }
+}
+
 .scanOverlay {
   position: absolute;
   inset: 0;

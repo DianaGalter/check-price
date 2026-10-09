@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Html5Qrcode, Html5QrcodeSupportedFormats } from "html5-qrcode";
+import {
+  Html5Qrcode,
+  Html5QrcodeSupportedFormats,
+  type Html5QrcodeCameraScanConfig,
+} from "html5-qrcode";
 
 import styles from "./BarcodeScanner.module.scss";
 import { useTranslation } from "../../shared/i18n";
@@ -95,8 +99,11 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
           selectedCameraId,
           {
             fps: 10,
+            qrbox: 250,
             aspectRatio: 16 / 9,
-          },
+            renderingConstraints: 2,
+            defaultZoomValueIfSupported: 1.5,
+          } as Html5QrcodeCameraScanConfig,
           (decodedText) => {
             if (cancelled || hasScanned) return;
 

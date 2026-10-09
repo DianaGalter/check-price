@@ -20,15 +20,15 @@ export const getSetPrices = (products: Product[]): SetPrices => {
   const specialSetPrices: PricesByName = {};
 
   products.forEach((product) => {
-    // У trolley сета нет
+    // Set does not exist
     if (product.specialPrice) {
       return;
     }
 
     pricesBySize[product.name] ??= {};
 
-    // Один и тот же размер может встречаться в нескольких цветах.
-    // Для расчёта сета достаточно сохранить его цену один раз.
+    // The same size could have different colours.
+    // We can count the set price just once.
     pricesBySize[product.name][product.size] ??= Number(product.price);
 
     if (product.specialSetPrice) {
@@ -49,7 +49,7 @@ export const getSetPrices = (products: Product[]): SetPrices => {
     const price24 = prices["24"];
     const price28 = prices["28"];
 
-    // Обычный сет существует только при наличии всех трёх размеров.
+    // Basic set has 3 sizes
     if (
       price20 === undefined ||
       price24 === undefined ||
@@ -58,12 +58,12 @@ export const getSetPrices = (products: Product[]): SetPrices => {
       return;
     }
 
-    // Полная стоимость обычного сета.
+    // Full price of the basic set
     setPrice[name] = roundPrice(price20 + price24 + price28);
 
     const specialSetPrice = specialSetPrices[name];
 
-    // Клубные цены обычного сета.
+    // Club prices of the basic set
     if (specialSetPrice !== undefined) {
       columbiaSetPrice[name] = specialSetPrice;
       shvilimSetPrice[name] = specialSetPrice;
@@ -75,7 +75,7 @@ export const getSetPrices = (products: Product[]): SetPrices => {
       );
     }
 
-    // Дополнительный размер для расширенного сета.
+    // Extra sizes for the extended sets
     const extraSize =
       name === "Oregon" ? "32" :
       name === "Ibiza" ? "17" :
@@ -87,24 +87,24 @@ export const getSetPrices = (products: Product[]): SetPrices => {
 
     const extraPrice = prices[extraSize];
 
-    // Расширенный сет существует только при наличии четвёртого размера.
+    // Extended set exists only if there is an extra size
     if (extraPrice === undefined) {
       return;
     }
 
-    // Полная стоимость расширенного сета.
+    // Full price of the extended set
     extendedSetPrice[name] = roundPrice(
       setPrice[name] + extraPrice
     );
 
-    // Клубная цена расширенного сета в Columbia.
-    // Предполагаем скидку 40% на дополнительный чемодан.
+    // Full price of the extended set in Columbia
+    // 40% discount for the extra size
     columbiaExtendedSetPrice[name] = roundPrice(
       columbiaSetPrice[name] + extraPrice * 0.6
     );
 
-    // Клубная цена расширенного сета в Ашкелоне.
-    // Скидка 40% на дополнительный чемодан.
+    // Full price of the extended set in Ashkelon
+    // 40% discount for the extra size
     shvilimExtendedSetPrice[name] = roundPrice(
       shvilimSetPrice[name] + extraPrice * 0.6
     );

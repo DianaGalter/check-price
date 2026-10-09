@@ -60,7 +60,7 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
           setSelectedCameraId(defaultCamera.id);
         }
       } catch (error) {
-        console.error("Не удалось получить камеры:", error);
+        console.error("Failed to get the camera:", error);
       }
     };
 
@@ -114,8 +114,7 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
             onScan(decodedText);
           },
           () => {
-            // Неудачное распознавание отдельного кадра —
-            // нормальная часть работы сканера.
+            // Failure to recognize an individual frame is a normal part of the scanner's operation.
           },
         );
 
@@ -124,7 +123,7 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
         }
       } catch (error) {
         if (!cancelled) {
-          console.error("Не удалось запустить сканер:", error);
+          console.error("Failed to start the scanner:", error);
         }
       }
     };
@@ -140,7 +139,7 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
         scanner
           .stop()
           .catch((error) =>
-            console.error("Не удалось остановить сканер:", error),
+            console.error("Failed to stop the scanner:", error),
           );
       }
 
@@ -165,7 +164,7 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
       try {
         await scanner.stop();
       } catch (error) {
-        console.error("Не удалось остановить камеру:", error);
+        console.error("Failed to stop the camera:", error);
       }
     }
 

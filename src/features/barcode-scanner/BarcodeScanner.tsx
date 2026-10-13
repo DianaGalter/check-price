@@ -122,16 +122,16 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
           },
         );
 
-        try {
-          const capabilities = scanner.getRunningTrackCameraCapabilities();
-          const zoom = capabilities.zoomFeature();
+        // try {
+        //   const capabilities = scanner.getRunningTrackCameraCapabilities();
+        //   const zoom = capabilities.zoomFeature();
 
-          if (zoom.isSupported()) {
-            await zoom.apply(1.5);
-          }
-        } catch {
-          // zoom unsupported
-        }
+        //   if (zoom.isSupported()) {
+        //     await zoom.apply(1.5);
+        //   }
+        // } catch {
+        //   // zoom unsupported
+        // }
 
         if (cancelled && scanner.isScanning) {
           await scanner.stop();

@@ -3,6 +3,10 @@
   inset: 0;
   z-index: 100;
 
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+
   overflow: hidden;
 
   background-color: #000;
@@ -45,8 +49,8 @@
 .scanFrame {
   position: relative;
 
-  width: min(82vw, 250px);
-  height: 250px;
+  width: 90%;
+  aspect-ratio: 1 / 1;
 
   overflow: hidden;
 
@@ -74,11 +78,11 @@
 @keyframes scan {
   0%,
   100% {
-    transform: translateY(0);
+    top: 12px;
   }
 
   50% {
-    transform: translateY(230px);
+    top: calc(100% - 14px);
   }
 }
 

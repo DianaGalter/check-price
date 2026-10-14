@@ -95,15 +95,19 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
 
         scannerRef.current = scanner;
 
+        const scanConfig = {
+          fps: 10,
+          qrbox: (viewfinderWidth: number, viewfinderHeight: number) => ({
+            width: viewfinderWidth,
+            height: viewfinderHeight,
+          }),
+          aspectRatio: 16 / 9,
+          renderingConstraints: 2,
+        } as Html5QrcodeCameraScanConfig;
+
         await scanner.start(
           selectedCameraId,
-          {
-            fps: 10,
-            qrbox: 250,
-            aspectRatio: 16 / 9,
-            renderingConstraints: 2,
-            defaultZoomValueIfSupported: 1.5,
-          } as Html5QrcodeCameraScanConfig,
+          scanConfig,
           (decodedText) => {
             if (cancelled || hasScanned) return;
 
@@ -117,6 +121,17 @@ export const BarcodeScanner = ({ onScan, onClose }: BarcodeScannerProps) => {
             // Failure to recognize an individual frame is a normal part of the scanner's operation.
           },
         );
+
+        // try {
+        //   const capabilities = scanner.getRunningTrackCameraCapabilities();
+        //   const zoom = capabilities.zoomFeature();
+
+        //   if (zoom.isSupported()) {
+        //     await zoom.apply(1.5);
+        //   }
+        // } catch {
+        //   // zoom unsupported
+        // }
 
         if (cancelled && scanner.isScanning) {
           await scanner.stop();

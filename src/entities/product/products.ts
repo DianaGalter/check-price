@@ -762,7 +762,7 @@ export const products: Product[] = [
     "name": "Lava",
     "size": "28",
     "article": "SBC208",
-    "barcode": "7640223490970",
+    "barcode": "7640223490870",
     "color": "Crocus",
     "height": "55",
     "width": "38",

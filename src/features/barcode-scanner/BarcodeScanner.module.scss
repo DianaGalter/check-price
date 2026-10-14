@@ -45,8 +45,8 @@
 .scanFrame {
   position: relative;
 
-  width: min(82vw, 250px);
-  height: 250px;
+  width: 90%;
+  aspect-ratio: 1 / 1;
 
   overflow: hidden;
 
@@ -78,7 +78,7 @@
   }
 
   50% {
-    transform: translateY(230px);
+    transform: translateY(410px);
   }
 }
 

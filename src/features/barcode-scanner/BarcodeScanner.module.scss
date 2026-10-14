@@ -3,6 +3,10 @@
   inset: 0;
   z-index: 100;
 
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+
   overflow: hidden;
 
   background-color: #000;
@@ -74,11 +78,11 @@
 @keyframes scan {
   0%,
   100% {
-    transform: translateY(0);
+    top: 12px;
   }
 
   50% {
-    transform: translateY(410px);
+    top: calc(100% - 14px);
   }
 }
 

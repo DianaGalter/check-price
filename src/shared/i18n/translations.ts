@@ -44,7 +44,7 @@ export const translations = {
     },
 
     storeSwitcher: {
-      columbia: "Columbia",
+      columbia: "Ашдод",
       shvilim: "Ашкелон",
       ariaLabel: "Переключить магазин. Сейчас {store}",
     },
@@ -106,7 +106,7 @@ export const translations = {
     },
 
     storeSwitcher: {
-      columbia: "Columbia",
+      columbia: "Ashdod",
       shvilim: "Ashkelon",
       ariaLabel: "Switch store. Current store: {store}",
     },
@@ -168,7 +168,7 @@ export const translations = {
     },
 
     storeSwitcher: {
-      columbia: "Columbia",
+      columbia: "אשדוד",
       shvilim: "אשקלון",
       ariaLabel: "החלפת חנות. החנות הנוכחית: {store}",
     },

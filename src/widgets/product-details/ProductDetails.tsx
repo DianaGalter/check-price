@@ -26,6 +26,141 @@ interface ProductDetailsProps {
   onStoreToggle: () => void;
 }
 
+type DiscountMap = Record<string, number>;
+
+/*
+ * Temporary suitcase promotion.
+ * Added in October 2026.
+ *
+ * Remove this block when the promotion ends,
+ * or move the rules into the normal pricing system if they become permanent.
+ *
+ * columbia = Ashdod
+ * shvilim = Ashkelon
+ */
+
+const getTemporarySetDiscounts = (
+  name: Product["name"],
+  store: Store,
+  isExtended: boolean,
+): DiscountMap => {
+  if (isExtended && (name === "Ibiza" || name === "Oregon")) {
+    return {
+      "17": 0.4,
+      "20": 0.4,
+      "24": 0.6,
+      "28": 0.4,
+      "32": 0.4,
+    };
+  }
+
+  if (name === "Seaside" || name === "Gearheart") {
+    return {
+      "20": 0.4,
+      "24": 0.4,
+      "28": 0.4,
+    };
+  }
+
+  if (name === "Tortuga") {
+    return {
+      "20": 0.3,
+      "24": 0.6,
+      "28": 0.3,
+    };
+  }
+
+  if (store === "columbia") {
+    return {
+      "20": 0.3,
+      "24": 0.6,
+      "28": 0.3,
+    };
+  }
+
+  return {
+    "20": 0.3,
+    "24": 0.6,
+    "28": 0.5,
+  };
+};
+
+const getTemporarySetScheme = (
+  name: Product["name"],
+  store: Store,
+  isExtended: boolean,
+): string => {
+  if (isExtended && (name === "Ibiza" || name === "Oregon")) {
+    return "40/40/40/60";
+  }
+
+  if (name === "Seaside" || name === "Gearheart") {
+    return "40/40/40";
+  }
+
+  if (name === "Tortuga") {
+    return "30/60/30";
+  }
+
+  return store === "columbia" ? "30/60/30" : "30/60/50";
+};
+
+const getTemporarySetPrice = (
+  product: Product,
+  store: Store,
+  isExtended: boolean,
+): number | undefined => {
+  const { name, color, colorCode } = product;
+
+  const sizes = isExtended
+    ? name === "Ibiza"
+      ? ["17", "20", "24", "28"]
+      : name === "Oregon"
+        ? ["20", "24", "28", "32"]
+        : null
+    : ["20", "24", "28"];
+
+  if (!sizes) {
+    return undefined;
+  }
+
+  const discounts = getTemporarySetDiscounts(name, store, isExtended);
+
+  const setProducts = sizes.map((setSize) => {
+    const sameColorProduct = products.find(
+      (item) =>
+        item.name === name &&
+        item.size === setSize &&
+        (colorCode ? item.colorCode === colorCode : item.color === color),
+    );
+
+    if (sameColorProduct) {
+      return sameColorProduct;
+    }
+
+    // Price is model/size based.
+    // Fallback is useful if a particular colour is absent from the catalogue.
+    return products.find((item) => item.name === name && item.size === setSize);
+  });
+
+  if (setProducts.some((item) => !item)) {
+    return undefined;
+  }
+
+  return setProducts.reduce((total, item, index) => {
+    if (!item) return total;
+
+    const setSize = sizes[index];
+    const discount = discounts[setSize];
+
+    if (discount === undefined) {
+      return total + Number(item.price);
+    }
+
+    return total + applyDiscount(Number(item.price), discount);
+  }, 0);
+};
+
 export const ProductDetails = ({
   product,
   onClose,
@@ -45,7 +180,9 @@ export const ProductDetails = ({
     depth,
     weight,
   } = product;
+
   const productName = `${name} ${size} ${color}`;
+
   const productArticle = colorCode ? `${article}${colorCode}` : article;
 
   const setBarcode = getSetBarcode(product, products);
@@ -53,31 +190,82 @@ export const ProductDetails = ({
   const image = getProductImage(name, colorCode, color);
 
   const { t: translations, language } = useTranslation();
+
   const t = translations.productDetails;
 
   const isRtl = language === "he";
 
   const [hasClub, setHasClub] = useState(false);
+
   const [hasPoliceDiscount, setHasPoliceDiscount] = useState(false);
 
   const [isBarcodeModalOpen, setIsBarcodeModalOpen] = useState(false);
 
+  /*
+   * Temporary promotion:
+   * individual 24" suitcases currently receive 60%.
+   */
+  const hasTemporaryProductDiscount = size === "24";
+
+  const regularClubProductPrice = getProductPrice(product, store);
+
+  const temporaryClubProductPrice = hasTemporaryProductDiscount
+    ? applyDiscount(Number(price), 0.6)
+    : undefined;
+
   const productPrice = hasClub
-    ? getProductPrice(product, store)
+    ? (temporaryClubProductPrice ?? regularClubProductPrice)
     : Number(price);
 
+  /*
+   * Keep the old pricing tables as the fallback.
+   */
+  const regularClubSetPrice =
+    store === "columbia" ? colSetPrice[name] : shvilSetPrice[name];
+
+  const regularClubExtendedSetPrice =
+    store === "columbia"
+      ? colExtendedSetPrice[name]
+      : shvilExtendedSetPrice[name];
+
+  /*
+   * Apply the temporary promotion only to sets that already
+   * exist in the normal pricing system.
+   */
+  const temporarySetPrice =
+    hasClub && regularClubSetPrice !== undefined
+      ? getTemporarySetPrice(product, store, false)
+      : undefined;
+
+  const temporaryExtendedSetPrice =
+    hasClub && regularClubExtendedSetPrice !== undefined
+      ? getTemporarySetPrice(product, store, true)
+      : undefined;
+
   const currentSetPrice = hasClub
-    ? store === "columbia"
-      ? colSetPrice[name]
-      : shvilSetPrice[name]
+    ? (temporarySetPrice ?? regularClubSetPrice)
     : regularSetPrice[name];
 
   const currentExtendedSetPrice = hasClub
-    ? store === "columbia"
-      ? colExtendedSetPrice[name]
-      : shvilExtendedSetPrice[name]
+    ? (temporaryExtendedSetPrice ?? regularClubExtendedSetPrice)
     : regularExtendedSetPrice[name];
 
+  const hasTemporarySetPrice = hasClub && temporarySetPrice !== undefined;
+
+  const hasTemporaryExtendedSetPrice =
+    hasClub && temporaryExtendedSetPrice !== undefined;
+
+  const setDiscountScheme = hasTemporarySetPrice
+    ? getTemporarySetScheme(name, store, false)
+    : null;
+
+  const extendedSetDiscountScheme = hasTemporaryExtendedSetPrice
+    ? getTemporarySetScheme(name, store, true)
+    : null;
+
+  /*
+   * Police discount is applied after all club/promotion pricing.
+   */
   const currentPrice = hasPoliceDiscount
     ? applyDiscount(productPrice, 0.25)
     : productPrice;
@@ -96,6 +284,7 @@ export const ProductDetails = ({
 
   const handleClubToggle = () => {
     if (hasPoliceDiscount) return;
+
     setHasClub((current) => !current);
   };
 
@@ -124,7 +313,9 @@ export const ProductDetails = ({
       : null;
 
   const originalPrice = Number(price);
+
   const originalSetPrice = regularSetPrice[name];
+
   const originalExtendedSetPrice = regularExtendedSetPrice[name];
 
   const showOriginalPrice = currentPrice < originalPrice;
@@ -139,6 +330,10 @@ export const ProductDetails = ({
     originalExtendedSetPrice !== undefined &&
     discountedExtendedSetPrice < originalExtendedSetPrice;
 
+  /*
+   * This remains the old/normal club discount.
+   * For 24" we'll visually cross it out and show 60%.
+   */
   const clubDiscount =
     store === "columbia"
       ? size === "24"
@@ -147,6 +342,9 @@ export const ProductDetails = ({
       : size === "20" || size === "24"
         ? "50%"
         : "30%";
+
+  const [clubDiscountPrefix, clubDiscountSuffix] =
+    t.suitcaseDiscount.split("{discount}");
 
   const dimensions = getProductDimensions(height, width, depth);
 
@@ -208,6 +406,7 @@ export const ProductDetails = ({
             </svg>
 
             <span className={styles.label}>{t.article}</span>
+
             <span className={styles.value}>{productArticle}</span>
           </div>
 
@@ -226,6 +425,7 @@ export const ProductDetails = ({
             </svg>
 
             <span className={styles.label}>{t.dimensions}</span>
+
             <span className={styles.value}>
               <span className={styles.measurement}>
                 <span>{dimensions}</span>
@@ -247,6 +447,7 @@ export const ProductDetails = ({
             </svg>
 
             <span className={styles.label}>{t.weight}</span>
+
             <span className={styles.value}>
               <span className={styles.measurement}>
                 <span>{weight}</span>
@@ -268,6 +469,7 @@ export const ProductDetails = ({
             </svg>
 
             <span className={styles.label}>{t.volume}</span>
+
             <span className={styles.value}>
               <span className={styles.measurement}>
                 <span>{volume}</span>
@@ -284,17 +486,16 @@ export const ProductDetails = ({
               aria-hidden="true"
             >
               <circle cx="12" cy="12" r="8" />
-
               <path d="M9 8v8" />
               <path d="M13 8v6" />
               <path d="M9 8h4" />
-
               <path d="M11 10v6" />
               <path d="M11 16h4" />
               <path d="M15 8v8" />
             </svg>
 
             <span className={styles.label}>{t.suitcasePrice}</span>
+
             <div className={styles.priceGroup}>
               <span className={`${styles.value} ${styles.price}`}>
                 ₪{formattedPrice}
@@ -308,7 +509,7 @@ export const ProductDetails = ({
             </div>
           </div>
 
-          {/* setPrice */}
+          {/* Set price */}
           {formattedSetPrice && (
             <div className={styles.detailRow}>
               <svg
@@ -317,11 +518,9 @@ export const ProductDetails = ({
                 aria-hidden="true"
               >
                 <circle cx="12" cy="12" r="8" />
-
                 <path d="M9 8v8" />
                 <path d="M13 8v6" />
                 <path d="M9 8h4" />
-
                 <path d="M11 10v6" />
                 <path d="M11 16h4" />
                 <path d="M15 8v8" />
@@ -329,7 +528,14 @@ export const ProductDetails = ({
 
               <span className={styles.label}>
                 {formattedExtendedSetPrice ? t.setOfThree : t.setPrice}
+
+                {setDiscountScheme && (
+                  <span className={styles.setDiscountScheme}>
+                    {setDiscountScheme}
+                  </span>
+                )}
               </span>
+
               <div className={styles.priceGroup}>
                 <span className={`${styles.value} ${styles.price}`}>
                   ₪{formattedSetPrice}
@@ -344,6 +550,7 @@ export const ProductDetails = ({
             </div>
           )}
 
+          {/* Extended set price */}
           {formattedExtendedSetPrice && (
             <div className={styles.detailRow}>
               <svg
@@ -360,7 +567,15 @@ export const ProductDetails = ({
                 <path d="M15 8v8" />
               </svg>
 
-              <span className={styles.label}>{t.setOfFour}</span>
+              <span className={styles.label}>
+                {t.setOfFour}
+
+                {extendedSetDiscountScheme && (
+                  <span className={styles.setDiscountScheme}>
+                    {extendedSetDiscountScheme}
+                  </span>
+                )}
+              </span>
 
               <div className={styles.priceGroup}>
                 <span className={`${styles.value} ${styles.price}`}>
@@ -415,7 +630,9 @@ export const ProductDetails = ({
           <div className={styles.discountSection}>
             {/* Club discount */}
             <div
-              className={`${styles.discountRow} ${hasPoliceDiscount ? styles.discountRowDisabled : ""}`}
+              className={`${styles.discountRow} ${
+                hasPoliceDiscount ? styles.discountRowDisabled : ""
+              }`}
               onClick={handleClubToggle}
             >
               <svg
@@ -428,8 +645,23 @@ export const ProductDetails = ({
 
               <div className={styles.discountInfo}>
                 <span className={styles.discountTitle}>{t.club}</span>
+
                 <span className={styles.discountDescription}>
-                  {t.suitcaseDiscount.replace("{discount}", clubDiscount)}
+                  {hasTemporaryProductDiscount ? (
+                    <>
+                      {clubDiscountPrefix}
+
+                      <span className={styles.oldTemporaryDiscount}>
+                        {clubDiscount}
+                      </span>
+
+                      <span className={styles.newTemporaryDiscount}>60%</span>
+
+                      {clubDiscountSuffix}
+                    </>
+                  ) : (
+                    t.suitcaseDiscount.replace("{discount}", clubDiscount)
+                  )}
                 </span>
               </div>
 
@@ -437,6 +669,10 @@ export const ProductDetails = ({
                 type="button"
                 className={`${styles.switch} ${
                   hasClub ? styles.switchActive : ""
+                } ${
+                  hasClub && hasTemporaryProductDiscount
+                    ? styles.switchTemporary
+                    : ""
                 }`}
                 role="switch"
                 aria-checked={hasClub}
@@ -466,6 +702,7 @@ export const ProductDetails = ({
 
               <div className={styles.discountInfo}>
                 <span className={styles.discountTitle}>{t.police}</span>
+
                 <span className={styles.discountDescription}>
                   {t.policeDiscount}
                 </span>
@@ -490,6 +727,7 @@ export const ProductDetails = ({
           </div>
         </section>
       </div>
+
       {isBarcodeModalOpen && (
         <BarcodeModal
           productName={productName}

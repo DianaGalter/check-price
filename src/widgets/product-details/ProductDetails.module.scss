@@ -351,3 +351,32 @@
   direction: ltr;
   unicode-bidi: isolate;
 }
+
+.setDiscountScheme {
+  display: block;
+  margin-top: 2px;
+
+  color: #FF7F27;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.oldTemporaryDiscount {
+  margin-inline-end: 4px;
+
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.newTemporaryDiscount {
+  color: #FF7F27;
+  font-weight: 700;
+}
+
+.switchTemporary {
+  background: #FF7F27;
+}

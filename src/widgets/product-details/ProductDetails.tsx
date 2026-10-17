@@ -651,11 +651,13 @@ export const ProductDetails = ({
                     <>
                       {clubDiscountPrefix}
 
-                      <span className={styles.oldTemporaryDiscount}>
-                        {clubDiscount}
-                      </span>
+                      <span className={styles.temporaryDiscounts}>
+                        <span className={styles.oldTemporaryDiscount}>
+                          {clubDiscount}
+                        </span>
 
-                      <span className={styles.newTemporaryDiscount}>60%</span>
+                        <span className={styles.newTemporaryDiscount}>60%</span>
+                      </span>
 
                       {clubDiscountSuffix}
                     </>

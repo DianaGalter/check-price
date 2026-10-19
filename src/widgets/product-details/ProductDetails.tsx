@@ -153,6 +153,10 @@ const getTemporarySetPrice = (
     const setSize = sizes[index];
     const discount = discounts[setSize];
 
+    if (!!item.specialSetPrice) {
+      return Number(item.specialSetPrice);
+    }
+
     if (discount === undefined) {
       return total + Number(item.price);
     }

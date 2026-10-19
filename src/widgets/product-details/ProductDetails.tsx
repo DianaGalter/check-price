@@ -79,9 +79,9 @@ const getTemporarySetDiscounts = (
   }
 
   return {
-    "20": 0.3,
+    "20": 0.5,
     "24": 0.6,
-    "28": 0.5,
+    "28": 0.3,
   };
 };
 

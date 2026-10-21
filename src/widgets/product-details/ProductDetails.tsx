@@ -34,17 +34,9 @@ type DiscountMap = Record<string, number>;
  *
  * Remove this block when the promotion ends,
  * or move the rules into the normal pricing system if they become permanent.
- *
- * columbia = Ashdod
- * shvilim = Ashkelon
  */
-
-const getTemporarySetDiscounts = (
-  name: Product["name"],
-  store: Store,
-  isExtended: boolean,
-): DiscountMap => {
-  if (isExtended && (name === "Ibiza" || name === "Oregon")) {
+const getTemporarySetDiscounts = (isExtended: boolean): DiscountMap => {
+  if (isExtended) {
     return {
       "17": 0.4,
       "20": 0.4,
@@ -54,60 +46,18 @@ const getTemporarySetDiscounts = (
     };
   }
 
-  if (name === "Seaside" || name === "Gearheart") {
-    return {
-      "20": 0.4,
-      "24": 0.4,
-      "28": 0.4,
-    };
-  }
-
-  if (name === "Tortuga") {
-    return {
-      "20": 0.3,
-      "24": 0.6,
-      "28": 0.3,
-    };
-  }
-
-  if (store === "columbia") {
-    return {
-      "20": 0.3,
-      "24": 0.6,
-      "28": 0.3,
-    };
-  }
-
   return {
-    "20": 0.5,
-    "24": 0.6,
-    "28": 0.3,
+    "20": 0.4,
+    "24": 0.4,
+    "28": 0.4,
   };
 };
 
-const getTemporarySetScheme = (
-  name: Product["name"],
-  store: Store,
-  isExtended: boolean,
-): string => {
-  if (isExtended && (name === "Ibiza" || name === "Oregon")) {
-    return "40/40/40/60";
-  }
-
-  if (name === "Seaside" || name === "Gearheart") {
-    return "40/40/40";
-  }
-
-  if (name === "Tortuga") {
-    return "30/60/30";
-  }
-
-  return store === "columbia" ? "30/60/30" : "30/60/50";
-};
+const getTemporarySetScheme = (isExtended: boolean): string =>
+  isExtended ? "40/40/40/60" : "40/40/40";
 
 const getTemporarySetPrice = (
   product: Product,
-  store: Store,
   isExtended: boolean,
 ): number | undefined => {
   const { name, color, colorCode } = product;
@@ -124,7 +74,7 @@ const getTemporarySetPrice = (
     return undefined;
   }
 
-  const discounts = getTemporarySetDiscounts(name, store, isExtended);
+  const discounts = getTemporarySetDiscounts(isExtended);
 
   const setProducts = sizes.map((setSize) => {
     const sameColorProduct = products.find(
@@ -138,8 +88,6 @@ const getTemporarySetPrice = (
       return sameColorProduct;
     }
 
-    // Price is model/size based.
-    // Fallback is useful if a particular colour is absent from the catalogue.
     return products.find((item) => item.name === name && item.size === setSize);
   });
 
@@ -147,15 +95,19 @@ const getTemporarySetPrice = (
     return undefined;
   }
 
+  const specialSetPrice = setProducts.find(
+    (item) => item?.specialSetPrice !== undefined,
+  )?.specialSetPrice;
+
+  if (specialSetPrice !== undefined) {
+    return Number(specialSetPrice);
+  }
+
   return setProducts.reduce((total, item, index) => {
     if (!item) return total;
 
     const setSize = sizes[index];
     const discount = discounts[setSize];
-
-    if (!!item.specialSetPrice) {
-      return Number(item.specialSetPrice);
-    }
 
     if (discount === undefined) {
       return total + Number(item.price);
@@ -222,7 +174,7 @@ export const ProductDetails = ({
     : Number(price);
 
   /*
-   * Keep the old pricing tables as the fallback.
+   * Keep the old pricing tables as fallback.
    */
   const regularClubSetPrice =
     store === "columbia" ? colSetPrice[name] : shvilSetPrice[name];
@@ -238,12 +190,12 @@ export const ProductDetails = ({
    */
   const temporarySetPrice =
     hasClub && regularClubSetPrice !== undefined
-      ? getTemporarySetPrice(product, store, false)
+      ? getTemporarySetPrice(product, false)
       : undefined;
 
   const temporaryExtendedSetPrice =
     hasClub && regularClubExtendedSetPrice !== undefined
-      ? getTemporarySetPrice(product, store, true)
+      ? getTemporarySetPrice(product, true)
       : undefined;
 
   const currentSetPrice = hasClub
@@ -260,11 +212,11 @@ export const ProductDetails = ({
     hasClub && temporaryExtendedSetPrice !== undefined;
 
   const setDiscountScheme = hasTemporarySetPrice
-    ? getTemporarySetScheme(name, store, false)
+    ? getTemporarySetScheme(false)
     : null;
 
   const extendedSetDiscountScheme = hasTemporaryExtendedSetPrice
-    ? getTemporarySetScheme(name, store, true)
+    ? getTemporarySetScheme(true)
     : null;
 
   /*

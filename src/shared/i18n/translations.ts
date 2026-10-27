@@ -73,7 +73,7 @@ export const translations = {
     },
 
     emptyState: {
-      title: "AAAA!!!!",
+      title: "Find a suitcase",
       description: "Enter a model name or article number",
     },
 

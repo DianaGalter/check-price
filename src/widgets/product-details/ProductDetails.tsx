@@ -44,13 +44,21 @@ const getTemporarySetDiscounts = (
   store: Store,
   isExtended: boolean,
 ): DiscountMap => {
-  if (isExtended && (name === "Ibiza" || name === "Oregon")) {
+  if (isExtended) {
     return {
       "17": 0.4,
       "20": 0.4,
       "24": 0.6,
       "28": 0.4,
       "32": 0.4,
+    };
+  }
+
+  if (store === "columbia") {
+    return {
+      "20": 0.4,
+      "24": 0.4,
+      "28": 0.4,
     };
   }
 
@@ -70,14 +78,6 @@ const getTemporarySetDiscounts = (
     };
   }
 
-  if (store === "columbia") {
-    return {
-      "20": 0.3,
-      "24": 0.6,
-      "28": 0.3,
-    };
-  }
-
   return {
     "20": 0.5,
     "24": 0.6,
@@ -90,8 +90,12 @@ const getTemporarySetScheme = (
   store: Store,
   isExtended: boolean,
 ): string => {
-  if (isExtended && (name === "Ibiza" || name === "Oregon")) {
+  if (isExtended) {
     return "40/40/40/60";
+  }
+
+  if (store === "columbia") {
+    return "40/40/40";
   }
 
   if (name === "Seaside" || name === "Gearheart") {
@@ -102,7 +106,7 @@ const getTemporarySetScheme = (
     return "30/60/30";
   }
 
-  return store === "columbia" ? "30/60/30" : "30/60/50";
+  return "30/60/50";
 };
 
 const getTemporarySetPrice = (
@@ -138,8 +142,6 @@ const getTemporarySetPrice = (
       return sameColorProduct;
     }
 
-    // Price is model/size based.
-    // Fallback is useful if a particular colour is absent from the catalogue.
     return products.find((item) => item.name === name && item.size === setSize);
   });
 
@@ -147,15 +149,19 @@ const getTemporarySetPrice = (
     return undefined;
   }
 
+  const specialSetPrice = setProducts.find(
+    (item) => item?.specialSetPrice !== undefined,
+  )?.specialSetPrice;
+
+  if (specialSetPrice !== undefined) {
+    return Number(specialSetPrice);
+  }
+
   return setProducts.reduce((total, item, index) => {
     if (!item) return total;
 
     const setSize = sizes[index];
     const discount = discounts[setSize];
-
-    if (!!item.specialSetPrice) {
-      return Number(item.specialSetPrice);
-    }
 
     if (discount === undefined) {
       return total + Number(item.price);

@@ -89,9 +89,13 @@ const getTemporarySetScheme = (
   name: Product["name"],
   store: Store,
   isExtended: boolean,
-): string => {
+): string | null => {
   if (isExtended) {
     return "40/40/40/60";
+  }
+
+  if (name === "Saigon" || name === "Kholby") {
+    return null;
   }
 
   if (store === "columbia") {
@@ -219,9 +223,12 @@ export const ProductDetails = ({
 
   const regularClubProductPrice = getProductPrice(product, store);
 
-  const temporaryClubProductPrice = hasTemporaryProductDiscount
-    ? applyDiscount(Number(price), 0.6)
-    : undefined;
+  const temporaryClubProductPrice =
+    size === "24"
+      ? applyDiscount(Number(price), 0.6)
+      : store === "shvilim" && size === "17"
+        ? applyDiscount(Number(price), 0.5)
+        : undefined;
 
   const productPrice = hasClub
     ? (temporaryClubProductPrice ?? regularClubProductPrice)
@@ -349,7 +356,7 @@ export const ProductDetails = ({
       ? size === "24"
         ? "50%"
         : "30%"
-      : size === "20" || size === "24"
+      : size === "17" || size === "20" || size === "24"
         ? "50%"
         : "30%";
 

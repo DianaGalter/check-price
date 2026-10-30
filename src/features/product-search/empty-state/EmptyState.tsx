@@ -108,7 +108,7 @@ export const EmptyState = ({ title, description }: EmptyStateProps) => {
           strokeLinecap="round"
         />
       </svg>
-      aaaaa!!!
+
       <h2>{title}</h2>
       <p>{description}</p>
     </>

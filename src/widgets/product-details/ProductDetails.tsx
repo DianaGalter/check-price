@@ -39,6 +39,28 @@ type DiscountMap = Record<string, number>;
  * shvilim = Ashkelon
  */
 
+const getTemporaryProductDiscount = (
+  name: Product["name"],
+  size: Product["size"],
+  store: Store,
+): number | undefined => {
+  if (size === "24") {
+    return 0.6;
+  }
+
+  if (store === "shvilim") {
+    if (name === "Tortuga" && size === "20") {
+      return 0.3;
+    }
+
+    if (size === "17" || size === "20") {
+      return 0.5;
+    }
+  }
+
+  return undefined;
+};
+
 const getTemporarySetDiscounts = (
   name: Product["name"],
   store: Store,
@@ -223,12 +245,16 @@ export const ProductDetails = ({
 
   const regularClubProductPrice = getProductPrice(product, store);
 
+  const temporaryProductDiscount = getTemporaryProductDiscount(
+    name,
+    size,
+    store,
+  );
+
   const temporaryClubProductPrice =
-    size === "24"
-      ? applyDiscount(Number(price), 0.6)
-      : store === "shvilim" && size === "17"
-        ? applyDiscount(Number(price), 0.5)
-        : undefined;
+    temporaryProductDiscount !== undefined
+      ? applyDiscount(Number(price), temporaryProductDiscount)
+      : undefined;
 
   const productPrice = hasClub
     ? (temporaryClubProductPrice ?? regularClubProductPrice)
@@ -352,13 +378,15 @@ export const ProductDetails = ({
    * For 24" we'll visually cross it out and show 60%.
    */
   const clubDiscount =
-    store === "columbia"
-      ? size === "24"
-        ? "50%"
-        : "30%"
-      : size === "17" || size === "20" || size === "24"
-        ? "50%"
-        : "30%";
+    name === "Tortuga" && store === "shvilim" && size === "20"
+      ? "30%"
+      : store === "columbia"
+        ? size === "24"
+          ? "50%"
+          : "30%"
+        : size === "17" || size === "20" || size === "24"
+          ? "50%"
+          : "30%";
 
   const [clubDiscountPrefix, clubDiscountSuffix] =
     t.suitcaseDiscount.split("{discount}");

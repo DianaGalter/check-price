@@ -15,7 +15,11 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: "prompt",
 
-        includeAssets: ["apple-touch-icon-180x180.png"],
+        includeAssets: [
+          "favicon-32x32.png",
+          "favicon-48x48.png",
+          "apple-touch-icon-180x180.png",
+        ],
 
         manifest: {
           name: isDevDeploy

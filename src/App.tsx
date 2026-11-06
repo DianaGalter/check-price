@@ -20,7 +20,15 @@ import type { Store } from "./shared/lib/getProductPrice";
 import { BarcodeScanner } from "./features/barcode-scanner";
 import { PwaUpdatePrompt } from "./shared/pwa/PwaUpdatePrompt";
 
+import { PrintPage } from "./features/print";
+
 function App() {
+  const isPrintPage = window.location.pathname.endsWith("/print");
+
+  return isPrintPage ? <PrintPage /> : <MainApp />;
+}
+
+function MainApp() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [store, setStore] = useState<Store>(() => {

@@ -5,13 +5,11 @@ import styles from "./PrintProductCard.module.scss";
 
 interface PrintProductCardProps {
   product: Product;
-  isSelected?: boolean;
   onClick: () => void;
 }
 
 export const PrintProductCard = ({
   product,
-  isSelected = false,
   onClick,
 }: PrintProductCardProps) => {
   const { name, size, article, color, colorCode } = product;
@@ -21,11 +19,7 @@ export const PrintProductCard = ({
   const fullArticle = colorCode ? `${article}${colorCode}` : article;
 
   return (
-    <button
-      type="button"
-      className={`${styles.card} ${isSelected ? styles.selected : ""}`}
-      onClick={onClick}
-    >
+    <button type="button" className={styles.card} onClick={onClick}>
       <div className={styles.imageWrapper}>
         {image ? (
           <img
@@ -47,6 +41,10 @@ export const PrintProductCard = ({
 
         <span className={styles.article}>{fullArticle}</span>
       </div>
+
+      <svg className={styles.chevron} viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m9 6 6 6-6 6" />
+      </svg>
     </button>
   );
 };

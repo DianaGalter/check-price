@@ -1,6 +1,6 @@
 .overlay {
   position: fixed;
-  z-index: 2000;
+  z-index: 3000;
   inset: 0;
 
   display: flex;
@@ -17,10 +17,15 @@
 
   width: 100%;
   max-width: 560px;
-  padding: 20px;
+  padding: 24px;
 
   background: #ffffff;
   border-radius: 16px;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.18);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .closeButton {
@@ -31,11 +36,13 @@
 
   padding: 4px 8px;
 
+  color: #111827;
   font-size: 28px;
   line-height: 1;
 
   background: transparent;
   border: 0;
+
   cursor: pointer;
 }
 
@@ -87,10 +94,44 @@
 .article {
   margin-top: 6px;
 
-  text-align: center;
-
+  color: #111827;
   font-size: 22px;
   line-height: 1.2;
+  text-align: center;
+}
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 60%;
+  padding: 12px 14px;
 
   color: #111827;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+
+  background: #f3f7fb;
+  border: 0;
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.saveButton:active {
+  background: #eaf2f8;
+}
+
+.saveIcon {
+  width: 20px;
+  height: 20px;
+
+  fill: none;
+  stroke: #6b7280;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }

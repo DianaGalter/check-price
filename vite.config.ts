@@ -23,12 +23,10 @@ export default defineConfig(({ mode }) => {
 
         manifest: {
           name: isDevDeploy
-            ? "Product Search DEV"
-            : "Product Search",
+            ? "Product Price & Info DEV"
+            : "Product Price & Info",
 
-          short_name: isDevDeploy
-            ? "Search DEV"
-            : "Search",
+          short_name: isDevDeploy ? "Price & Info DEV" : "Price & Info",
 
           description: "Internal product and price lookup tool",
 
@@ -58,7 +56,7 @@ export default defineConfig(({ mode }) => {
               purpose: "maskable",
             },
           ],
-},
+        },
 
         workbox: {
           cleanupOutdatedCaches: true,

@@ -67,8 +67,6 @@ export const PrintPage = () => {
       subtitle: selectedProduct.color,
       article: fullArticle,
     });
-
-    setSelectedProduct(null);
   };
 
   const handleSetBarcode = () => {
@@ -83,8 +81,6 @@ export const PrintPage = () => {
       title: `${selectedProduct.name} set`,
       subtitle: selectedProduct.color,
     });
-
-    setSelectedProduct(null);
   };
 
   const handleGenerateRawBarcode = () => {

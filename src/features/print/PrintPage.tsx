@@ -121,7 +121,9 @@ export const PrintPage = () => {
         )}
       </div>
 
-      {hasSearchQuery && <h2 className={styles.title2}>Generate barcode</h2>}
+      {hasSearchQuery && filteredProducts.length > 0 && (
+        <h2 className={styles.title2}>Generate barcode</h2>
+      )}
 
       <main className={styles.main}>
         {hasSearchQuery &&
@@ -136,15 +138,31 @@ export const PrintPage = () => {
 
         {hasSearchQuery && filteredProducts.length === 0 && (
           <div className={styles.noResults}>
-            <p>No product found</p>
+            {hasSearchQuery && filteredProducts.length === 0 && (
+              <div className={styles.noResults}>
+                <h3 className={styles.noResultsTitle}>No product found</h3>
 
-            <button
-              type="button"
-              className={styles.generateButton}
-              onClick={handleGenerateRawBarcode}
-            >
-              Generate barcode for "{debouncedSearchQuery}"
-            </button>
+                <p className={styles.noResultsDescription}>
+                  You can create a barcode for this value
+                </p>
+
+                <button
+                  type="button"
+                  className={styles.generateButton}
+                  onClick={handleGenerateRawBarcode}
+                >
+                  <span>Create barcode</span>
+
+                  <svg
+                    className={styles.generateChevron}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="m9 6 6 6-6 6" />
+                  </svg>
+                </button>
+              </div>
+            )}
           </div>
         )}
       </main>

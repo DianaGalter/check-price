@@ -18,6 +18,7 @@ import { ProductDetails } from "./widgets/product-details";
 import styles from "./App.module.scss";
 import type { Store } from "./shared/lib/getProductPrice";
 import { BarcodeScanner } from "./features/barcode-scanner";
+import { PwaUpdatePrompt } from "./shared/pwa/PwaUpdatePrompt";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -59,6 +60,7 @@ function App() {
 
   return (
     <div className={styles.app}>
+      <PwaUpdatePrompt />
       <Header store={store} onStoreToggle={toggleStore} />
 
       <div className={styles.searchSection}>

@@ -1,0 +1,43 @@
+.prompt {
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  width: calc(100% - 32px);
+  max-width: 500px;
+  padding: 12px 14px;
+
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.12);
+}
+
+.message {
+  flex: 1;
+  color: #111827;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.updateButton {
+  flex-shrink: 0;
+
+  padding: 8px 14px;
+
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  background: #1b87c7;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+}

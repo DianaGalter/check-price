@@ -61,6 +61,11 @@ export const translations = {
     camera: {
       switch: "Переключить камеру"
     },
+
+    pwaUpdate: {
+      message: "Доступна новая версия",
+      update: "Обновить",
+    },
   },
 
   en: {
@@ -123,6 +128,11 @@ export const translations = {
     camera: {
       switch: "Switch camera"
     },
+
+    pwaUpdate: {
+      message: "New version available",
+      update: "Update",
+    },
   },
 
   he: {
@@ -184,6 +194,11 @@ export const translations = {
 
     camera: {
       switch: "החלפת מצלמה"
+    },
+
+    pwaUpdate: {
+      message: "גרסה חדשה זמינה",
+      update: "עדכון",
     },
   },
 } as const;

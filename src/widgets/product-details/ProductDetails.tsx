@@ -39,6 +39,47 @@ type DiscountMap = Record<string, number>;
  * shvilim = Ashkelon
  */
 
+const getTemporaryProductDiscount = (
+  product: Product,
+  store: Store,
+): number | undefined => {
+  const { name, size, specialPrice } = product;
+
+  /*
+   * A fixed special price always has priority
+   * over temporary percentage promotions.
+   */
+  if (specialPrice !== undefined) {
+    return undefined;
+  }
+
+  /*
+   * Individual 24" suitcases currently receive 60%
+   * in both stores.
+   */
+  if (size === "24") {
+    return 0.6;
+  }
+
+  /*
+   * Ashkelon-only individual suitcase rules.
+   */
+  if (store === "shvilim") {
+    if (
+      size === "20" &&
+      (name === "Tortuga" || name === "Seaside" || name === "Gearheart")
+    ) {
+      return 0.3;
+    }
+
+    if (size === "17" || size === "20") {
+      return 0.5;
+    }
+  }
+
+  return undefined;
+};
+
 const getTemporarySetDiscounts = (
   name: Product["name"],
   store: Store,
@@ -89,9 +130,13 @@ const getTemporarySetScheme = (
   name: Product["name"],
   store: Store,
   isExtended: boolean,
-): string => {
+): string | null => {
   if (isExtended) {
     return "40/40/40/60";
+  }
+
+  if (name === "Saigon" || name === "Kholby") {
+    return null;
   }
 
   if (store === "columbia") {
@@ -149,6 +194,10 @@ const getTemporarySetPrice = (
     return undefined;
   }
 
+  /*
+   * A fixed special set price always has priority
+   * over temporary percentage calculations.
+   */
   const specialSetPrice = setProducts.find(
     (item) => item?.specialSetPrice !== undefined,
   )?.specialSetPrice;
@@ -211,17 +260,20 @@ export const ProductDetails = ({
 
   const [isBarcodeModalOpen, setIsBarcodeModalOpen] = useState(false);
 
-  /*
-   * Temporary promotion:
-   * individual 24" suitcases currently receive 60%.
-   */
-  const hasTemporaryProductDiscount = size === "24";
-
   const regularClubProductPrice = getProductPrice(product, store);
 
-  const temporaryClubProductPrice = hasTemporaryProductDiscount
-    ? applyDiscount(Number(price), 0.6)
-    : undefined;
+  const temporaryProductDiscount = getTemporaryProductDiscount(product, store);
+
+  /*
+   * Only show the crossed-out old percentage and the new 60%
+   * when the temporary 60% rule is actually being applied.
+   */
+  const hasTemporaryProductDiscount = temporaryProductDiscount === 0.6;
+
+  const temporaryClubProductPrice =
+    temporaryProductDiscount !== undefined
+      ? applyDiscount(Number(price), temporaryProductDiscount)
+      : undefined;
 
   const productPrice = hasClub
     ? (temporaryClubProductPrice ?? regularClubProductPrice)
@@ -342,14 +394,21 @@ export const ProductDetails = ({
 
   /*
    * This remains the old/normal club discount.
-   * For 24" we'll visually cross it out and show 60%.
+   * For temporary 24" promotion we'll visually cross it out
+   * and show 60%.
    */
-  const clubDiscount =
-    store === "columbia"
+  const hasThirtyPercentAshkelonDiscount =
+    store === "shvilim" &&
+    size === "20" &&
+    (name === "Tortuga" || name === "Seaside" || name === "Gearheart");
+
+  const clubDiscount = hasThirtyPercentAshkelonDiscount
+    ? "30%"
+    : store === "columbia"
       ? size === "24"
         ? "50%"
         : "30%"
-      : size === "20" || size === "24"
+      : size === "17" || size === "20" || size === "24"
         ? "50%"
         : "30%";
 

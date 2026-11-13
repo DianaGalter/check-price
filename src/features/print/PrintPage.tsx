@@ -167,22 +167,24 @@ export const PrintPage = () => {
             )}
           </div>
         )}
-        <button
-          type="button"
-          className={styles.reservationButton}
-          onClick={() => setIsReservationFormOpen(true)}
-        >
-          <span>Reservation label</span>
-
-          <svg
-            className={styles.reservationPlus}
-            viewBox="0 0 24 24"
-            aria-hidden="true"
+        {!hasSearchQuery && (
+          <button
+            type="button"
+            className={styles.reservationButton}
+            onClick={() => setIsReservationFormOpen(true)}
           >
-            <path d="M12 5v14" />
-            <path d="M5 12h14" />
-          </svg>
-        </button>
+            <span>Reservation label</span>
+
+            <svg
+              className={styles.reservationPlus}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+          </button>
+        )}
       </main>
 
       {isReservationFormOpen && (

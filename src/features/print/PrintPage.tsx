@@ -11,6 +11,7 @@ import { filterProducts, SearchInput } from "../product-search";
 
 import { BarcodePreview } from "./BarcodePreview";
 import { PrintProductCard } from "./PrintProductCard";
+import { ReservationLabelForm } from "./ReservationLabelForm";
 
 import styles from "./PrintPage.module.scss";
 
@@ -27,6 +28,7 @@ export const PrintPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [barcodePreview, setBarcodePreview] =
     useState<BarcodePreviewData | null>(null);
+  const [isReservationFormOpen, setIsReservationFormOpen] = useState(false);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -165,7 +167,27 @@ export const PrintPage = () => {
             )}
           </div>
         )}
+        <button
+          type="button"
+          className={styles.reservationButton}
+          onClick={() => setIsReservationFormOpen(true)}
+        >
+          <span>Reservation label</span>
+
+          <svg
+            className={styles.reservationPlus}
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M12 5v14" />
+            <path d="M5 12h14" />
+          </svg>
+        </button>
       </main>
+
+      {isReservationFormOpen && (
+        <ReservationLabelForm onClose={() => setIsReservationFormOpen(false)} />
+      )}
 
       {selectedProduct && (
         <div className={styles.choiceOverlay}>
